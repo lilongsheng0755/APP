@@ -9,13 +9,6 @@ define('IN_APP', true);
 //设置市区
 date_default_timezone_set('Asia/Shanghai');
 
-//不使用缓存
-header("Cache-Control: no-cache");
-header("Pragma: no-cache");
-
-//设置返回编码
-header('charset:utf-8');
-
 //简化目录分隔符
 define('DS', DIRECTORY_SEPARATOR);
 
@@ -30,6 +23,9 @@ define('DATA_PATH', APP_PATH . DS . 'data');
 
 //文件上传路径
 define('UPLOAD_PATH', APP_PATH . DS . 'upload');
+
+//静态资源路径
+define('PUBLIC_PATH', APP_PATH . DS . 'public');
 
 //加载初始化文件
 require_once LIB_PATH . '/Application.php';
