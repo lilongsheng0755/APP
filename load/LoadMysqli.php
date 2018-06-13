@@ -1,12 +1,12 @@
 <?php
 
-namespace helper;
+namespace load;
 
 /**
  * Author: skylong
- * CreateTime: 2018-6-13 23:24:00
+ * CreateTime: 2018-6-13 23:26:40
  * Description: 
  */
-class HelperInt {
+class LoadMysql {
 //put your code here
 }

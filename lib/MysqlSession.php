@@ -1,12 +1,12 @@
 <?php
 
-namespace helper;
+namespace lib;
 
 /**
  * Author: skylong
- * CreateTime: 2018-6-13 23:24:00
+ * CreateTime: 2018-6-13 23:18:34
  * Description: 
  */
-class HelperInt {
+class MysqlSession {
 //put your code here
 }

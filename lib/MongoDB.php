@@ -1,12 +1,12 @@
 <?php
 
-namespace helper;
+namespace lib;
 
 /**
  * Author: skylong
- * CreateTime: 2018-6-13 23:24:00
+ * CreateTime: 2018-6-13 23:22:42
  * Description: 
  */
-class HelperInt {
+class MongoDB {
 //put your code here
 }

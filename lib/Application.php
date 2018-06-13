@@ -1,13 +1,12 @@
 <?php
 
+namespace lib;
+
 /**
  * Author: skylong
  * CreateTime: 2018-6-1 16:20:13
  * Description: 应用初始化入口
  */
-
-namespace lib;
-
 class Application {
 
     /**

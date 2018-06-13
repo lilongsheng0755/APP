@@ -1,12 +1,12 @@
 <?php
 
-namespace helper;
+namespace load;
 
 /**
  * Author: skylong
- * CreateTime: 2018-6-13 23:24:00
+ * CreateTime: 2018-6-13 23:27:19
  * Description: 
  */
-class HelperInt {
+class LoadMongoDB {
 //put your code here
 }

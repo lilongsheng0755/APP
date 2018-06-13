@@ -1,13 +1,12 @@
 <?php
 
+namespace lib;
+
 /**
  * Author: skylong
  * CreateTime: 2018-6-7 16:10:57
  * Description: 自定义异常类
  */
-
-namespace lib;
-
 class SException extends \Exception {
 
     //文件不存在时异常码

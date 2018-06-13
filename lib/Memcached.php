@@ -1,12 +1,12 @@
 <?php
 
-namespace helper;
+namespace lib;
 
 /**
  * Author: skylong
- * CreateTime: 2018-6-13 23:24:00
+ * CreateTime: 2018-6-13 23:22:07
  * Description: 
  */
-class HelperInt {
+class Memcached {
 //put your code here
 }

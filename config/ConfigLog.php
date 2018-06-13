@@ -1,13 +1,12 @@
 <?php
 
+namespace config;
+
 /**
  * Author: skylong
  * CreateTime: 2018-6-7 11:24:50
  * Description: 日志类型配置，日志保存路径配置，日志存储方式配置
  */
-
-namespace config;
-
 class ConfigLog {
 
     /**
