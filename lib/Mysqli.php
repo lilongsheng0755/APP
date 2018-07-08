@@ -8,5 +8,5 @@ namespace lib;
  * Description: 基于mysqli扩展的数据库操作类
  */
 class Mysqli {
-    
+   
 }
