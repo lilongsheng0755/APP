@@ -10,5 +10,10 @@ header('Content-Type: text/html;charset=utf-8');
 //载入核心文件
 require_once 'core.php';
 
-//项目初始化
-lib\Application::init();
+//APP初始化
+\lib\Application::init();
+$page = new \lib\Page(1000);
+echo "SELECT * FROM user {$page->limit}";
+echo '<p>';
+echo $page->fpage();
+echo '</p>';

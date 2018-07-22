@@ -1,10 +1,13 @@
 <?php
 
 //过滤错误信息
-//error_reporting(0);
+error_reporting(0);
 
 //定义入口常量
 define('IN_APP', true);
+
+//是否开启debug模式
+define('DEBUG', true);
 
 //设置市区
 date_default_timezone_set('Asia/Shanghai');

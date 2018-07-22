@@ -18,10 +18,10 @@ class Application {
 
     /**
      * 
-     * @param string $className  加载类名带上命名空间
+     * @param string $class_name  加载类名带上命名空间
      */
-    public static function autoload($className) {
-        $file = APP_PATH . DS . str_replace('\\', DS, $className) . '.php';
+    public static function autoload($class_name) {
+        $file = APP_PATH . DS . str_replace('\\', DS, $class_name) . '.php';
         try {
             self::loadFile($file);
         } catch (\lib\SException $e) {

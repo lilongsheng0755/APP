@@ -8,6 +8,8 @@ namespace config;
  * Description: 应用相关配置
  */
 class ConfigApp {
+    
+    const PROJECT_NAME = 'blog';
 
     public static function getGameServer() {
         

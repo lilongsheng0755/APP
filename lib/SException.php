@@ -25,7 +25,28 @@ class SException extends \Exception {
      * @return string
      */
     public function __toString() {
-        return json_encode(array('code' => $this->code, 'data' => array()));
+        if (DEBUG) {
+            $data = array('file' => $this->file, 'line' => $this->line, 'msg' => $this->message);
+            return $this->debugView($data);
+        } else {
+            $data = array();
+        }
+        return json_encode(array('code' => $this->code, 'data' => $data));
+    }
+    
+    /**
+     * debug模板
+     * 
+     * @param array $data
+     * @return string
+     */
+    private function debugView($data) {
+        $html = '<div style="width:50%; position:fixed; right:0px; bottom:0px; border:1px solid #3cff0d; padding:10px; background:#ccc; color:red;">';
+        foreach($data as $th=>$msg){
+            $html.='<p style="text-decoration:underline;"><span style="font-weight:bold;">'.$th.'：</span><span>'.$msg.'</span></p>';
+        }
+        $html .= '</div>';
+        return $html;
     }
 
 }
