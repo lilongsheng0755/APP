@@ -6,6 +6,15 @@ error_reporting(0);
 //定义入口常量
 define('IN_APP', true);
 
+//项目名称
+define('PROJECT_NS', 'app');
+
+//本地环境变量
+define('LOCAL', true);
+
+//生产环境变量
+define('PRODUCTION_ENV', false);
+
 //是否开启debug模式
 define('DEBUG', true);
 

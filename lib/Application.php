@@ -17,6 +17,7 @@ class Application {
     }
 
     /**
+     * 类自动加载
      * 
      * @param string $class_name  加载类名带上命名空间
      */
