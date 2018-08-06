@@ -11,7 +11,9 @@ header('Content-Type: text/html;charset=utf-8');
 require_once 'core.php';
 
 //APP初始化
-\lib\Application::init();
+use lib\Application;
+Application::init();
+
 $page = new \lib\Page(1000);
 echo "SELECT * FROM user {$page->limit}";
 echo '<p>';
