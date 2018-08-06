@@ -233,6 +233,19 @@ class Page {
     private function pageList() {
         $linkPage = "&nbsp;<b>";
         $inum     = $this->page > floor($this->list_num / 2) ? floor($this->list_num / 2) : $this->list_num;
+        if ($this->page > ($this->page_num - floor($this->list_num / 2))) {
+            $page = $this->page_num - $this->list_num;
+            for ($i = 1; $i <= $this->list_num; $i++) {
+                $page++;
+                if ($page == $this->page) {
+                    $linkPage .= "<span style='padding:1px 8px;background:#BBB;color:white;border:1px solid #CCCCCC;'>{$this->page}</span>&nbsp";
+                } else {
+                    $linkPage .= "<a style='padding:1px 8px; border:1px solid #CCCCCC; text-decoration:none;' href='{$this->url}page={$page}'>{$page}</a>&nbsp;";
+                }
+            }
+            $linkPage .= '</b>';
+            return $linkPage;
+        }
         for ($i = $inum; $i >= 1; $i--) {
             $page = $this->page - $i;
             if ($page >= 1) {

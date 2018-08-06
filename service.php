@@ -12,9 +12,10 @@ require_once 'core.php';
 
 //APP初始化
 use lib\Application;
+use lib\Page;
 Application::init();
 
-$page = new \lib\Page(1000);
+$page = new Page(1000);
 echo "SELECT * FROM user {$page->limit}";
 echo '<p>';
 echo $page->fpage();
