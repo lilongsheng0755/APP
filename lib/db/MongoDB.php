@@ -1,12 +1,12 @@
 <?php
 
-namespace lib;
+namespace lib\db;
 
 /**
  * Author: skylong
- * CreateTime: 2018-6-13 23:20:22
+ * CreateTime: 2018-6-13 23:22:42
  * Description: 
  */
-class PDO {
+class MongoDB {
 //put your code here
 }

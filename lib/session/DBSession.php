@@ -1,6 +1,6 @@
 <?php
 
-namespace lib;
+namespace lib\db;
 
 /**
  * Author: skylong
@@ -12,9 +12,9 @@ class DBSession {
     /**
      * pdo对象
      *
-     * @var \PDO 
+     * @var PDO|MYSQLI 
      */
-    protected static $pdo = null;
+    protected static $db = null;
 
     /**
      * 客户端代理
@@ -47,10 +47,10 @@ class DBSession {
     /**
      * 自定义session初始化
      * 
-     * @param \PDO $pdo
+     * @param object $db
      */
-    public static function start(\PDO $pdo) {
-        self::$pdo          = $pdo;
+    public static function start($db) {
+        self::$db           = $db;
         self::$client_agent = isset($_SERVER['HTTP_USER_AGENT']) ? trim($_SERVER['HTTP_USER_AGENT']) : '';
         $client_ip          = !empty($_SERVER['HTTP_CLIENT_IP']) ? $_SERVER['HTTP_CLIENT_IP'] : (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) ?
                 $_SERVER['HTTP_X_FORWARDED_FOR'] : (!empty($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 0);
@@ -94,7 +94,7 @@ class DBSession {
      */
     private static function read($sid) {
         $sql    = "SELECT * FROM session WHERE sid = ?";
-        $sth    = self::$pdo->prepare($sql);
+        $sth    = self::$db->prepare($sql);
         $sth->execute(array($sid));
         if (!$result = $sth->fetch(PDO::FETCH_ASSOC)) {
             return '';
@@ -114,7 +114,7 @@ class DBSession {
 
         return $result['data'];
     }
-    
+
     /**
      * 更新session操作
      * 
@@ -124,19 +124,19 @@ class DBSession {
      */
     public static function write($sid, $data) {
         $sql    = "SELECT * FROM session WHERE sid = ?";
-        $sth    = self::$pdo->prepare($sql);
+        $sth    = self::$db->prepare($sql);
         $sth->execute(array($sid));
         if (!$result = $sth->fetch(PDO::FETCH_ASSOC)) {
             //数据有变动时更新，或者间隔30秒更新一次
             if ($result['data'] != $data || self::$time > ($result['update_time'] + 30)) {
                 $sql = "UPDATE session SET update_time = ?, data = ? WHERE sid = ?";
-                $sth = self::$pdo->prepare($sql);
+                $sth = self::$db->prepare($sql);
                 $sth->execute(array(self::$time, $data, $sid));
             }
         } else {
             if (!empty($data)) {
                 $sql = "INSERT INTO session SET sid = ?, update_time = ?, client_ip = ?, user_agent = ?,data = ?";
-                $sth = self::$pdo->prepare($sql);
+                $sth = self::$db->prepare($sql);
                 $sth->execute(array($sid, self::$time, self::$client_ip, self::$client_agent, $data));
             }
         }
@@ -151,7 +151,7 @@ class DBSession {
      */
     public static function destroy($sid) {
         $sql = "DELETE FROM session WHERE sid = ?";
-        $sth = self::$pdo->prepare($sql);
+        $sth = self::$db->prepare($sql);
         $sth->execute(array($sid));
         return true;
     }
@@ -164,7 +164,7 @@ class DBSession {
      */
     private static function gc($life_time) {
         $sql = "DELETE FROM session WHERE update_time < ?";
-        $sth = self::$pdo->prepare($sql);
+        $sth = self::$db->prepare($sql);
         $sth->execute(array(self::time - $life_time));
         return true;
     }
