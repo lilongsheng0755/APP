@@ -1,0 +1,31 @@
+
+file:test.php
+time:2018-08-22 23:17:17
+errno:1193
+error:"Unknown system variable 'A'"
+query:"SET A=10"
+======================================================================
+file:test.php
+time:2018-08-22 23:17:17
+errno:1193
+error:"Unknown system variable 'A'"
+query:"SET A=10"
+======================================================================
+file:test.php
+time:2018-08-22 23:17:17
+errno:1193
+error:"Unknown system variable 'A'"
+query:"SET A=10"
+======================================================================
+file:test.php
+time:2018-08-22 23:17:18
+errno:1193
+error:"Unknown system variable 'A'"
+query:"SET A=10"
+======================================================================
+file:test.php
+time:2018-08-22 23:17:18
+errno:1193
+error:"Unknown system variable 'A'"
+query:"SET A=10"
+======================================================================

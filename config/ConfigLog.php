@@ -12,20 +12,20 @@ class ConfigLog {
     /**
      * mysql错误日志类型
      */
-    const MYSQL_LOG_TYPE = 0;
+    const MYSQL_EER_LOG_TYPE = 0;
 
     /**
      * 根据日志类型获取对应的日志保存路径
      * 
-     * @param int $logType
+     * @param int $log_type
      * @return string
      */
-    public static function getLogPath($logType = 0) {
+    public static function getLogPath($log_type = 0) {
         $config = array(
-            self::MYSQL_LOG_TYPE => DATA_PATH . DS . 'error_mysql',
+            self::MYSQL_EER_LOG_TYPE => DATA_PATH . DS . 'error_mysql',
         );
 
-        return $config[$logType];
+        return isset($config[$log_type]) ? $config[$log_type] : DATA_PATH;
     }
 
 }

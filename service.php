@@ -12,11 +12,11 @@ require_once 'core.php';
 
 //APP初始化
 use lib\Application;
-use lib\Page;
+use lib\db\Mysqli;
+use lib\Log;
 Application::init();
-
-$page = new Page(1000);
-echo "SELECT * FROM user {$page->limit}";
-echo '<p>';
-echo $page->fpage();
-echo '</p>';
+$db = new Mysqli('192.168.0.102', 'test', 'test', 'test');
+$db->startTransaction();
+var_dump($db->query("INSERT INTO `test` SET title='文章标题',`contents`='文章内容'"));
+var_dump($db->query("INSERT INTO `test` SET title='文章标题',`contents`='文章内容'"));
+$db->rollback();
