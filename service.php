@@ -13,10 +13,11 @@ require_once 'core.php';
 //APP初始化
 use lib\Application;
 use lib\db\Mysqli;
-use lib\Log;
+
 Application::init();
 $db = new Mysqli('192.168.0.102', 'test', 'test', 'test');
-$db->startTransaction();
-var_dump($db->query("INSERT INTO `test` SET title='文章标题',`contents`='文章内容'"));
-var_dump($db->query("INSERT INTO `test` SET title='文章标题',`contents`='文章内容'"));
-$db->rollback();
+$sql = "select * from test";
+$res = $db->getAll($sql);
+echo '<pre>';
+var_dump($db->getNumRows());
+
