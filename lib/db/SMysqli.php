@@ -9,7 +9,7 @@ use lib\db\DataBase;
  * CreateTime: 2018-6-1 16:20:13
  * Description: 基于mysqli扩展的数据库操作类
  */
-class Mysqli extends DataBase {
+class SMysqli extends DataBase {
 
     /**
      * mysqli对象
@@ -26,7 +26,7 @@ class Mysqli extends DataBase {
     private $result = null;
 
     /**
-     * mysql实例初始化
+     * mysqli实例初始化
      * 
      * @param string $host 数据库地址
      * @param string $username 数据库登录用户名
@@ -38,7 +38,7 @@ class Mysqli extends DataBase {
         class_exists('mysqli') or die('No mysqli extensions installed');
         $this->mysqli = new \mysqli($host, $username, $passwd, $dbname, $port);
         !$this->mysqli->connect_error or die('Connect Error (' . $this->mysqli->connect_errno . ') ' . $this->mysqli->connect_error);
-        !$this->mysqli->set_charset("utf-8") or die("Error loading character set utf-8: {$this->mysqli->error}\n");
+        $this->mysqli->set_charset("utf8") or die("Error loading character set utf8: {$this->mysqli->error}");
     }
 
     /**
@@ -90,6 +90,41 @@ class Mysqli extends DataBase {
     }
 
     /**
+     * 获取一个数据对象
+     * 
+     * @param string $sql
+     * @param int $class_name
+     * @return array
+     */
+    public function getOneObject($sql, $class_name = 'stdClass') {
+        $res = $this->query($sql);
+        if (!$res || !($res instanceof \mysqli_result)) {
+            return array();
+        }
+        $row = $res->fetch_object($class_name);
+        return $row ? $row : array();
+    }
+
+    /**
+     * 获取多个数据对象
+     * 
+     * @param string $sql
+     * @param int $class_name
+     * @return array
+     */
+    public function getAllObject($sql, $class_name = 'stdClass') {
+        $res = $this->query($sql);
+        if (!$res || !($res instanceof \mysqli_result)) {
+            return array();
+        }
+        $ret = array();
+        while ($row = $res->fetch_object($class_name)) {
+            $ret[] = $row;
+        }
+        return $ret ? $ret : array();
+    }
+
+    /**
      * 返回影响行数
      * 
      * @return int
@@ -108,7 +143,7 @@ class Mysqli extends DataBase {
     }
 
     /**
-     * 开启一个事务
+     * 开启一个事务,只对InnoDB表起作用
      */
     public function startTransaction() {
         $this->mysqli->autocommit(false);
@@ -141,25 +176,6 @@ class Mysqli extends DataBase {
     }
 
     /**
-     * 获取当前设字符编码
-     * 
-     * @return array
-     */
-    public function getCharset() {
-        return (array) $this->mysqli->get_charset();
-    }
-
-    /**
-     * 设置字符编码
-     * 
-     * @param string $charset
-     * @return boolean
-     */
-    public function setCharset($charset) {
-        return $this->mysqli->set_charset($charset);
-    }
-
-    /**
      * 获取当前查询返回记录数
      * 
      * @return int
@@ -169,51 +185,26 @@ class Mysqli extends DataBase {
     }
 
     /**
-     * 一次性获取所有结果
+     * 写操作mysql数据库失败的日志
      * 
-     * @param int $result_type
-     * @return array
+     * @param int $errno  错误编号
+     * @param int $error  错误信息
+     * @param string $query  操作语句
      */
-    public function fetchAll($result_type = MYSQLI_ASSOC) {
-        return $this->result->fetch_all($result_type);
-    }
-
-    /**
-     * 以数组的方式获取一条记录
-     * 
-     * @param int $result_type
-     * @return array
-     */
-    public function fetchArray($result_type = MYSQLI_ASSOC) {
-        return $this->result->fetch_array($result_type);
-    }
-
-    /**
-     * 以字段名格式返回一条数据
-     * 
-     * @return array
-     */
-    public function fetchAssoc() {
-        return $this->result->fetch_assoc();
-    }
-
-    /**
-     * 以索引格式返回一条数据
-     * 
-     * @return array
-     */
-    public function fetchRow() {
-        return $this->result->fetch_row();
-    }
-
-    /**
-     * 以对象格式返回一条数据
-     * 
-     * @param string $class_name  自定义类名
-     * @return object
-     */
-    public function fetchObject($class_name = "stdClass") {
-        return $this->result->fetch_object($class_name);
+    protected function writeErrLog($errno, $error, $query) {
+        $e        = new \mysqli_sql_exception();
+        $trace    = (array) array_pop($e->getTrace());
+        $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
+        DEBUG && die($err_file . '=======' . $error . '=======' . $query);
+        unset($e, $trace);
+        $data     = "file:{$err_file}\r\n";
+        $data     .= "time:" . date('Y-m-d H:i:s') . "\r\n";
+        $data     .= "errno:{$errno}\r\n";
+        $data     .= "error:\"{$error}\"\r\n";
+        $data     .= "query:\"{$query}\"\r\n";
+        $data     .= "======================================================================\r\n";
+        Log::writeErrLog('error_mysql' . date('Ymd'), $data);
+        PRODUCTION_ENV && die('DB ERROR!');
     }
 
     /**

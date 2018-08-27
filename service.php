@@ -12,12 +12,8 @@ require_once 'core.php';
 
 //APP初始化
 use lib\Application;
-use lib\db\Mysqli;
+use lib\db\SPDO;
 
 Application::init();
-$db = new Mysqli('192.168.0.102', 'test', 'test', 'test');
-$sql = "select * from test";
-$res = $db->getAll($sql);
-echo '<pre>';
-var_dump($db->getNumRows());
-
+$db = new SPDO('mysql:dbname=test;host=192.168.3.164' , 'test', 'test');
+$db->connect();

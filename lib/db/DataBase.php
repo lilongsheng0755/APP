@@ -2,53 +2,70 @@
 
 namespace lib\db;
 
-use lib\Log;
-
 /**
  * Author: skylong
  * CreateTime: 2018-8-20 18:28:05
  * Description: 数据库抽象类
  */
 abstract class DataBase {
-    abstract protected function query($sql);
-
-    abstract protected function affectedRows();
-
-    abstract protected function startTransaction();
-
-    abstract protected function commit();
-
-    abstract protected function rollback();
-
-    abstract protected function insertID();
-
-    abstract protected function getServerInfo();
-
-    abstract protected function getCharset();
-
-    abstract protected function setCharset($charset);
 
     /**
-     * 写操作mysql数据库失败的日志
-     * 
-     * @param int $errno  错误编号
-     * @param int $error  错误信息
-     * @param string $query  操作语句
+     * 执行一条SQL语句
      */
-    protected function writeErrLog($errno, $error, $query) {
-        $e        = new \mysqli_sql_exception();
-        $trace    = $e->getTrace();
-        $err_file = (string) $trace[1]['file'] . '(' . (string) $trace[1]['line'] . ')';
-        DEBUG && die($err_file . '=======' . $error . '=======' . $query);
-        unset($e, $trace);
-        $data     = "file:{$err_file}.php\r\n";
-        $data     .= "time:" . date('Y-m-d H:i:s') . "\r\n";
-        $data     .= "errno:{$errno}\r\n";
-        $data     .= "error:\"{$error}\"\r\n";
-        $data     .= "query:\"{$query}\"\r\n";
-        $data     .= "======================================================================\r\n";
-        Log::writeErrLog('error_mysql' . date('Ymd'), $data);
-        PRODUCTION_ENV && die('DB ERROR!');
-    }
+    abstract protected function query($sql);
 
+    /**
+     *  获取一条记录
+     */
+    abstract protected function getOne($sql, $result_type);
+
+    /**
+     * 获取多条记录
+     */
+    abstract protected function getAll($sql, $result_type);
+
+    /**
+     * 获取一个数据对象
+     */
+    abstract protected function getOneObject($sql, $class_name);
+
+    /**
+     * 获取多个数据对象
+     */
+    abstract protected function getAllObject($sql, $class_name);
+
+    /**
+     * 返回影响行数
+     */
+    abstract protected function affectedRows();
+
+    /**
+     * 返回最新自增ID
+     */
+    abstract protected function insertID();
+
+    /**
+     * 开启一个事务,只对InnoDB表起作用
+     */
+    abstract protected function startTransaction();
+
+    /**
+     * 提交事务
+     */
+    abstract protected function commit();
+
+    /**
+     * 回滚事务
+     */
+    abstract protected function rollback();
+
+    /**
+     * 获取mysql服务器版本信息
+     */
+    abstract protected function getServerInfo();
+    
+    /**
+     * 获取当前查询返回记录数
+     */
+    abstract protected function getNumRows();
 }
