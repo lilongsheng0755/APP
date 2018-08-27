@@ -3,6 +3,9 @@
 namespace lib\db;
 
 use lib\db\DataBase;
+use lib\Log;
+use lib\SException;
+use helper\HelperReturn;
 
 /**
  * Author: skylong
@@ -19,11 +22,18 @@ class SPDO extends DataBase {
     private $pdo = null;
 
     /**
-     * pdo_result对象
+     * PDOStatement对象
      *
-     * @var \pdo_result
+     * @var \PDOStatement
      */
     private $result = null;
+
+    /**
+     * 当前查询返回记录数
+     *
+     * @var int
+     */
+    private $num_rows = 0;
 
     /**
      * mysql实例初始化
@@ -46,7 +56,7 @@ class SPDO extends DataBase {
         try {
             $this->pdo = new \PDO($dsn, $username, $passwd, $driver_options);
         } catch (\PDOException $e) {
-            if (DEBUG) {
+            if (APP_DEBUG) {
                 die('Connection failed: ' . $e->getMessage());
             } else {
                 die('Connection failed!');
@@ -58,11 +68,15 @@ class SPDO extends DataBase {
      * 执行一条SQL语句
      * 
      * @param string $sql
-     * @return boolean|pdo_result
+     * @return boolean|PDOStatement
      */
     public function query($sql) {
-        if (!$this->result = $this->pdo->query($sql)) {
-            $this->writeErrLog($this->pdo->errno, $this->pdo->error, $sql);
+        try {
+            $this->result = $this->pdo->query($sql);
+        } catch (\PDOException $ex) {
+            $trace    = (array) array_pop($ex->getTrace());
+            $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
+            $this->writeErrLog($err_file, $ex->getCode(), $ex->getMessage(), $sql);
         }
         return $this->result;
     }
@@ -74,12 +88,13 @@ class SPDO extends DataBase {
      * @param int $result_type
      * @return array
      */
-    public function getOne($sql, $result_type = MYSQLI_ASSOC) {
+    public function getOne($sql, $result_type = \PDO::FETCH_ASSOC) {
         $res = $this->query($sql);
-        if (!$res || !($res instanceof \pdo_result)) {
+        if (!$res || !($res instanceof \PDOStatement)) {
             return array();
         }
-        $row = $res->fetch_array($result_type);
+        $row            = $res->fetch($result_type);
+        $row && $this->num_rows = 1;
         return $row ? $row : array();
     }
 
@@ -90,14 +105,15 @@ class SPDO extends DataBase {
      * @param int $result_type
      * @return array
      */
-    public function getAll($sql, $result_type = MYSQLI_ASSOC) {
+    public function getAll($sql, $result_type = \PDO::FETCH_ASSOC) {
         $res = $this->query($sql);
-        if (!$res || !($res instanceof \pdo_result)) {
+        if (!$res || !($res instanceof \PDOStatement)) {
             return array();
         }
         $ret = array();
-        while ($row = $res->fetch_array($result_type)) {
+        while ($row = $res->fetch($result_type)) {
             $ret[] = $row;
+            $this->num_rows++;
         }
         return $ret ? $ret : array();
     }
@@ -111,10 +127,11 @@ class SPDO extends DataBase {
      */
     public function getOneObject($sql, $class_name = 'stdClass') {
         $res = $this->query($sql);
-        if (!$res || !($res instanceof \pdo_result)) {
+        if (!$res || !($res instanceof \PDOStatement)) {
             return array();
         }
-        $row = $res->fetch_object($class_name);
+        $row            = $res->fetchObject($class_name);
+        $row && $this->num_rows = 1;
         return $row ? $row : array();
     }
 
@@ -127,12 +144,13 @@ class SPDO extends DataBase {
      */
     public function getAllObject($sql, $class_name = 'stdClass') {
         $res = $this->query($sql);
-        if (!$res || !($res instanceof \pdo_result)) {
+        if (!$res || !($res instanceof \PDOStatement)) {
             return array();
         }
         $ret = array();
-        while ($row = $res->fetch_object($class_name)) {
+        while ($row = $res->fetchObject($class_name)) {
             $ret[] = $row;
+            $this->num_rows++;
         }
         return $ret ? $ret : array();
     }
@@ -143,7 +161,7 @@ class SPDO extends DataBase {
      * @return int
      */
     public function affectedRows() {
-        return $this->pdo->affected_rows;
+        return $this->result->rowCount();
     }
 
     /**
@@ -152,15 +170,31 @@ class SPDO extends DataBase {
      * @return int
      */
     public function insertID() {
-        return $this->pdo->insert_id;
+        return (int) $this->pdo->lastInsertId();
     }
 
     /**
      * 开启一个事务,只对InnoDB表起作用
      */
     public function startTransaction() {
-        $this->pdo->autocommit(false);
-        $this->pdo->begin_transaction();
+        $this->pdo->setAttribute(\PDO::ATTR_AUTOCOMMIT, false);
+        $this->pdo->beginTransaction();
+    }
+
+    /**
+     * 执行一条 SQL 语句，并返回受影响的行数
+     * 
+     * @param string $sql
+     * @return int
+     */
+    public function exec($sql) {
+        try {
+            return $this->pdo->exec($sql);
+        } catch (\PDOException $ex) {
+            $trace    = (array) array_pop($ex->getTrace());
+            $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
+            $this->writeErrLog($err_file, $ex->getCode(), $ex->getMessage(), $sql);
+        }
     }
 
     /**
@@ -168,24 +202,15 @@ class SPDO extends DataBase {
      */
     public function commit() {
         $this->pdo->commit();
-        $this->pdo->autocommit(true);
+        $this->pdo->setAttribute(\PDO::ATTR_AUTOCOMMIT, true);
     }
 
     /**
      * 回滚事务
      */
     public function rollback() {
-        $this->pdo->rollback();
-        $this->pdo->autocommit(true);
-    }
-
-    /**
-     * 获取mysql服务器版本信息
-     * 
-     * @return string
-     */
-    public function getServerInfo() {
-        return $this->pdo->server_info;
+        $this->pdo->rollBack();
+        $this->pdo->setAttribute(\PDO::ATTR_AUTOCOMMIT, true);
     }
 
     /**
@@ -194,42 +219,53 @@ class SPDO extends DataBase {
      * @return int
      */
     public function getNumRows() {
-        return $this->result->num_rows;
+        return $this->num_rows;
+    }
+
+    /**
+     * 执行一条预处理语句
+     * 
+     * @param string $sql
+     * @param array $prepare
+     * @return boolean
+     */
+    public function execPrepare($sql, $prepare = array()) {
+        try {
+            $this->result = $this->pdo->prepare($sql);
+            return $this->result->execute($prepare);
+        } catch (\PDOException $ex) {
+            $trace    = (array) array_pop($ex->getTrace());
+            $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
+            $this->writeErrLog($err_file, $ex->getCode(), $ex->getMessage(), $sql);
+        }
     }
 
     /**
      * 写操作mysql数据库失败的日志
      * 
+     * @param int $err_file  发生错误的位置
      * @param int $errno  错误编号
      * @param int $error  错误信息
      * @param string $query  操作语句
      */
-    private function writeErrLog($errno, $error, $query) {
-        $e        = new \pdo_sql_exception();
-        $trace    = (array) array_pop($e->getTrace());
-        $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
-        DEBUG && die($err_file . '=======' . $error . '=======' . $query);
-        unset($e, $trace);
-        $data     = "file:{$err_file}.php\r\n";
-        $data     .= "time:" . date('Y-m-d H:i:s') . "\r\n";
-        $data     .= "errno:{$errno}\r\n";
-        $data     .= "error:\"{$error}\"\r\n";
-        $data     .= "query:\"{$query}\"\r\n";
-        $data     .= "======================================================================\r\n";
+    private function writeErrLog($err_file, $errno, $error, $query) {
+        APP_DEBUG && die($err_file . '=======' . $error . '=======' . $query);
+        $data = "file:{$err_file}\r\n";
+        $data .= "time:" . date('Y-m-d H:i:s') . "\r\n";
+        $data .= "errno:{$errno}\r\n";
+        $data .= "error:\"{$error}\"\r\n";
+        $data .= "query:\"{$query}\"\r\n";
+        $data .= "======================================================================\r\n";
         Log::writeErrLog('error_mysql' . date('Ymd'), $data);
-        PRODUCTION_ENV && die('DB ERROR!');
+        HelperReturn::jsonData('DB ERROR!', SException::CODE_MYSQL_ERROR);
     }
 
     /**
      * 关闭数据库连接，释放结果集内存
      */
     private function __destruct() {
-        if ($this->result instanceof \pdo_result) {
-            $this->result->free();
-            $this->result->close();
-        }
-
-        $this->pdo->close();
+        $this->pdo    = null;
+        $this->result = null;
     }
 
 }

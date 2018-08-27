@@ -3,6 +3,9 @@
 namespace lib\db;
 
 use lib\db\DataBase;
+use lib\Log;
+use lib\SException;
+use helper\HelperReturn;
 
 /**
  * Author: skylong
@@ -195,7 +198,7 @@ class SMysqli extends DataBase {
         $e        = new \mysqli_sql_exception();
         $trace    = (array) array_pop($e->getTrace());
         $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
-        DEBUG && die($err_file . '=======' . $error . '=======' . $query);
+        APP_DEBUG && die($err_file . '=======' . $error . '=======' . $query);
         unset($e, $trace);
         $data     = "file:{$err_file}\r\n";
         $data     .= "time:" . date('Y-m-d H:i:s') . "\r\n";
@@ -204,7 +207,7 @@ class SMysqli extends DataBase {
         $data     .= "query:\"{$query}\"\r\n";
         $data     .= "======================================================================\r\n";
         Log::writeErrLog('error_mysql' . date('Ymd'), $data);
-        PRODUCTION_ENV && die('DB ERROR!');
+        HelperReturn::jsonData('DB ERROR!', SException::CODE_MYSQL_ERROR);
     }
 
     /**

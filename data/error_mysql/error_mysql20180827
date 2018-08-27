@@ -1,0 +1,84 @@
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(20)
+time:2018-08-27 22:25:38
+errno:42000
+error:"SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'form test' at line 1"
+query:"select * form test"
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(20)
+time:2018-08-27 22:26:10
+errno:42000
+error:"SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'form test' at line 1"
+query:"select * form test"
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(20)
+time:2018-08-27 22:31:16
+errno:42000
+error:"SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'form test' at line 1"
+query:"select * form test"
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(20)
+time:2018-08-27 22:31:19
+errno:42000
+error:"SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'form test' at line 1"
+query:"select * form test"
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(20)
+time:2018-08-27 22:31:55
+errno:42000
+error:"SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'form test' at line 1"
+query:"select * form test"
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(20)
+time:2018-08-27 22:32:03
+errno:42000
+error:"SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'form test' at line 1"
+query:"select * form test"
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(20)
+time:2018-08-27 22:32:51
+errno:42000
+error:"SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'form test' at line 1"
+query:"select * form test"
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(20)
+time:2018-08-27 22:34:25
+errno:42000
+error:"SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'form test' at line 1"
+query:"select * form test"
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(20)
+time:2018-08-27 22:34:26
+errno:42000
+error:"SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'form test' at line 1"
+query:"select * form test"
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(20)
+time:2018-08-27 22:51:03
+errno:42000
+error:"SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'form test' at line 1"
+query:"select * form test"
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(20)
+time:2018-08-27 22:54:58
+errno:42000
+error:"SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'form test' at line 1"
+query:"select * form test"
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(20)
+time:2018-08-27 22:55:24
+errno:42000
+error:"SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'form test' at line 1"
+query:"select * form test"
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(20)
+time:2018-08-27 22:57:48
+errno:42000
+error:"SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'form test' at line 1"
+query:"select * form test"
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(20)
+time:2018-08-27 22:58:47
+errno:42000
+error:"SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'form test' at line 1"
+query:"select * form test"
+======================================================================

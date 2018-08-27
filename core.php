@@ -16,7 +16,7 @@ define('LOCAL', true);
 define('PRODUCTION_ENV', false);
 
 //是否开启debug模式
-define('DEBUG', true);
+define('APP_DEBUG', true);
 
 //设置市区
 date_default_timezone_set('Asia/Shanghai');

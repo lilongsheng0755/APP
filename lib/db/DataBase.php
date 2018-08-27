@@ -58,11 +58,6 @@ abstract class DataBase {
      * 回滚事务
      */
     abstract protected function rollback();
-
-    /**
-     * 获取mysql服务器版本信息
-     */
-    abstract protected function getServerInfo();
     
     /**
      * 获取当前查询返回记录数

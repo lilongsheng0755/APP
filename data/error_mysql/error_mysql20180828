@@ -1,0 +1,6 @@
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(19)
+time:2018-08-28 00:09:21
+errno:HY093
+error:"SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens"
+query:"insert into test set title=?,contents=?"
+======================================================================

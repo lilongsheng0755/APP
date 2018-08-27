@@ -11,6 +11,7 @@ class SException extends \Exception {
 
     //文件不存在时异常码
     const CODE_NOT_FOUND_FILE = -1;
+    const CODE_MYSQL_ERROR = -2;
 
     /**
      * 覆盖Exception类构造方法
@@ -25,7 +26,7 @@ class SException extends \Exception {
      * @return string
      */
     public function __toString() {
-        if (DEBUG) {
+        if (APP_DEBUG) {
             $data = array('file' => $this->file, 'line' => $this->line, 'msg' => $this->message);
             return $this->debugView($data);
         } else {
@@ -33,7 +34,7 @@ class SException extends \Exception {
         }
         return json_encode(array('code' => $this->code, 'data' => $data));
     }
-    
+
     /**
      * debug模板
      * 
@@ -42,8 +43,8 @@ class SException extends \Exception {
      */
     private function debugView($data) {
         $html = '<div style="width:50%; position:fixed; right:0px; bottom:0px; border:1px solid #3cff0d; padding:10px; background:#ccc; color:red;">';
-        foreach($data as $th=>$msg){
-            $html.='<p style="text-decoration:underline;"><span style="font-weight:bold;">'.$th.'：</span><span>'.$msg.'</span></p>';
+        foreach ($data as $th => $msg) {
+            $html .= '<p style="text-decoration:underline;"><span style="font-weight:bold;">' . $th . '：</span><span>' . $msg . '</span></p>';
         }
         $html .= '</div>';
         return $html;

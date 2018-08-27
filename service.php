@@ -15,6 +15,8 @@ use lib\Application;
 use lib\db\SPDO;
 
 Application::init();
-$db = new SPDO('mysql:dbname=test;host=192.168.3.164' , 'test', 'test');
-
+$db = new SPDO('mysql:dbname=test;host=192.168.0.102' , 'test', 'test');
+$res = $db->execPrepare("insert into test set title=?,contents=?",array(1000,222));
+echo '<pre>';
+var_dump($res,$db->affectedRows(),$db->insertID());
 
