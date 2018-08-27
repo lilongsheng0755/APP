@@ -16,4 +16,5 @@ use lib\db\SPDO;
 
 Application::init();
 $db = new SPDO('mysql:dbname=test;host=192.168.3.164' , 'test', 'test');
-$db->connect();
+
+

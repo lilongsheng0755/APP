@@ -34,7 +34,15 @@ class SPDO extends DataBase {
      */
     public function __construct($dsn, $username, $passwd) {
         class_exists('PDO') or die('No pdo extensions installed');
-        $driver_options = array(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $driver_options = array(
+            \PDO::ATTR_CASE                     => \PDO::CASE_NATURAL, //保留数据库驱动返回的列名。 
+            \PDO::ATTR_ERRMODE                  => \PDO::ERRMODE_EXCEPTION, // 抛出 exceptions 异常
+            \PDO::ATTR_ORACLE_NULLS             => \PDO::NULL_TO_STRING, //将 NULL 转换成空字符串
+            \PDO::ATTR_AUTOCOMMIT               => true, //是否自动提交每个单独的语句
+            \PDO::ATTR_EMULATE_PREPARES         => true, //启用或禁用预处理语句的模拟
+            \PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => false, // 使用缓冲查询
+            \PDO::ATTR_DEFAULT_FETCH_MODE       => \PDO::FETCH_ASSOC, // 设置默认的提取模式
+        );
         try {
             $this->pdo = new \PDO($dsn, $username, $passwd, $driver_options);
         } catch (\PDOException $e) {
@@ -196,7 +204,7 @@ class SPDO extends DataBase {
      * @param int $error  错误信息
      * @param string $query  操作语句
      */
-    protected function writeErrLog($errno, $error, $query) {
+    private function writeErrLog($errno, $error, $query) {
         $e        = new \pdo_sql_exception();
         $trace    = (array) array_pop($e->getTrace());
         $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
