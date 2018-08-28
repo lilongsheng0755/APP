@@ -38,7 +38,7 @@ class SMysqli extends DataBase {
      * @param int $port  数据库端口
      */
     public function __construct($host, $username, $passwd, $dbname, $port = 3306) {
-        class_exists('mysqli') or die('No mysqli extensions installed');
+        extension_loaded('mysqli') or die('No mysqli extensions installed');
         $this->mysqli = new \mysqli($host, $username, $passwd, $dbname, $port);
         !$this->mysqli->connect_error or die('Connect Error (' . $this->mysqli->connect_errno . ') ' . $this->mysqli->connect_error);
         $this->mysqli->set_charset("utf8") or die("Error loading character set utf8: {$this->mysqli->error}");

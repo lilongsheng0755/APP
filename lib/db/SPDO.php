@@ -38,12 +38,14 @@ class SPDO extends DataBase {
     /**
      * mysql实例初始化
      * 
-     * @param string $dsn 数据库驱动
+     * @param string $host 数据库地址
      * @param string $username 数据库登录用户名
      * @param string $passwd  数据库登录密码
+     * @param string $dbname 操作数据库名称
+     * @param int $port  数据库端口
      */
-    public function __construct($dsn, $username, $passwd) {
-        class_exists('PDO') or die('No pdo extensions installed');
+    public function __construct($host, $username, $passwd, $dbname, $port = 3306) {
+        extension_loaded('pdo_mysql') or die('No pdo extensions installed');
         $driver_options = array(
             \PDO::ATTR_CASE                     => \PDO::CASE_NATURAL, //保留数据库驱动返回的列名。 
             \PDO::ATTR_ERRMODE                  => \PDO::ERRMODE_EXCEPTION, // 抛出 exceptions 异常
@@ -52,8 +54,10 @@ class SPDO extends DataBase {
             \PDO::ATTR_EMULATE_PREPARES         => true, //启用或禁用预处理语句的模拟
             \PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => false, // 使用缓冲查询
             \PDO::ATTR_DEFAULT_FETCH_MODE       => \PDO::FETCH_ASSOC, // 设置默认的提取模式
+            \PDO::ATTR_PERSISTENT               => false, // 持久化连接
         );
         try {
+            $dsn       = "mysql:host={$host};port={$port};dbname={$dbname}";
             $this->pdo = new \PDO($dsn, $username, $passwd, $driver_options);
         } catch (\PDOException $e) {
             if (APP_DEBUG) {
@@ -259,4 +263,5 @@ class SPDO extends DataBase {
         Log::writeErrLog('error_mysql' . date('Ymd'), $data);
         HelperReturn::jsonData('DB ERROR!', SException::CODE_MYSQL_ERROR);
     }
+
 }
