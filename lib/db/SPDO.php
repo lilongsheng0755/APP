@@ -38,7 +38,7 @@ class SPDO extends DataBase {
     /**
      * mysql实例初始化
      * 
-     * @param string $dsn 数据库地址
+     * @param string $dsn 数据库驱动
      * @param string $username 数据库登录用户名
      * @param string $passwd  数据库登录密码
      */
@@ -259,13 +259,4 @@ class SPDO extends DataBase {
         Log::writeErrLog('error_mysql' . date('Ymd'), $data);
         HelperReturn::jsonData('DB ERROR!', SException::CODE_MYSQL_ERROR);
     }
-
-    /**
-     * 关闭数据库连接，释放结果集内存
-     */
-    private function __destruct() {
-        $this->pdo    = null;
-        $this->result = null;
-    }
-
 }

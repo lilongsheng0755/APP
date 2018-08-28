@@ -15,8 +15,14 @@ use lib\Application;
 use lib\db\SPDO;
 
 Application::init();
-$db = new SPDO('mysql:dbname=test;host=192.168.0.102' , 'test', 'test');
-$res = $db->execPrepare("insert into test set title=?,contents=?",array(1000,222));
+$db = new SPDO('mysql:dbname=test;host=192.168.3.164' , 'test', 'test');
+$count = 0;
+while($count <10){
+    $res = $db->execPrepare("insert into test set title=?,contents=?",array('<>1116666<>',222));
+    $count++;
+    sleep(1);
+}
+
 echo '<pre>';
 var_dump($res,$db->affectedRows(),$db->insertID());
 
