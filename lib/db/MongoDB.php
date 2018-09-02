@@ -108,20 +108,7 @@ class MongoDB {
     }
 
     public function query($table_name, $option = array()) {
-        try {
-            $bulk         = new \MongoDB\Driver\BulkWrite();
-            $bulk->update($option, ['$set' => $data], ['multi' => $multi, 'upsert' => $upsert]);
-            $writeConcern = new \MongoDB\Driver\WriteConcern(\MongoDB\Driver\WriteConcern::MAJORITY, 100);
-            $result       = $this->manager->executeBulkWrite($this->dbname . '.' . $table_name, $bulk, $writeConcern);
-            if ($result->getWriteErrors()) {
-                return false;
-            }
-            return true;
-        } catch (Exception $e) {
-            $trace    = (array) array_pop($e->getTrace());
-            $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
-            $this->writeErrLog($err_file, $e->getCode(), $e->getMessage(), json_encode($data));
-        }
+ 
     }
 
     /**
