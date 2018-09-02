@@ -9,9 +9,20 @@ namespace lib;
  */
 class SException extends \Exception {
 
-    //文件不存在时异常码
+    /**
+     * 文件不存在时异常码
+     */
     const CODE_NOT_FOUND_FILE = -1;
-    const CODE_MYSQL_ERROR = -2;
+
+    /**
+     * MYSQL异常类型
+     */
+    const CODE_MYSQL_ERROR    = -2;
+
+    /**
+     * MongoDB异常类型
+     */
+    const CODE_MONGODB_ERROR  = -3;
 
     /**
      * 覆盖Exception类构造方法

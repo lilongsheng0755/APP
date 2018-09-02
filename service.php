@@ -12,16 +12,17 @@ require_once 'core.php';
 
 //APP初始化
 use lib\Application;
-use lib\db\SPDO;
 
 Application::init();
-$db = new SPDO('192.168.0.102', 'test', 'test', 'test', 3306);
-$count = 0;
-while($count <10){
-    $res = $db->execPrepare("insert into test set title=?,contents=?",array('<>1116666<>',222));
-    $count++;
-    echo '<pre>';
-var_dump($res,$db->affectedRows(),$db->insertID());
-    sleep(1);
-}
+
+use lib\db\MongoDB;
+
+$host     = '192.168.0.102';
+$username = 'test';
+$passwd   = 'test';
+$dbname   = 'test';
+$port     = 27018;
+$mongo    = new MongoDB($host, $username, $passwd, $dbname, $port);
+$data     = array('name' => '56456', 'data' => array('age' => 15));
+var_dump($mongo->delete('user', ['category' => 'mobiles']));
 
