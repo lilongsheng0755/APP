@@ -1,0 +1,12 @@
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(27)
+time:2018-09-04 23:39:03
+errno:13053
+error:"No suitable servers found (`serverSelectionTryOnce` set): [connection refused calling ismaster on '192.168.0.103:27018']"
+query:"{"category":{"$gt":9}}"
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(27)
+time:2018-09-04 23:41:05
+errno:13053
+error:"No suitable servers found (`serverSelectionTryOnce` set): [connection refused calling ismaster on '192.168.0.103:27018']"
+query:"{"category":{"$gt":9}}"
+======================================================================
