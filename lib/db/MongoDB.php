@@ -1,5 +1,7 @@
 <?php
 
+defined('IN_APP') or die('Access denied!');
+
 namespace lib\db;
 
 use lib\SException;

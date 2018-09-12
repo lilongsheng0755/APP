@@ -1,5 +1,7 @@
 <?php
 
+defined('IN_APP') or die('Access denied!');
+
 namespace lib\db;
 
 /**
@@ -58,7 +60,7 @@ abstract class DataBase {
      * 回滚事务
      */
     abstract protected function rollback();
-    
+
     /**
      * 获取当前查询返回记录数
      */
