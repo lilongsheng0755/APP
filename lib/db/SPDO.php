@@ -71,8 +71,8 @@ class SPDO extends DataBase {
     /**
      * 执行一条SQL语句
      * 
-     * @param string $sql
-     * @return boolean|PDOStatement
+     * @param string $sql sql语句
+     * @return boolean|PDOStatement  
      */
     public function query($sql) {
         try {
@@ -88,8 +88,8 @@ class SPDO extends DataBase {
     /**
      * 获取一条记录
      * 
-     * @param string $sql
-     * @param int $result_type
+     * @param string $sql sql语句
+     * @param int $result_type  返回类型，默认为关联数组
      * @return array
      */
     public function getOne($sql, $result_type = \PDO::FETCH_ASSOC) {
@@ -105,8 +105,8 @@ class SPDO extends DataBase {
     /**
      * 获取多条记录
      * 
-     * @param string $sql
-     * @param int $result_type
+     * @param string $sql sql语句
+     * @param int $result_type  返回类型，默认为关联数组
      * @return array
      */
     public function getAll($sql, $result_type = \PDO::FETCH_ASSOC) {
@@ -125,8 +125,8 @@ class SPDO extends DataBase {
     /**
      * 获取一个数据对象
      * 
-     * @param string $sql
-     * @param int $class_name
+     * @param string $sql sql语句
+     * @param int $class_name  类名
      * @return array
      */
     public function getOneObject($sql, $class_name = 'stdClass') {
@@ -142,8 +142,8 @@ class SPDO extends DataBase {
     /**
      * 获取多个数据对象
      * 
-     * @param string $sql
-     * @param int $class_name
+     * @param string $sql  sql语句
+     * @param int $class_name 类名
      * @return array
      */
     public function getAllObject($sql, $class_name = 'stdClass') {
@@ -188,8 +188,8 @@ class SPDO extends DataBase {
     /**
      * 执行一条 SQL 语句，并返回受影响的行数
      * 
-     * @param string $sql
-     * @return int
+     * @param string $sql sql语句
+     * @return int 返回影响的行数
      */
     public function exec($sql) {
         try {
@@ -229,8 +229,8 @@ class SPDO extends DataBase {
     /**
      * 执行一条预处理语句
      * 
-     * @param string $sql
-     * @param array $prepare
+     * @param string $sql 预处理语句
+     * @param array $prepare  需要绑定的参数
      * @return boolean
      */
     public function execPrepare($sql, $prepare = array()) {

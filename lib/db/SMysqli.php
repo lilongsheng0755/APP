@@ -194,7 +194,7 @@ class SMysqli extends DataBase {
      * @param int $error  错误信息
      * @param string $query  操作语句
      */
-    protected function writeErrLog($errno, $error, $query) {
+    private function writeErrLog($errno, $error, $query) {
         $e        = new \mysqli_sql_exception();
         $trace    = (array) array_pop($e->getTrace());
         $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
