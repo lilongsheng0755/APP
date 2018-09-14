@@ -1,8 +1,8 @@
 <?php
 
-defined('IN_APP') or die('Access denied!');
-
 namespace lib\db;
+
+defined('IN_APP') or die('Access denied!');
 
 /**
  * Author: skylong

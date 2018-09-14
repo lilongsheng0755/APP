@@ -1,6 +1,8 @@
 <?php
 
-namespace lib\db;
+namespace lib\session;
+
+defined('IN_APP') or die('Access denied!');
 
 /**
  * Author: skylong

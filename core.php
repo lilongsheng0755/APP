@@ -1,7 +1,7 @@
 <?php
 
 //设置错误级别，脚本运行时间设置
-error_reporting(0);
+//error_reporting(0);
 set_time_limit(30);
 
 //定义入口常量

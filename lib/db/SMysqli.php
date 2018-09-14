@@ -1,8 +1,8 @@
 <?php
 
-defined('IN_APP') or die('Access denied!');
-
 namespace lib\db;
+
+defined('IN_APP') or die('Access denied!');
 
 use lib\db\DataBase;
 use lib\Log;
@@ -72,6 +72,7 @@ class SMysqli extends DataBase {
             return array();
         }
         $row = $res->fetch_array($result_type);
+        $res->free();
         return $row ? $row : array();
     }
 
@@ -91,6 +92,7 @@ class SMysqli extends DataBase {
         while ($row = $res->fetch_array($result_type)) {
             $ret[] = $row;
         }
+        $res->free();
         return $ret ? $ret : array();
     }
 
@@ -107,6 +109,7 @@ class SMysqli extends DataBase {
             return array();
         }
         $row = $res->fetch_object($class_name);
+        $res->free();
         return $row ? $row : array();
     }
 
@@ -126,6 +129,7 @@ class SMysqli extends DataBase {
         while ($row = $res->fetch_object($class_name)) {
             $ret[] = $row;
         }
+        $res->free();
         return $ret ? $ret : array();
     }
 
@@ -215,13 +219,13 @@ class SMysqli extends DataBase {
     /**
      * 关闭数据库连接，释放结果集内存
      */
-    private function __destruct() {
+    public function close() {
         if ($this->result instanceof \mysqli_result) {
             $this->result->free();
-            $this->result->close();
         }
-
-        $this->mysqli->close();
+        if ($this->mysqli instanceof \mysqli) {
+            $this->mysqli->close();
+        }
     }
 
 }

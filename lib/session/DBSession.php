@@ -1,8 +1,8 @@
 <?php
 
-defined('IN_APP') or die('Access denied!');
-
 namespace lib\session;
+
+defined('IN_APP') or die('Access denied!');
 
 /**
  * Author: skylong
@@ -14,9 +14,23 @@ class DBSession {
     /**
      * pdo对象
      *
-     * @var PDO|MYSQLI 
+     * @var \lib\db\SPDO
      */
     protected static $db = null;
+
+    /**
+     * 保存session数据的表名
+     *
+     * @var string
+     */
+    protected static $tblname = null;
+
+    /**
+     * session表主键key为sessionID
+     *
+     * @var string
+     */
+    protected static $primary_key = null;
 
     /**
      * 客户端代理
@@ -49,18 +63,22 @@ class DBSession {
     /**
      * 自定义session初始化
      * 
-     * @param object $db
+     * @param object $db  \lib\db\SPDO | \lib\db\SMysqli
+     * @param string $tblname  保存session数据的表名
+     * @param string $primary_key  session表主键key  sessionID
      */
-    public static function start($db) {
+    public static function start($db, $tblname = 'session', $primary_key = 'sid') {
         self::$db           = $db;
         self::$client_agent = isset($_SERVER['HTTP_USER_AGENT']) ? trim($_SERVER['HTTP_USER_AGENT']) : '';
         $client_ip          = !empty($_SERVER['HTTP_CLIENT_IP']) ? $_SERVER['HTTP_CLIENT_IP'] : (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) ?
                 $_SERVER['HTTP_X_FORWARDED_FOR'] : (!empty($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 0);
 
-        filter_var($client_ip, FILTER_VALIDATE_IP) === false && $client_ip       = 0;
-        self::$client_ip = $client_ip ? sprintf('%u', ip2long($client_ip)) : 0;
-        self::$life_time = ini_get('session.gc_maxlifetime');
-        self::$time      = time();
+        filter_var($client_ip, FILTER_VALIDATE_IP) === false && $client_ip         = '0.0.0.0';
+        self::$client_ip   = $client_ip;
+        self::$life_time   = ini_get('session.gc_maxlifetime');
+        self::$time        = time();
+        self::$tblname     = $tblname;
+        self::$primary_key = $primary_key;
 
         session_set_save_handler(
                 array(__CLASS__, 'open'), array(__CLASS__, 'close'), array(__CLASS__, 'read'), array(__CLASS__, 'write'), array(__CLASS__, 'destroy'), array(__CLASS__, 'gc')
@@ -75,7 +93,7 @@ class DBSession {
      * @param type $session_name  session名称
      * @return boolean
      */
-    private static function open($save_path, $session_name) {
+    public static function open($save_path, $session_name) {
         unset($save_path, $session_name);
         return true;
     }
@@ -94,11 +112,11 @@ class DBSession {
      * @param type $sid  
      * @return string
      */
-    private static function read($sid) {
-        $sql    = "SELECT * FROM session WHERE sid = ?";
-        $sth    = self::$db->prepare($sql);
-        $sth->execute(array($sid));
-        if (!$result = $sth->fetch(PDO::FETCH_ASSOC)) {
+    public static function read($sid) {
+        $tblname = self::$tblname;
+        $field   = self::$primary_key;
+        $sql     = "SELECT * FROM `{$tblname}` WHERE `{$field}`='{$sid}' LIMIT 1";
+        if (!$result  = self::$db->getOne($sql)) {
             return '';
         }
 
@@ -125,21 +143,22 @@ class DBSession {
      * @return boolean
      */
     public static function write($sid, $data) {
-        $sql    = "SELECT * FROM session WHERE sid = ?";
-        $sth    = self::$db->prepare($sql);
-        $sth->execute(array($sid));
-        if (!$result = $sth->fetch(PDO::FETCH_ASSOC)) {
+        $tblname     = self::$tblname;
+        $field       = self::$primary_key;
+        $update_time = self::$time;
+        $client_ip   = self::$client_ip;
+        $user_agent  = self::$client_agent;
+        $sql         = "SELECT * FROM `{$tblname}` WHERE `{$field}`='{$sid}' LIMIT 1";
+        if ($result      = self::$db->getOne($sql)) {
             //数据有变动时更新，或者间隔30秒更新一次
             if ($result['data'] != $data || self::$time > ($result['update_time'] + 30)) {
-                $sql = "UPDATE session SET update_time = ?, data = ? WHERE sid = ?";
-                $sth = self::$db->prepare($sql);
-                $sth->execute(array(self::$time, $data, $sid));
+                $sql = "UPDATE `{$tblname}` SET `update_time` = {$update_time}, `data` = '{$data}' WHERE `{$field}` = '{$sid}'";
+                self::$db->query($sql);
             }
         } else {
             if (!empty($data)) {
-                $sql = "INSERT INTO session SET sid = ?, update_time = ?, client_ip = ?, user_agent = ?,data = ?";
-                $sth = self::$db->prepare($sql);
-                $sth->execute(array($sid, self::$time, self::$client_ip, self::$client_agent, $data));
+                $sql = "INSERT INTO `{$tblname}` SET `{$field}` = '{$sid}', `update_time` = {$update_time}, `client_ip` = '{$client_ip}', `user_agent` = '{$user_agent}',`data` = '{$data}'";
+                self::$db->query($sql);
             }
         }
         return true;
@@ -152,22 +171,24 @@ class DBSession {
      * @return boolean
      */
     public static function destroy($sid) {
-        $sql = "DELETE FROM session WHERE sid = ?";
-        $sth = self::$db->prepare($sql);
-        $sth->execute(array($sid));
+        $tblname = self::$tblname;
+        $field   = self::$primary_key;
+        $sql     = "DELETE FROM `{$tblname}` WHERE `{$field}` = '{$sid}'";
+        self::$db->query($sql);
         return true;
     }
 
     /**
-     * 过期session数据垃圾回收
+     * 过期session数据垃圾回收（推荐用定时脚本清，多久清一次得看数据量）
      * 
      * @param string $life_time
      * @return boolean
      */
-    private static function gc($life_time) {
-        $sql = "DELETE FROM session WHERE update_time < ?";
-        $sth = self::$db->prepare($sql);
-        $sth->execute(array(self::time - $life_time));
+    public static function gc($life_time) {
+        $tblname     = self::$tblname;
+        $update_time = self::$time - $life_time;
+        $sql         = "DELETE FROM `{$tblname}` WHERE `update_time` < $update_time";
+        self::$db->query($sql);
         return true;
     }
 

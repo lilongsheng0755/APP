@@ -1,8 +1,8 @@
 <?php
 
-defined('IN_APP') or die('Access denied!');
-
 namespace lib\db;
+
+defined('IN_APP') or die('Access denied!');
 
 use lib\db\DataBase;
 use lib\Log;
@@ -101,6 +101,7 @@ class SPDO extends DataBase {
         }
         $row            = $res->fetch($result_type);
         $row && $this->num_rows = 1;
+        $res->closeCursor();
         return $row ? $row : array();
     }
 
@@ -121,6 +122,7 @@ class SPDO extends DataBase {
             $ret[] = $row;
             $this->num_rows++;
         }
+        $res->closeCursor();
         return $ret ? $ret : array();
     }
 
@@ -138,6 +140,7 @@ class SPDO extends DataBase {
         }
         $row            = $res->fetchObject($class_name);
         $row && $this->num_rows = 1;
+        $res->closeCursor();
         return $row ? $row : array();
     }
 
@@ -158,6 +161,7 @@ class SPDO extends DataBase {
             $ret[] = $row;
             $this->num_rows++;
         }
+        $res->closeCursor();
         return $ret ? $ret : array();
     }
 
