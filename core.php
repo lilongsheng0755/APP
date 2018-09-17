@@ -43,3 +43,6 @@ define('PUBLIC_PATH', APP_PATH . DS . 'public');
 //加载初始化文件
 require_once LIB_PATH . '/Application.php';
 
+//APP初始化
+lib\Application::init();
+

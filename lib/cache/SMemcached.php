@@ -4,6 +4,9 @@ namespace lib\cache;
 
 defined('IN_APP') or die('Access denied!');
 
+use lib\Log;
+use config\ConfigLog;
+
 /**
  * Author: skylong
  * CreateTime: 2018-6-13 23:22:07
@@ -13,21 +16,31 @@ class SMemcached {
 
     const KEY_EXPIRE = 2592000; //默认key有效时间为30天
     const TRY_NUM    = 2; //失败重连次数
-    const KEY_PREFIX = ''; //设置key前缀
 
-    private $memObj    = null; //memcached实例
-    private $memServer = array(array('192.168.0.102', 11211, 100)); //memcached服务器组
+    /**
+     * memcached实例
+     *
+     * @var \memcached
+     */
+    private $mem = null;
 
-    public function __construct($memServer = array()) {
+    /**
+     * memcached服务器组
+     *
+     * @var array 
+     */
+    private $mem_conf = array(array('192.168.0.102', 11211, 100));
+
+    public function __construct($mem_conf = array()) {
         class_exists('memcached') or die('Non installed memcached extension!');
-        ($memServer && is_array($memServer)) && $this->memServer = $memServer;
-        $this->memObj    = new \Memcached();
-        $this->memObj->setOption(\Memcached::OPT_BINARY_PROTOCOL, true); //开启使用二进制协议
-        $this->memObj->setOption(\Memcached::OPT_TCP_NODELAY, true); //开启或关闭已连接socket的无延迟特性
-        $this->memObj->setOption(\Memcached::OPT_NO_BLOCK, true); //开启或关闭异步I/O
-        $this->memObj->setOption(\Memcached::OPT_DISTRIBUTION, \Memcached::DISTRIBUTION_CONSISTENT);  //一致性分布算法
-        $this->memObj->setOption(\Memcached::OPT_PREFIX_KEY, self::KEY_PREFIX); //设置key的前缀
-        $this->memObj->addServers($this->memServer);
+        ($mem_conf && is_array($mem_conf)) && $this->mem_conf = $mem_conf;
+        $this->mem      = new \Memcached();
+        $this->mem->setOption(\Memcached::OPT_BINARY_PROTOCOL, true); //开启使用二进制协议
+        $this->mem->setOption(\Memcached::OPT_TCP_NODELAY, true); //开启或关闭已连接socket的无延迟特性
+        $this->mem->setOption(\Memcached::OPT_NO_BLOCK, true); //开启或关闭异步I/O
+        $this->mem->setOption(\Memcached::OPT_DISTRIBUTION, \Memcached::DISTRIBUTION_CONSISTENT);  //一致性分布算法
+        defined('PROJECT_NS') && $this->mem->setOption(\Memcached::OPT_PREFIX_KEY, strtoupper(PROJECT_NS . '_')); //设置key的前缀
+        $this->mem->addServers($this->mem_conf);
     }
 
     /**
@@ -41,14 +54,16 @@ class SMemcached {
     public function add($key, $val, $expire = 0) {
         $expire = (int) $expire > 0 ? (int) $expire : self::KEY_EXPIRE;
         for ($i = 0; $i < self::TRY_NUM; $i++) {
-            $this->memObj->add($key, $val, $expire);
-            if ($this->memObj->getResultCode() === \Memcached::RES_SUCCESS) {
+            $this->mem->add($key, $val, $expire);
+            $resultCode = $this->mem->getResultCode();
+            if ($resultCode === \Memcached::RES_SUCCESS) {
                 return true;
             }
-            if (in_array($this->memObj->getResultCode(), array(\Memcached::RES_BAD_KEY_PROVIDED, \Memcached::RES_NOTSTORED))) {
+            if (in_array($resultCode, array(\Memcached::RES_BAD_KEY_PROVIDED, \Memcached::RES_NOTSTORED))) {
                 return false;
             }
         }
+        $this->writeErrLog($resultCode, $this->mem->getResultMessage(), "add->{$key}->$val");
         return false;
     }
 
@@ -63,14 +78,16 @@ class SMemcached {
     public function set($key, $val, $expire = 0) {
         $expire = (int) $expire > 0 ? (int) $expire : self::KEY_EXPIRE;
         for ($i = 0; $i < self::TRY_NUM; $i++) {
-            $this->memObj->set($key, $val, $expire);
-            if ($this->memObj->getResultCode() === \Memcached::RES_SUCCESS) {
+            $this->mem->set($key, $val, $expire);
+            $resultCode = $this->mem->getResultCode();
+            if ($resultCode === \Memcached::RES_SUCCESS) {
                 return true;
             }
-            if ($this->memObj->getResultCode() === \Memcached::RES_BAD_KEY_PROVIDED) {
+            if ($resultCode === \Memcached::RES_BAD_KEY_PROVIDED) {
                 return false;
             }
         }
+        $this->writeErrLog($resultCode, $this->mem->getResultMessage(), "set->{$key}->$val");
         return false;
     }
 
@@ -85,14 +102,16 @@ class SMemcached {
     public function replace($key, $val, $expire = 0) {
         $expire = (int) $expire > 0 ? (int) $expire : self::KEY_EXPIRE;
         for ($i = 0; $i < self::TRY_NUM; $i++) {
-            $this->memObj->replace($key, $val, $expire);
-            if ($this->memObj->getResultCode() === \Memcached::RES_SUCCESS) {
+            $this->mem->replace($key, $val, $expire);
+            $resultCode = $this->mem->getResultCode();
+            if ($resultCode === \Memcached::RES_SUCCESS) {
                 return true;
             }
-            if (in_array($this->memObj->getResultCode(), array(\Memcached::RES_NOTSTORED, \Memcached::RES_BAD_KEY_PROVIDED))) {
+            if (in_array($resultCode, array(\Memcached::RES_NOTSTORED, \Memcached::RES_BAD_KEY_PROVIDED))) {
                 return false;
             }
         }
+        $this->writeErrLog($resultCode, $this->mem->getResultMessage(), "replace->{$key}->$val");
         return false;
     }
 
@@ -104,16 +123,17 @@ class SMemcached {
      * @return boolean|int
      */
     public function incr($key, $num = 1) {
-        $expire = (int) $expire > 0 ? (int) $expire : self::KEY_EXPIRE;
         for ($i = 0; $i < self::TRY_NUM; $i++) {
-            $res = $this->memObj->increment($key, $num);
-            if ($res !== false && $this->memObj->getResultCode() === \Memcached::RES_SUCCESS) {
+            $res        = $this->mem->increment($key, $num);
+            $resultCode = $this->mem->getResultCode();
+            if ($res !== false && $resultCode === \Memcached::RES_SUCCESS) {
                 return $res;
             }
-            if (in_array($this->memObj->getResultCode(), array(\Memcached::RES_NOTFOUND, \Memcached::RES_BAD_KEY_PROVIDED))) {
+            if (in_array($resultCode, array(\Memcached::RES_NOTFOUND, \Memcached::RES_BAD_KEY_PROVIDED))) {
                 return false;
             }
         }
+        $this->writeErrLog($resultCode, $this->mem->getResultMessage(), "incr->{$key}->$num");
         return false;
     }
 
@@ -125,16 +145,17 @@ class SMemcached {
      * @return boolean|int
      */
     public function decr($key, $num = 1) {
-        $expire = (int) $expire > 0 ? (int) $expire : self::KEY_EXPIRE;
         for ($i = 0; $i < self::TRY_NUM; $i++) {
-            $res = $this->memObj->decrement($key, $num);
-            if ($res !== false && $this->memObj->getResultCode() === \Memcached::RES_SUCCESS) {
+            $res        = $this->mem->decrement($key, $num);
+            $resultCode = $this->mem->getResultCode();
+            if ($res !== false && $resultCode === \Memcached::RES_SUCCESS) {
                 return $res;
             }
-            if (in_array($this->memObj->getResultCode(), array(\Memcached::RES_NOTFOUND, \Memcached::RES_BAD_KEY_PROVIDED))) {
+            if (in_array($resultCode, array(\Memcached::RES_NOTFOUND, \Memcached::RES_BAD_KEY_PROVIDED))) {
                 return false;
             }
         }
+        $this->writeErrLog($resultCode, $this->mem->getResultMessage(), "decr->{$key}->$num");
         return false;
     }
 
@@ -148,35 +169,40 @@ class SMemcached {
     public function delete($key, $time = 0) {
         $time = (int) $time > 0 ? (int) $time : 0;
         for ($i = 0; $i < self::TRY_NUM; $i++) {
-            $this->memObj->delete($key, $time);
-            if ($this->memObj->getResultCode() === \Memcached::RES_SUCCESS) {
+            $this->mem->delete($key, $time);
+            $resultCode = $this->mem->getResultCode();
+            if ($resultCode === \Memcached::RES_SUCCESS) {
                 return true;
             }
-            if (in_array($this->memObj->getResultCode(), array(\Memcached::RES_NOTFOUND, \Memcached::RES_BAD_KEY_PROVIDED))) {
+            if (in_array($resultCode, array(\Memcached::RES_NOTFOUND, \Memcached::RES_BAD_KEY_PROVIDED))) {
                 return false;
             }
         }
+        $this->writeErrLog($resultCode, $this->mem->getResultMessage(), "delete->{$key}");
         return false;
     }
 
     /**
      * 删除多个key
      * 
-     * @param string $keys
+     * @param array $keys
      * @param int $time 等待多少秒后删除，默认0立即删除
      * @return boolean
      */
     public function delMulti($keys, $time = 0) {
         $time = (int) $time > 0 ? (int) $time : 0;
         for ($i = 0; $i < self::TRY_NUM; $i++) {
-            $this->memObj->deleteMulti($keys, $time);
-            if ($this->memObj->getResultCode() === \Memcached::RES_SUCCESS) {
+            $this->mem->deleteMulti($keys, $time);
+            $resultCode = $this->mem->getResultCode();
+            if ($resultCode === \Memcached::RES_SUCCESS) {
                 return true;
             }
-            if (in_array($this->memObj->getResultCode(), array(\Memcached::RES_NOTFOUND, \Memcached::RES_BAD_KEY_PROVIDED))) {
+            if (in_array($resultCode, array(\Memcached::RES_NOTFOUND, \Memcached::RES_BAD_KEY_PROVIDED))) {
                 return false;
             }
         }
+        $key = implode(',', $keys);
+        $this->writeErrLog($resultCode, $this->mem->getResultMessage(), "delMulti->{$key}");
         return false;
     }
 
@@ -188,14 +214,16 @@ class SMemcached {
      */
     public function get($key) {
         for ($i = 0; $i < self::TRY_NUM; $i++) {
-            $res = $this->memObj->get($key);
-            if ($res) {
+            $res        = $this->mem->get($key);
+            $resultCode = $this->mem->getResultCode();
+            if ($resultCode === \Memcached::RES_SUCCESS) {
                 return $res;
             }
-            if (in_array($this->memObj->getResultCode(), array(\Memcached::RES_BAD_KEY_PROVIDED, \Memcached::RES_NOTFOUND))) {
+            if (in_array($resultCode, array(\Memcached::RES_BAD_KEY_PROVIDED, \Memcached::RES_NOTFOUND))) {
                 return false;
             }
         }
+        $this->writeErrLog($resultCode, $this->mem->getResultMessage(), "get->{$key}");
         return false;
     }
 
@@ -207,14 +235,17 @@ class SMemcached {
      */
     public function getMulti($keys) {
         for ($i = 0; $i < self::TRY_NUM; $i++) {
-            $res = $this->memObj->getMulti($keys);
+            $res        = $this->mem->getMulti($keys);
+            $resultCode = $this->mem->getResultCode();
             if ($res) {
                 return $res;
             }
-            if (in_array($this->memObj->getResultCode() === \Memcached::RES_SOME_ERRORS)) {
+            if (in_array($resultCode === \Memcached::RES_SOME_ERRORS)) {
                 return false;
             }
         }
+        $key = implode(',', $keys);
+        $this->writeErrLog($resultCode, $this->mem->getResultMessage(), "getMulti->{$key}");
         return false;
     }
 
@@ -224,7 +255,7 @@ class SMemcached {
      * @return bool
      */
     public function flush() {
-        return $this->memObj->flush();
+        return $this->mem->flush();
     }
 
     /**
@@ -236,7 +267,7 @@ class SMemcached {
      */
     public function touch($key, $expire = 86400) {
         $expire = (int) $expire > 0 ? (int) $expire : self::KEY_EXPIRE;
-        return $this->memObj->touch($key, $expire);
+        return $this->mem->touch($key, $expire);
     }
 
     /**
@@ -246,7 +277,7 @@ class SMemcached {
      * @return int
      */
     public function getOption($memOpt) {
-        return $this->memObj->getOption($memOpt);
+        return $this->mem->getOption($memOpt);
     }
 
     /**
@@ -255,7 +286,7 @@ class SMemcached {
      * @return bool|array
      */
     public function getStats() {
-        return $this->memObj->getStats();
+        return $this->mem->getStats();
     }
 
     /**
@@ -264,10 +295,32 @@ class SMemcached {
      * @return boolean
      */
     public function getVersion() {
-        if (!$this->memObj) {
+        if (!$this->mem) {
             return false;
         }
-        return $this->memObj->getVersion();
+        return $this->mem->getVersion();
+    }
+
+    /**
+     * 写操作memcache失败的日志
+     * 
+     * @param int $errno  错误编号
+     * @param int $error  错误信息
+     * @param string $cmd  操作指令
+     */
+    private function writeErrLog($errno, $error, $cmd) {
+        $e        = new \Exception();
+        $arr      = (array) $e->getTrace();
+        $trace    = (array) array_pop($arr);
+        $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
+        APP_DEBUG && die($err_file . '=======' . $error . '=======' . $cmd);
+        $data     = "file:{$err_file}\r\n";
+        $data     .= "time:" . date('Y-m-d H:i:s') . "\r\n";
+        $data     .= "errno:{$errno}\r\n";
+        $data     .= "error:\"{$error}\"\r\n";
+        $data     .= "cmd:\"{$cmd}\"\r\n";
+        $data     .= "======================================================================\r\n";
+        Log::writeErrLog('error_memcached' . date('Ymd'), $data, ConfigLog::MEM_EER_LOG_TYPE);
     }
 
 }

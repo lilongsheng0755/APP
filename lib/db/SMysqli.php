@@ -202,7 +202,8 @@ class SMysqli extends DataBase {
      */
     private function writeErrLog($errno, $error, $query) {
         $e        = new \mysqli_sql_exception();
-        $trace    = (array) array_pop($e->getTrace());
+        $arr      = (array) $e->getTrace();
+        $trace    = (array) array_pop($arr);
         $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
         APP_DEBUG && die($err_file . '=======' . $error . '=======' . $query);
         unset($e, $trace);

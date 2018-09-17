@@ -1,0 +1,7 @@
+/**
+* 执行脚本列表
+* 分 时 日 月 周 执行脚本 参数（必传，预防外部http请求访问）
+*/
+
+# 每天凌晨两点，定时清理session脚本 
+0 2 * * * /usr/local/php/bin/php -f /home/wwwroot/app/crontab/cron_clear_session.php 1 > /dev/null 2>&1

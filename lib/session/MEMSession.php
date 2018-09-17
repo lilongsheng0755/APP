@@ -11,12 +11,12 @@ defined('IN_APP') or die('Access denied!');
  */
 class MEMSession {
 
-    const NS = 'session_';
+    const NS = 'SESSION_';
 
     /**
      * memcached对象
      *
-     * @var \Memcached
+     * @var \lib\cache\SMemcached
      */
     protected static $mem = null;
 
@@ -30,12 +30,13 @@ class MEMSession {
     /**
      * 自定义session初始化
      * 
-     * @param \Memcached $mem
+     * @param \lib\cache\SMemcached $mem
      */
-    public static function start(\Memcached $mem) {
+    public static function start($mem) {
         self::$mem       = $mem;
+        ini_set('session.save_handler', 'user');
+        ini_set('session.gc_maxlifetime', 1800);
         self::$life_time = ini_get('session.gc_maxlifetime');
-
         session_set_save_handler(
                 array(__CLASS__, 'open'), array(__CLASS__, 'close'), array(__CLASS__, 'read'), array(__CLASS__, 'write'), array(__CLASS__, 'destroy'), array(__CLASS__, 'gc')
         );
@@ -49,7 +50,7 @@ class MEMSession {
      * @param type $session_name  session名称
      * @return boolean
      */
-    private static function open($save_path, $session_name) {
+    public static function open($save_path, $session_name) {
         unset($save_path, $session_name);
         return true;
     }
@@ -68,11 +69,12 @@ class MEMSession {
      * @param type $sid  
      * @return string
      */
-    private static function read($sid) {
+    public static function read($sid) {
         $out = self::$mem->get(self::session_key($sid));
         if ($out === false || $out === null) {
-            return $out;
+            return (string) $out;
         }
+        return $out;
     }
 
     /**
@@ -84,7 +86,8 @@ class MEMSession {
      */
     public static function write($sid, $data) {
         $method = $data ? 'set' : 'replace';
-        return self::$mem->$method(self::session_key($sid), $data, self::$life_time);
+        self::$mem->$method(self::session_key($sid), $data, self::$life_time);
+        return true;
     }
 
     /**
@@ -94,7 +97,7 @@ class MEMSession {
      * @return boolean
      */
     public static function destroy($sid) {
-        return self::$mem->delete(self::session_key($sid));
+        return (bool) self::$mem->delete(self::session_key($sid));
     }
 
     /**
@@ -103,7 +106,7 @@ class MEMSession {
      * @param string $life_time
      * @return boolean
      */
-    private static function gc($life_time) {
+    public static function gc($life_time) {
         unset($life_time);
         return true;
     }
@@ -116,11 +119,8 @@ class MEMSession {
      */
     private static function session_key($sid) {
         $session_key = '';
-        if (defined('PROJECT_NS')) {
-            $session_key .= PROJECT_NS.'_';
-        }
-        $session_key .= self::NS . $sid;
-        return $session_key;
+        $session_key .= self::NS . md5($sid);
+        return strtoupper($session_key);
     }
 
 }

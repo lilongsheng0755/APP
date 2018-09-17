@@ -20,6 +20,11 @@ class ConfigLog {
     const MONGODB_EER_LOG_TYPE = 1;
 
     /**
+     * memcached错误日志类型
+     */
+    const MEM_EER_LOG_TYPE = 2;
+
+    /**
      * 根据日志类型获取对应的日志保存路径
      * 
      * @param int $log_type
@@ -28,7 +33,8 @@ class ConfigLog {
     public static function getLogPath($log_type = 0) {
         $config = array(
             self::MYSQL_EER_LOG_TYPE   => DATA_PATH . DS . 'error_mysql',
-            self::MONGODB_EER_LOG_TYPE => DATA_PATH . DS . 'mongodb_mysql',
+            self::MONGODB_EER_LOG_TYPE => DATA_PATH . DS . 'error_mongodb',
+            self::MEM_EER_LOG_TYPE     => DATA_PATH . DS . 'error_memcached',
         );
 
         return isset($config[$log_type]) ? $config[$log_type] : DATA_PATH;

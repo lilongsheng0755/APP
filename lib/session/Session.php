@@ -16,12 +16,18 @@ class Session {
      *
      * @var string 
      */
-    public static $session_save_path = '';
+    public static $session_save_path = null;
 
     /**
      * 执行session会话
+     * 
+     * @param string $session_save_path 保存session数据的路径
      */
-    public static function start() {
+    public static function start($session_save_path = '/tmp/session') {
+        ini_set('session.save_handler', 'files');
+        ini_set('session.gc_maxlifetime', 1800);
+        $session_save_path && ini_set('session.save_path', $session_save_path);
+        self::$session_save_path = rtrim($session_save_path ? $session_save_path : ini_get('session.save_path'), DS);
         session_set_save_handler(
                 array(__CLASS__, 'open'), array(__CLASS__, 'close'), array(__CLASS__, 'read'), array(__CLASS__, 'write'), array(__CLASS__, 'destroy'), array(__CLASS__, 'gc')
         );
@@ -60,8 +66,8 @@ class Session {
      * @return string
      */
     public static function read($session_id) {
-        $session_file = self::$session_save_path . DS . 'sess_' . $session_id;
-        return (string) @file_get_contents($session_file);
+        $session_file = self::$session_save_path . DS . 'sess_' . md5($session_id);
+        return (string) file_get_contents($session_file);
     }
 
     /**
@@ -73,11 +79,11 @@ class Session {
      * @return boolean
      */
     public static function write($session_id, $session_data) {
-        $session_file = self::$session_save_path . DS . 'sess_' . $session_id;
-        if ($fp           = @fopen($session_file, 'w')) {
+        $session_file = self::$session_save_path . DS . 'sess_' . md5($session_id);
+        if ($fp           = fopen($session_file, 'w')) {
             $ret = fwrite($fp, $session_data);
             fclose($fp);
-            return $ret;
+            return (bool) $ret;
         } else {
             return false;
         }
@@ -90,8 +96,8 @@ class Session {
      * @return boolean
      */
     public static function destroy($session_id) {
-        $session_file = self::$session_save_path . DS . 'sess_' . $session_id;
-        return (@unlink($session_file));
+        $session_file = self::$session_save_path . DS . 'sess_' . md5($session_id);
+        return (bool) (unlink($session_file));
     }
 
     /**
@@ -104,7 +110,7 @@ class Session {
     public static function gc($maxlifetime) {
         foreach (glob(self::$session_save_path . DS . 'sess_*') as $filename) {
             if (filemtime($filename) + $maxlifetime < time()) {
-                @unlink($filename);
+                (bool) (unlink($filename));
             }
         }
         return true;

@@ -80,7 +80,8 @@ class SPDO extends DataBase {
         try {
             $this->result = $this->pdo->query($sql);
         } catch (\PDOException $ex) {
-            $trace    = (array) array_pop($ex->getTrace());
+            $arr      = (array) $ex->getTrace();
+            $trace    = (array) array_pop($arr);
             $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
             $this->writeErrLog($err_file, $ex->getCode(), $ex->getMessage(), $sql);
         }
@@ -201,7 +202,8 @@ class SPDO extends DataBase {
         try {
             return $this->pdo->exec($sql);
         } catch (\PDOException $ex) {
-            $trace    = (array) array_pop($ex->getTrace());
+            $arr      = (array) $ex->getTrace();
+            $trace    = (array) array_pop($arr);
             $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
             $this->writeErrLog($err_file, $ex->getCode(), $ex->getMessage(), $sql);
         }
@@ -244,7 +246,8 @@ class SPDO extends DataBase {
             $this->result = $this->pdo->prepare($sql);
             return $this->result->execute($prepare);
         } catch (\PDOException $ex) {
-            $trace    = (array) array_pop($ex->getTrace());
+            $arr      = (array) $ex->getTrace();
+            $trace    = (array) array_pop($arr);
             $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
             $this->writeErrLog($err_file, $ex->getCode(), $ex->getMessage(), $sql);
         }

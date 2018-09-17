@@ -67,7 +67,9 @@ class DBSession {
      * @param string $tblname  保存session数据的表名
      * @param string $primary_key  session表主键key  sessionID
      */
-    public static function start($db, $tblname = 'session', $primary_key = 'sid') {
+    public static function start($db, $tblname = 'user_session', $primary_key = 'sid') {
+        ini_set('session.save_handler', 'user');
+        ini_set('session.gc_maxlifetime', 1800);
         self::$db           = $db;
         self::$client_agent = isset($_SERVER['HTTP_USER_AGENT']) ? trim($_SERVER['HTTP_USER_AGENT']) : '';
         $client_ip          = !empty($_SERVER['HTTP_CLIENT_IP']) ? $_SERVER['HTTP_CLIENT_IP'] : (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) ?
@@ -115,6 +117,7 @@ class DBSession {
     public static function read($sid) {
         $tblname = self::$tblname;
         $field   = self::$primary_key;
+        $sid     = md5(trim($sid));
         $sql     = "SELECT * FROM `{$tblname}` WHERE `{$field}`='{$sid}' LIMIT 1";
         if (!$result  = self::$db->getOne($sql)) {
             return '';
@@ -148,6 +151,7 @@ class DBSession {
         $update_time = self::$time;
         $client_ip   = self::$client_ip;
         $user_agent  = self::$client_agent;
+        $sid         = md5(trim($sid));
         $sql         = "SELECT * FROM `{$tblname}` WHERE `{$field}`='{$sid}' LIMIT 1";
         if ($result      = self::$db->getOne($sql)) {
             //数据有变动时更新，或者间隔30秒更新一次
@@ -173,6 +177,7 @@ class DBSession {
     public static function destroy($sid) {
         $tblname = self::$tblname;
         $field   = self::$primary_key;
+        $sid     = md5(trim($sid));
         $sql     = "DELETE FROM `{$tblname}` WHERE `{$field}` = '{$sid}'";
         self::$db->query($sql);
         return true;

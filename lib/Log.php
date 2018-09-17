@@ -21,11 +21,12 @@ class Log {
      */
     public static function writeErrLog($file_name, $data, $log_type = ConfigLog::MYSQL_EER_LOG_TYPE, $limit = 1048576) {
         $log_dir = ConfigLog::getLogPath($log_type);
-        if (!is_dir($log_dir) || file_exists($log_dir)) {
-            @mkdir($log_dir, 0744, true);
+        if (!is_dir($log_dir) || !file_exists($log_dir)) {
+            mkdir($log_dir, 0744, true);
         }
         $file_name = rtrim($log_dir, DS) . DS . $file_name;
-        $flag      = filesize($file_name) >= $limit ? 0 : FILE_APPEND | LOCK_EX;
+        $file_size = file_exists($file_name) ? filesize($file_name) : 0;
+        $flag      = $file_size >= $limit ? 0 : FILE_APPEND | LOCK_EX;
         file_put_contents($file_name, $data, $flag);
     }
 
