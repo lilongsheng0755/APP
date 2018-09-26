@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>jQuery JSONView-格式化和语法高亮JSON格式数据查看插件</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="css/jquery.jsonview.css">
+        <link rel="stylesheet" type="text/css" href="css/jsonview.style.css">
+    </head>
+    <body>
+        <section class="ui3g-container">
+            <div class="ui3g-content">
+                <button id="collapse-btn">折叠</button>
+                <button id="expand-btn">展开</button>
+                <div id="json"></div>
+            </div>
+        </section>
+        <script src="../jquery/jquery.min.v1.11.0.js" type="text/javascript"></script>
+        <script type="text/javascript" src="js/jquery.jsonview.js"></script>
+        <script type="text/javascript">
+            var json = [{"mid": 108377, "parent_id": true, "mktime": "1535036420", "belongid": 7, "status": null}, {"mid": 108377, "parent_id": true, "mktime": "1535036420", "belongid": 7, "status": null}];
+
+            $(function () {
+                $("#json").JSONView(json);
+
+                $('#collapse-btn').on('click', function () {
+                    $('#json').JSONView('collapse'); //折叠
+                });
+
+                $('#expand-btn').on('click', function () {
+                    $('#json').JSONView('expand');  //展开
+                });
+
+            });
+        </script>
+    </body>
+</html>

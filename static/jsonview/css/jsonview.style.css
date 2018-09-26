@@ -1,0 +1,13 @@
+.jsonview .null {
+    color: red;
+}
+.jsonview .bool {
+  color: green;
+}
+.jsonview .num {
+  color: #bf55ec;
+}
+.jsonview .string {
+  color: #00b16a;
+  white-space: pre-wrap;
+} 

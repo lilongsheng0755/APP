@@ -38,7 +38,7 @@ define('DATA_PATH', APP_PATH . DS . 'data');
 define('UPLOAD_PATH', APP_PATH . DS . 'upload');
 
 //静态资源路径
-define('PUBLIC_PATH', APP_PATH . DS . 'public');
+define('PUBLIC_PATH', APP_PATH . DS . 'static');
 
 //加载初始化文件
 require_once LIB_PATH . '/Application.php';
