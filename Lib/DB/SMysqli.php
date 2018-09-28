@@ -12,9 +12,44 @@ use Helper\HelperReturn;
 /**
  * Author: skylong
  * CreateTime: 2018-6-1 16:20:13
- * Description: 基于mysqli扩展的数据库操作类
+ * Description: 基于php mysqli扩展的数据库操作类
  */
 class SMysqli extends DataBase {
+
+    /**
+     * mysql数据库地址
+     *
+     * @var string 
+     */
+    private $host;
+
+    /**
+     * 登录数据库用户名
+     *
+     * @var string
+     */
+    private $username;
+
+    /**
+     * 登录数据库密码
+     *
+     * @var string
+     */
+    private $passwd;
+
+    /**
+     * 当前操作的数据库名
+     *
+     * @var string
+     */
+    private $dbname;
+
+    /**
+     * 访问端口
+     *
+     * @var string
+     */
+    private $port;
 
     /**
      * mysqli对象
@@ -31,7 +66,7 @@ class SMysqli extends DataBase {
     private $result = null;
 
     /**
-     * mysqli实例初始化
+     * 初始化参数
      * 
      * @param string $host 数据库地址
      * @param string $username 数据库登录用户名
@@ -41,7 +76,23 @@ class SMysqli extends DataBase {
      */
     public function __construct($host, $username, $passwd, $dbname, $port = 3306) {
         extension_loaded('mysqli') or die('No mysqli extensions installed');
-        $this->mysqli = new \mysqli($host, $username, $passwd, $dbname, $port);
+        $this->host     = $host;
+        $this->username = $username;
+        $this->passwd   = $passwd;
+        $this->dbname   = $dbname;
+        $this->port     = $port;
+    }
+
+    /**
+     * 创建数据库连接对象
+     * 
+     * @return \mysqli
+     */
+    private function connect() {
+        if ($this->mysqli instanceof \mysqli) {
+            return $this->mysqli;
+        }
+        $this->mysqli = new \mysqli($this->host, $this->username, $this->passwd, $this->dbname, $this->port);
         !$this->mysqli->connect_error or die('Connect Error (' . $this->mysqli->connect_errno . ') ' . $this->mysqli->connect_error);
         $this->mysqli->set_charset("utf8") or die("Error loading character set utf8: {$this->mysqli->error}");
     }
@@ -53,6 +104,7 @@ class SMysqli extends DataBase {
      * @return boolean|mysqli_result
      */
     public function query($sql) {
+        $this->connect();
         if (!$this->result = $this->mysqli->query($sql)) {
             $this->writeErrLog($this->mysqli->errno, $this->mysqli->error, $sql);
         }
@@ -139,6 +191,7 @@ class SMysqli extends DataBase {
      * @return int
      */
     public function affectedRows() {
+        $this->connect();
         return $this->mysqli->affected_rows;
     }
 
@@ -148,6 +201,7 @@ class SMysqli extends DataBase {
      * @return int
      */
     public function insertID() {
+        $this->connect();
         return $this->mysqli->insert_id;
     }
 
@@ -155,6 +209,7 @@ class SMysqli extends DataBase {
      * 开启一个事务,只对InnoDB表起作用
      */
     public function startTransaction() {
+        $this->connect();
         $this->mysqli->autocommit(false);
         $this->mysqli->begin_transaction();
     }
@@ -163,6 +218,7 @@ class SMysqli extends DataBase {
      * 提交事务
      */
     public function commit() {
+        $this->connect();
         $this->mysqli->commit();
         $this->mysqli->autocommit(true);
     }
@@ -171,6 +227,7 @@ class SMysqli extends DataBase {
      * 回滚事务
      */
     public function rollback() {
+        $this->connect();
         $this->mysqli->rollback();
         $this->mysqli->autocommit(true);
     }
@@ -181,6 +238,7 @@ class SMysqli extends DataBase {
      * @return string
      */
     public function getServerInfo() {
+        $this->connect();
         return $this->mysqli->server_info;
     }
 

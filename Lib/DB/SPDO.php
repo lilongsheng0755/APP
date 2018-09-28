@@ -17,6 +17,48 @@ use Helper\HelperReturn;
 class SPDO extends DataBase {
 
     /**
+     * mysql数据库地址
+     *
+     * @var string 
+     */
+    private $host;
+
+    /**
+     * 登录数据库用户名
+     *
+     * @var string
+     */
+    private $username;
+
+    /**
+     * 登录数据库密码
+     *
+     * @var string
+     */
+    private $passwd;
+
+    /**
+     * 当前操作的数据库名
+     *
+     * @var string
+     */
+    private $dbname;
+
+    /**
+     * 访问端口
+     *
+     * @var string
+     */
+    private $port;
+
+    /**
+     * 驱动操作项
+     *
+     * @var array
+     */
+    private $driver_options;
+
+    /**
      * pdo对象
      *
      * @var \pdo
@@ -38,7 +80,7 @@ class SPDO extends DataBase {
     private $num_rows = 0;
 
     /**
-     * mysql实例初始化
+     * 初始化参数
      * 
      * @param string $host 数据库地址
      * @param string $username 数据库登录用户名
@@ -48,7 +90,7 @@ class SPDO extends DataBase {
      */
     public function __construct($host, $username, $passwd, $dbname, $port = 3306) {
         extension_loaded('pdo_mysql') or die('No pdo extensions installed');
-        $driver_options = array(
+        $driver_options       = array(
             \PDO::ATTR_CASE                     => \PDO::CASE_NATURAL, //保留数据库驱动返回的列名。 
             \PDO::ATTR_ERRMODE                  => \PDO::ERRMODE_EXCEPTION, // 抛出 exceptions 异常
             \PDO::ATTR_ORACLE_NULLS             => \PDO::NULL_TO_STRING, //将 NULL 转换成空字符串
@@ -58,9 +100,26 @@ class SPDO extends DataBase {
             \PDO::ATTR_DEFAULT_FETCH_MODE       => \PDO::FETCH_ASSOC, // 设置默认的提取模式
             \PDO::ATTR_PERSISTENT               => false, // 持久化连接
         );
+        $this->host           = $host;
+        $this->username       = $username;
+        $this->passwd         = $passwd;
+        $this->dbname         = $dbname;
+        $this->port           = $port;
+        $this->driver_options = $driver_options;
+    }
+
+    /**
+     * 创建数据库连接对象
+     * 
+     * @return \PDO
+     */
+    private function connect() {
+        if ($this->pdo instanceof \PDO) {
+            return $this->pdo;
+        }
         try {
-            $dsn       = "mysql:host={$host};port={$port};dbname={$dbname}";
-            $this->pdo = new \PDO($dsn, $username, $passwd, $driver_options);
+            $dsn       = "mysql:host={$this->host};port={$this->port};dbname={$this->dbname}";
+            $this->pdo = new \PDO($dsn, $this->username, $this->passwd, $this->driver_options);
         } catch (\PDOException $e) {
             if (APP_DEBUG) {
                 die('Connection failed: ' . $e->getMessage());
@@ -77,6 +136,7 @@ class SPDO extends DataBase {
      * @return boolean|PDOStatement  
      */
     public function query($sql) {
+        $this->connect();
         try {
             $this->result = $this->pdo->query($sql);
         } catch (\PDOException $ex) {
@@ -181,6 +241,7 @@ class SPDO extends DataBase {
      * @return int
      */
     public function insertID() {
+        $this->connect();
         return (int) $this->pdo->lastInsertId();
     }
 
@@ -188,6 +249,7 @@ class SPDO extends DataBase {
      * 开启一个事务,只对InnoDB表起作用
      */
     public function startTransaction() {
+        $this->connect();
         $this->pdo->setAttribute(\PDO::ATTR_AUTOCOMMIT, false);
         $this->pdo->beginTransaction();
     }
@@ -199,6 +261,7 @@ class SPDO extends DataBase {
      * @return int 返回影响的行数
      */
     public function exec($sql) {
+        $this->connect();
         try {
             return $this->pdo->exec($sql);
         } catch (\PDOException $ex) {
@@ -213,6 +276,7 @@ class SPDO extends DataBase {
      * 提交事务
      */
     public function commit() {
+        $this->connect();
         $this->pdo->commit();
         $this->pdo->setAttribute(\PDO::ATTR_AUTOCOMMIT, true);
     }
@@ -221,6 +285,7 @@ class SPDO extends DataBase {
      * 回滚事务
      */
     public function rollback() {
+        $this->connect();
         $this->pdo->rollBack();
         $this->pdo->setAttribute(\PDO::ATTR_AUTOCOMMIT, true);
     }
@@ -242,6 +307,7 @@ class SPDO extends DataBase {
      * @return boolean
      */
     public function execPrepare($sql, $prepare = array()) {
+        $this->connect();
         try {
             $this->result = $this->pdo->prepare($sql);
             return $this->result->execute($prepare);

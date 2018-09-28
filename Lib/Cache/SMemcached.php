@@ -10,7 +10,7 @@ use Config\ConfigLog;
 /**
  * Author: skylong
  * CreateTime: 2018-6-13 23:22:07
- * Description: memcached操作类
+ * Description: 基于php memcached扩展操作类
  */
 class SMemcached {
 
