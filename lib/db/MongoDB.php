@@ -1,13 +1,13 @@
 <?php
 
-namespace lib\db;
+namespace Lib\DB;
 
 defined('IN_APP') or die('Access denied!');
 
-use lib\SException;
-use lib\Log;
-use config\ConfigLog;
-use helper\HelperReturn;
+use Lib\SException;
+use Lib\Log;
+use Config\ConfigLog;
+use Helper\HelperReturn;
 use \MongoDB\Driver\BulkWrite;
 use \MongoDB\Driver\Manager;
 use \MongoDB\Driver\WriteConcern;

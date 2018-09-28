@@ -1,6 +1,6 @@
 <?php
 
-namespace helper;
+namespace Helper;
 
 /**
  * Author: skylong

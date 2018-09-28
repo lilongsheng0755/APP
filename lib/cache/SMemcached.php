@@ -1,11 +1,11 @@
 <?php
 
-namespace lib\cache;
+namespace Lib\Cache;
 
 defined('IN_APP') or die('Access denied!');
 
-use lib\Log;
-use config\ConfigLog;
+use Lib\Log;
+use Config\ConfigLog;
 
 /**
  * Author: skylong
@@ -31,6 +31,11 @@ class SMemcached {
      */
     private $mem_conf = array(array('192.168.0.102', 11211, 100));
 
+    /**
+     * memcached服务器组 例如：array(array('192.168.0.102', 11211, 100));
+     * 
+     * @param array $mem_conf
+     */
     public function __construct($mem_conf = array()) {
         class_exists('memcached') or die('Non installed memcached extension!');
         ($mem_conf && is_array($mem_conf)) && $this->mem_conf = $mem_conf;

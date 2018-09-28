@@ -1,6 +1,6 @@
 <?php
 
-namespace load;
+namespace Load;
 
 /**
  * Author: skylong

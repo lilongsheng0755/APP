@@ -8,7 +8,7 @@ set_time_limit(30);
 define('IN_APP', true);
 
 //项目名称
-define('PROJECT_NS', 'app');
+define('PROJECT_NS', 'APP');
 
 //本地环境变量
 define('LOCAL', true);
@@ -29,20 +29,20 @@ define('DS', DIRECTORY_SEPARATOR);
 define('APP_PATH', __DIR__);
 
 //设置库文件路径
-define('LIB_PATH', APP_PATH . DS . 'lib');
+define('LIB_PATH', APP_PATH . DS . 'Lib');
 
 //日志文件路径配置
-define('DATA_PATH', APP_PATH . DS . 'data');
+define('DATA_PATH', APP_PATH . DS . 'Data');
 
 //文件上传路径
-define('UPLOAD_PATH', APP_PATH . DS . 'upload');
+define('UPLOAD_PATH', APP_PATH . DS . 'Upload');
 
 //静态资源路径
-define('PUBLIC_PATH', APP_PATH . DS . 'static');
+define('PUBLIC_PATH', APP_PATH . DS . 'Static');
 
 //加载初始化文件
 require_once LIB_PATH . '/Application.php';
 
 //APP初始化
-lib\Application::init();
+Lib\Application::init();
 

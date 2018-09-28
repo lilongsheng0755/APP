@@ -1,6 +1,6 @@
 <?php
 
-namespace lib\db;
+namespace Lib\DB;
 
 defined('IN_APP') or die('Access denied!');
 

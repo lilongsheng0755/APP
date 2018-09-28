@@ -1,5 +1,7 @@
 <?php
 
+namespace Lib;
+
 /**
  * Author: skylong
  * CreateTime: 2018-8-6 16:30:17

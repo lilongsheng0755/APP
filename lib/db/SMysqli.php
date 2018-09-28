@@ -1,13 +1,13 @@
 <?php
 
-namespace lib\db;
+namespace Lib\DB;
 
 defined('IN_APP') or die('Access denied!');
 
-use lib\db\DataBase;
-use lib\Log;
-use lib\SException;
-use helper\HelperReturn;
+use Lib\DB\DataBase;
+use Lib\Log;
+use Lib\SException;
+use Helper\HelperReturn;
 
 /**
  * Author: skylong

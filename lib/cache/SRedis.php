@@ -1,14 +1,14 @@
 <?php
 
-namespace lib\cache;
+namespace Lib\Cache;
 
 defined('IN_APP') or die('Access denied!');
 
 /**
  * Author: skylong
  * CreateTime: 2018-6-13 23:22:18
- * Description: 
+ * Description: 基于php redis扩展的操作管理类
  */
-class Redis {
-//put your code here
+class SRedis {
+    
 }

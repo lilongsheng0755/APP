@@ -1,6 +1,6 @@
 <?php
 
-namespace lib\session;
+namespace Lib\Session;
 
 defined('IN_APP') or die('Access denied!');
 

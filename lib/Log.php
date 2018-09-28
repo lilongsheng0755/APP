@@ -1,6 +1,6 @@
 <?php
 
-namespace lib;
+namespace Lib;
 
 use config\ConfigLog;
 

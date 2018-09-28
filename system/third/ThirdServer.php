@@ -1,6 +1,6 @@
 <?php
 
-namespace system\third;
+namespace System\Third;
 
 /**
  * Author: skylong
