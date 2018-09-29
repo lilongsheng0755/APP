@@ -25,6 +25,11 @@ class ConfigLog {
     const MEM_EER_LOG_TYPE = 2;
 
     /**
+     * redis错误日志类型
+     */
+    const REDIS_EER_LOG_TYPE = 3;
+
+    /**
      * 根据日志类型获取对应的日志保存路径
      * 
      * @param int $log_type
@@ -35,6 +40,7 @@ class ConfigLog {
             self::MYSQL_EER_LOG_TYPE   => DATA_PATH . DS . 'error_mysql',
             self::MONGODB_EER_LOG_TYPE => DATA_PATH . DS . 'error_mongodb',
             self::MEM_EER_LOG_TYPE     => DATA_PATH . DS . 'error_memcached',
+            self::REDIS_EER_LOG_TYPE   => DATA_PATH . DS . 'error_redis',
         );
 
         return isset($config[$log_type]) ? $config[$log_type] : DATA_PATH;

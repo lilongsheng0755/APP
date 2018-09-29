@@ -8,3 +8,7 @@ header("Pragma: no-cache");
 header('Content-Type: text/html;charset=utf-8');
 //载入核心文件
 require_once 'core.php';
+
+$redis = new Lib\Cache\SRedis('127.0.0.1', 6379);
+$res = $redis->append('mykey','adjidnfsa+');
+var_dump($res,$redis);

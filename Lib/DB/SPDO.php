@@ -47,7 +47,7 @@ class SPDO extends DataBase {
     /**
      * 访问端口
      *
-     * @var string
+     * @var int
      */
     private $port;
 

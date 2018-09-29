@@ -30,6 +30,11 @@ class SException extends \Exception {
     const CODE_MEMCACHED_ERROR = -4;
 
     /**
+     * redis异常类型
+     */
+    const CODE_REDIS_ERROR = -5;
+
+    /**
      * 覆盖Exception类构造方法
      */
     public function __construct($message = "", $code = 0) {
