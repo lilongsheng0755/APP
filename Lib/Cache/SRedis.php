@@ -92,7 +92,7 @@ class SRedis {
     }
 
     /**
-     * String数据类型  获取值
+     * 字符串类型(String)数据类型  获取值
      * 
      * @param string $key
      * @return string|boolean
@@ -161,7 +161,49 @@ class SRedis {
         }
         return $this->redis->append($key, $value);
     }
-    
+
+    /**
+     * String数据类型  返回字符串的一部分
+     * 
+     * @param string $key
+     * @param int $offset  起始下标，如果是负数，查找位置从字符串结尾开始
+     * @param int $index  结束下标，如果是负数，查找位置从字符串结尾开始
+     * @return boolean|string
+     */
+    public function getRange($key, $offset, $index) {
+        if (!$this->connect()) {
+            return false;
+        }
+        return $this->redis->getRange($key, $offset, $index);
+    }
+
+    /**
+     * String数据类型 修改字符串的一部分
+     * 
+     * @param string $key
+     * @param int $offset  起始下标
+     * @param string $sub_str 指定下标开始替换的字符串
+     * @return boolean|int 成功返回修改后的字符串长度
+     */
+    public function setRange($key, $offset, $sub_str) {
+        if (!$this->connect()) {
+            return false;
+        }
+        return $this->redis->setRange($key, $offset, $sub_str);
+    }
+
+    /**
+     * String数据类型 获取字符串的长度
+     * 
+     * @param type $key
+     * @return boolean|int
+     */
+    public function strlen($key) {
+        if (!$this->connect()) {
+            return false;
+        }
+        return $this->redis->strlen($key);
+    }
 
     /**
      * String数据类型 对指定KEY的值自增
@@ -198,6 +240,27 @@ class SRedis {
             return $this->redis->decrBy($key, $num);
         }
         return $this->redis->decr($key);
+    }
+
+    /**
+     * 
+     * 
+     * @param string $key
+     * @param string $value
+     * @return boolean|int 成功返回添加后的元素个数
+     */
+    public function lPush($key, $value) {
+        if (!$this->connect()) {
+            return false;
+        }
+        return $this->redis->lPush($key, $value);
+    }
+
+    public function lPop($key) {
+        if (!$this->connect()) {
+            return false;
+        }
+        return $this->redis->lPop($key);
     }
 
     /**
