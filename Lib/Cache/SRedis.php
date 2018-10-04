@@ -92,7 +92,7 @@ class SRedis {
     }
 
     /**
-     * 字符串类型(String)数据类型  获取值
+     * 字符串(String)数据类型  获取值
      * 
      * @param string $key
      * @return string|boolean
@@ -105,7 +105,7 @@ class SRedis {
     }
 
     /**
-     * String数据类型  设置值
+     * 字符串(String)数据类型  设置值
      * 
      * @param string $key
      * @param string $value
@@ -119,7 +119,7 @@ class SRedis {
     }
 
     /**
-     * String数据类型 设置一个有生命周期的值
+     * 字符串(String)数据类型 设置一个有生命周期的值
      * 
      * @param string $key
      * @param string $value
@@ -134,7 +134,7 @@ class SRedis {
     }
 
     /**
-     * String数据类型  设置值
+     * 字符串(String)数据类型  设置值
      * 这个函数会先判断Redis中是否有这个KEY，如果没有就SET，有就返回False
      * 
      * @param string $key
@@ -149,7 +149,7 @@ class SRedis {
     }
 
     /**
-     * String数据类型  添加字符串到指定KEY的字符串中
+     * 字符串(String)数据类型  添加字符串到指定KEY的字符串中
      * 
      * @param string $key
      * @param string $value
@@ -163,7 +163,7 @@ class SRedis {
     }
 
     /**
-     * String数据类型  返回字符串的一部分
+     * 字符串(String)数据类型  返回字符串的一部分
      * 
      * @param string $key
      * @param int $offset  起始下标，如果是负数，查找位置从字符串结尾开始
@@ -178,7 +178,7 @@ class SRedis {
     }
 
     /**
-     * String数据类型 修改字符串的一部分
+     * 字符串(String)数据类型 修改字符串的一部分
      * 
      * @param string $key
      * @param int $offset  起始下标
@@ -193,7 +193,7 @@ class SRedis {
     }
 
     /**
-     * String数据类型 获取字符串的长度
+     * 字符串(String)数据类型 获取字符串的长度
      * 
      * @param type $key
      * @return boolean|int
@@ -206,7 +206,7 @@ class SRedis {
     }
 
     /**
-     * String数据类型 对指定KEY的值自增
+     * 字符串(String)数据类型 对指定KEY的值自增
      * 
      * @param string $key
      * @param int|float $num
@@ -226,7 +226,7 @@ class SRedis {
     }
 
     /**
-     * String数据类型 对指定KEY的值自减
+     * 字符串(String)数据类型 对指定KEY的值自减
      * 
      * @param string $key
      * @param int $num
@@ -243,7 +243,7 @@ class SRedis {
     }
 
     /**
-     * 
+     * 列表(List)数据类型 添加一个字符串值到LIST容器的顶部（左侧），如果KEY不存在，曾创建一个LIST容器，如果KEY存在并且不是一个LIST容器，那么返回FLASE。
      * 
      * @param string $key
      * @param string $value
@@ -256,11 +256,57 @@ class SRedis {
         return $this->redis->lPush($key, $value);
     }
 
+    /**
+     * 列表(List)数据类型 返回LIST顶部（左侧）的VALUE，并且从LIST中把该VALUE弹出。
+     * 
+     * @param string $key
+     * @return boolean|string
+     */
     public function lPop($key) {
         if (!$this->connect()) {
             return false;
         }
         return $this->redis->lPop($key);
+    }
+
+    /**
+     * 列表类(List)数据类型 添加一个字符串值到LIST容器的底部（右侧），如果KEY不存在，曾创建一个LIST容器，如果KEY存在并且不是一个LIST容器，那么返回FLASE。 
+     * 
+     * @param string $key
+     * @param string $value
+     * @return boolean|int 成功返回添加后的元素个数
+     */
+    public function rPush($key, $value) {
+        if (!$this->connect()) {
+            return false;
+        }
+        return $this->redis->rPush($key, $value);
+    }
+
+    /**
+     * 列表(List)数据类型 返回LIST底部（右侧）的VALUE，并且从LIST中把该VALUE弹出。
+     * 
+     * @param string $key
+     * @return boolean|string
+     */
+    public function rPop($key) {
+        if (!$this->connect()) {
+            return false;
+        }
+        return $this->redis->rPop($key);
+    }
+
+    /**
+     * 列表(List)数据类型 根据KEY返回LIST的长度，如果这个LIST不存在或者为空，那么ISIZE返回0，如果指定的KEY的数据类型不是LIST或者不为空，那么返回FALSE.
+     * 
+     * @param type $key
+     * @return boolean|int
+     */
+    public function lSize($key) {
+        if (!$this->connect()) {
+            return false;
+        }
+        return $this->redis->lSize($key);
     }
 
     /**
