@@ -130,7 +130,7 @@ class SRedis {
         if (!$this->connect()) {
             return false;
         }
-        return $this->redis->setex($key, $value, (int) $expire);
+        return $this->redis->setex($key, (int) $expire, $value);
     }
 
     /**
@@ -166,15 +166,15 @@ class SRedis {
      * 字符串(String)数据类型  返回字符串的一部分
      * 
      * @param string $key
-     * @param int $offset  起始下标，如果是负数，查找位置从字符串结尾开始
-     * @param int $index  结束下标，如果是负数，查找位置从字符串结尾开始
+     * @param int $start  起始下标，如果是负数，查找位置从字符串结尾开始
+     * @param int $end  结束下标，如果是负数，查找位置从字符串结尾开始
      * @return boolean|string
      */
-    public function getRange($key, $offset, $index) {
+    public function getRange($key, $start, $end) {
         if (!$this->connect()) {
             return false;
         }
-        return $this->redis->getRange($key, $offset, $index);
+        return $this->redis->getRange($key, $start, $end);
     }
 
     /**
@@ -226,7 +226,7 @@ class SRedis {
     }
 
     /**
-     * 字符串(String)数据类型 对指定KEY的值自减
+     * 字符串(String)数据类型 对指定KEY的值自减，仅整数有效
      * 
      * @param string $key
      * @param int $num
@@ -339,7 +339,7 @@ class SRedis {
     }
 
     /**
-     * 列表(List)数据类型 取得指定索引值范围内的所有元素
+     * 列表(List)数据类型 取得指定索引值范围内的所有元素(不包含起始索引元素)
      * 
      * @param string $key
      * @param int $offset
@@ -354,7 +354,7 @@ class SRedis {
     }
 
     /**
-     * 列表(List)数据类型 取得指定索引值范围内的所有元素，并清空指定索引值范围以外的元素
+     * 列表(List)数据类型 取得指定索引值范围内的所有元素(包含起始索引元素)，并清空指定索引值范围以外的元素
      * 
      * @param string $key
      * @param int $offset
@@ -376,7 +376,7 @@ class SRedis {
      * @param int $count  移除个数，count等于0：所有符合删除条件的元素，count大于0时：将从左至右删除count个符合条件的元素，count小于0时：从右至左删除count个符合条件的元素
      * @return boolean|int  成功返回移除的个数
      */
-    public function lRem($key, $val, $count) {
+    public function lRem($key, $val, $count = 0) {
         if (!$this->connect()) {
             return false;
         }
@@ -411,21 +411,6 @@ class SRedis {
             return false;
         }
         return $this->redis->rpoplpush($srckey, $dstkey);
-    }
-
-    /**
-     * 列表(List)数据类型 rpoplpush的阻塞版本，这个版本有第三个参数用于设置阻塞时间，即如果源LIST为空，那么可以阻塞监听timeout的时间，如果有元素了则执行操作
-     * 
-     * @param string $srckey 源list
-     * @param string $dstkey 目标list
-     * @param int $timeout 阻塞监听的时间（秒）
-     * @return boolean|string 成功返回弹出的元素
-     */
-    public function brpoplpush($srckey, $dstkey, $timeout) {
-        if (!$this->connect()) {
-            return false;
-        }
-        return $this->redis->brpoplpush($srckey, $dstkey, $timeout);
     }
 
     /**
@@ -681,7 +666,7 @@ class SRedis {
     /**
      * 有序集合(zSet)数据类型 取得有序集合中score介于min和max之间的所有元素（包哈score等于min或者max的元素）。
      * 元素按照score从低到高的顺序排列。如果元素具有相同的score，那么会按照字典顺序排列。
-     * 可选的选项LIMIT可以用来获取一定范围内的匹配元素。
+     * 可选的选项LIMIT可以用来获取一定范围内的匹配元素，格式：limit=>array(start,end) 。
      * 如果偏移值较大，有序集合需要在获得将要返回的元素之前进行遍历，因此会增加O(N)的时间复杂度。
      * 可选的选项WITHSCORES可以使得在返回元素的同时返回元素的score，该选项自从Redis 2.0版本后可用。
      * 
@@ -760,7 +745,7 @@ class SRedis {
     }
 
     /**
-     * 有序集合(zSet)数据类型 获取有序集合中member的score值，如果member在有序集合中不存在，那么将会返回nil。
+     * 有序集合(zSet)数据类型 获取有序集合中member的score值，如果member在有序集合中不存在，那么将会返回false。
      * 
      * @param string $key
      * @param string $member
@@ -775,7 +760,7 @@ class SRedis {
 
     /**
      * 有序集合(zSet)数据类型 获取有序集合中member元素的索引值，元素按照score从低到高进行排列。
-     * rank值（或index）是从0开始的，这意味着具有最低score值的元素的rank值为0。
+     * rank值（或index）是从0开始的，这意味着具有最低score值的元素的rank值为0,不存在返回false。
      * 
      * @param string $key
      * @param string $member
@@ -831,8 +816,8 @@ class SRedis {
      * 如果destination已经存在，那么它将会被重写。
      * 
      * @param string $dstkey
-     * @param array $arr_keys
-     * @param array $arr_weights
+     * @param array $arr_keys 必选参数，格式：array('key1','key2')
+     * @param array $arr_weights 必选参数，格式：array(1,1)
      * @param array $func "sum", "min", or "max"
      * @return boolean|int 成功返回合并后元素的个数
      */
@@ -996,7 +981,7 @@ class SRedis {
      * @param int|float $incr_num
      * @return boolean|int|float 成功返回自增后的值
      */
-    public function hIncrBy($hash_key, $key, $incr_num) {
+    public function hIncrBy($hash_key, $key, $incr_num=1) {
         if (!$this->connect()) {
             return false;
         }
