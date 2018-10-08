@@ -4,7 +4,7 @@ namespace Lib\Cache;
 
 defined('IN_APP') or die('Access denied!');
 
-use Lib\Log;
+use Lib\System\Log;
 use Config\ConfigLog;
 
 /**

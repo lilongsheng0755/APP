@@ -2,6 +2,8 @@
 
 namespace Lib;
 
+defined('IN_APP') or die('Access denied!');
+
 /**
  * Author: skylong
  * CreateTime: 2018-6-1 16:20:13

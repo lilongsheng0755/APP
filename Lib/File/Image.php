@@ -1,11 +1,13 @@
 <?php
 
-namespace Lib;
+namespace Lib\File;
+
+defined('IN_APP') or die('Access denied!');
 
 /**
  * Author: skylong
  * CreateTime: 2018-8-12 13:58:55
- * Description: 图片处理类
+ * Description: 图片处理类（缩放，加水印，剪切）
  */
 class Image {
 

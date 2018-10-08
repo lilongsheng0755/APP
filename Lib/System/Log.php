@@ -1,8 +1,10 @@
 <?php
 
-namespace Lib;
+namespace Lib\System;
 
-use config\ConfigLog;
+defined('IN_APP') or die('Access denied!');
+
+use Config\ConfigLog;
 
 /**
  * Author: skylong

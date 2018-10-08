@@ -4,8 +4,8 @@ namespace Lib\DB;
 
 defined('IN_APP') or die('Access denied!');
 
-use Lib\SException;
-use Lib\Log;
+use Lib\System\SException;
+use Lib\System\Log;
 use Config\ConfigLog;
 use Helper\HelperReturn;
 use \MongoDB\Driver\BulkWrite;

@@ -5,8 +5,8 @@ namespace Lib\DB;
 defined('IN_APP') or die('Access denied!');
 
 use Lib\DB\DataBase;
-use Lib\Log;
-use Lib\SException;
+use Lib\System\Log;
+use Lib\System\SException;
 use Helper\HelperReturn;
 
 /**

@@ -1,6 +1,8 @@
 <?php
 
-namespace Lib;
+namespace Lib\File;
+
+defined('IN_APP') or die('Access denied!');
 
 /**
  * Author: skylong
