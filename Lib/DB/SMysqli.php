@@ -7,6 +7,7 @@ defined('IN_APP') or die('Access denied!');
 use Lib\DB\DataBase;
 use Lib\System\Log;
 use Lib\System\SException;
+use Config\ConfigLog;
 use Helper\HelperReturn;
 
 /**
@@ -271,7 +272,7 @@ class SMysqli extends DataBase {
         $data     .= "error:\"{$error}\"\r\n";
         $data     .= "query:\"{$query}\"\r\n";
         $data     .= "======================================================================\r\n";
-        Log::writeErrLog('error_mysql' . date('Ymd'), $data);
+        Log::writeErrLog('error_mysql' . date('Ymd'), $data, ConfigLog::MYSQL_ERR_LOG_TYPE);
         HelperReturn::jsonData('DB ERROR!', SException::CODE_MYSQL_ERROR);
     }
 

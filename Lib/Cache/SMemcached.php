@@ -325,7 +325,7 @@ class SMemcached {
         $data     .= "error:\"{$error}\"\r\n";
         $data     .= "cmd:\"{$cmd}\"\r\n";
         $data     .= "======================================================================\r\n";
-        Log::writeErrLog('error_memcached' . date('Ymd'), $data, ConfigLog::MEM_EER_LOG_TYPE);
+        Log::writeErrLog('error_memcached' . date('Ymd'), $data, ConfigLog::MEM_ERR_LOG_TYPE);
     }
 
 }

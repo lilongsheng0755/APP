@@ -18,3 +18,4 @@ $redis = new SRedis('127.0.0.1');
 //var_dump($redis->hSet('mykey', 'hash' . mt_rand(1, 50), mt_rand(1, 50)));
 
 var_dump($redis->hGetAll('mykey'));
+    trigger_error('Trigger a fatal error', E_USER_ERROR);

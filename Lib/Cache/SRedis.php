@@ -1060,7 +1060,7 @@ class SRedis {
         $data .= "errno:{$errno}\r\n";
         $data .= "error:\"{$error}\"\r\n";
         $data .= "======================================================================\r\n";
-        Log::writeErrLog('error_redis' . date('Ymd'), $data, ConfigLog::REDIS_EER_LOG_TYPE);
+        Log::writeErrLog('error_redis' . date('Ymd'), $data, ConfigLog::REDIS_ERR_LOG_TYPE);
     }
 
 }

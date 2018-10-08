@@ -308,7 +308,7 @@ class MongoDB {
         $data .= "error:\"{$error}\"\r\n";
         $data .= "cmd:\"{$query}\"\r\n";
         $data .= "======================================================================\r\n";
-        Log::writeErrLog('error_mongodb' . date('Ymd'), $data, ConfigLog::MONGODB_EER_LOG_TYPE);
+        Log::writeErrLog('error_mongodb' . date('Ymd'), $data, ConfigLog::MONGODB_ERR_LOG_TYPE);
         HelperReturn::jsonData('mongodb ERROR!', SException::CODE_MONGODB_ERROR);
     }
 

@@ -37,6 +37,11 @@ class SException extends \Exception {
     const CODE_REDIS_ERROR = -5;
 
     /**
+     * PHP异常类型
+     */
+    const CODE_PHP_ERROR = -100;
+
+    /**
      * 覆盖Exception类构造方法
      */
     public function __construct($message = "", $code = 0) {
