@@ -20,6 +20,7 @@ class HelperCsv {
      * @param string $file_name  自定义文件名
      */
     public static function exportCsv($list = array(), $title = array(), $limit = 1000, $file_name = '') {
+        ob_clean();
         $file_name = $file_name . '_' . date('Y-m-d_His') . '.csv';
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename=' . $file_name);
@@ -58,7 +59,7 @@ class HelperCsv {
         $res    = array();
         $n      = 0;
         $handle = fopen($csv_file, 'r');
-        while ($data   = fgetcsv($handle, 1000)) {
+        while ($data   = fgetcsv($handle)) {
             $num = count($data);
             for ($i = 0; $i < $num; $i++) {
                 $res[$n][$i] = iconv('gb2312', 'utf-8', $data[$i]);
