@@ -1,6 +1,6 @@
 <?php
 
-namespace Lib\File;
+namespace Helper;
 
 defined('IN_APP') or die('Access denied!');
 
@@ -9,7 +9,7 @@ defined('IN_APP') or die('Access denied!');
  * CreateTime: 2018-8-6 16:30:17
  * Description: csv文件的导入导出
  */
-class Csv {
+class HelperCsv {
 
     /**
      * 导出csv文件
@@ -19,7 +19,7 @@ class Csv {
      * @param int $limit 导出数据条数限制
      * @param string $file_name  自定义文件名
      */
-    public function exportCsv($list = array(), $title = array(), $limit = 1000, $file_name = '') {
+    public static function exportCsv($list = array(), $title = array(), $limit = 1000, $file_name = '') {
         $file_name = $file_name . '_' . date('Y-m-d_His') . '.csv';
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename=' . $file_name);
@@ -54,7 +54,7 @@ class Csv {
      * @param string $csv_file csv文件
      * @return array
      */
-    public function importCsv($csv_file) {
+    public static function importCsv($csv_file) {
         $res    = array();
         $n      = 0;
         $handle = fopen($csv_file, 'r');

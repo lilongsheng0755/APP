@@ -45,5 +45,5 @@ require_once LIB_PATH . '/Application.php';
 
 //APP初始化
 Lib\Application::init();
-set_error_handler('Lib\System\Error::errorHandler');
+PRODUCTION_ENV && set_error_handler('Lib\System\Error::errorHandler');
 
