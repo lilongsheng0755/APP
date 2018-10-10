@@ -13,19 +13,17 @@ use Config\ConfigUpload;
  */
 class FileUpload {
 
-    private $path       = './uploads';
-    private $israndname = true;
-    private $originName;
-    private $tmpFileName;
-    private $fileType;
-    private $fileSize;
-    private $newFileName;
-    private $error_num  = 0;
-    private $error_msg  = '';
+    private $origin_name;
+    private $tmp_file_name;
+    private $file_type;
+    private $file_size;
+    private $new_file_name;
+    private $error_num = 0;
+    private $error_msg = '';
 
-    public function upload($fileField) {
+    public function upload($upload_files, $save_path, $save_file_name) {
         $return = true;
-        if (!$this->checkFilePath()) {
+        if (!$this->checkFilePath($save_path)) {
             $this->error_msg = $this->errorMsg();
             return false;
         }
@@ -87,8 +85,13 @@ class FileUpload {
         }
     }
 
+    /**
+     * 获取上传后的文件名
+     * 
+     * @return string
+     */
     public function getFileName() {
-        return $this->newFileName;
+        return $this->new_file_name;
     }
 
     /**
@@ -106,7 +109,7 @@ class FileUpload {
      * @return string
      */
     private function errorMsg() {
-        $str = "上传文件<font color='red'>{$this->originName}</font>时出错：";
+        $str = "上传文件<font color='red'>{$this->origin_name}</font>时出错：";
         switch ($this->error_num) {
             case 7:
                 $str .= "文件写入失败";
@@ -130,7 +133,7 @@ class FileUpload {
                 $str .= "未允许类型";
                 break;
             case -2:
-                $str .= '文件过大，上传的文件不能超过' . ConfigUpload::$max_size . 'KB';
+                $str .= '文件过大，上传的文件不能超过' . ConfigUpload::UPLOAD_MAX_SIZE . 'KB';
                 break;
             case -3:
                 $str .= "上传失败";
@@ -155,36 +158,52 @@ class FileUpload {
         }
     }
 
-    public function checkFilePath() {
-        if (empty($this->path)) {
-            $this->setOption('error_num', -5);
+    /**
+     * 文件路径校验
+     * 
+     * @param string $save_path
+     * @return boolean
+     */
+    public function checkFilePath($save_path = '') {
+        if (empty($save_path)) {
+            $this->error_num = -5;
             return false;
         }
-        if (!file_exists($this->path) || !is_writable($this->path)) {
-            if (!@mkdir($this->path, 0755)) {
-                $this->setOption('error_num', -4);
-                return false;
-            }
+        $save_path = rtrim(UPLOAD_PATH, DS) . DS . trim($save_path, DS);
+        if (file_exists($save_path) && is_writable($save_path)) {
+            return true;
+        }
+        if (!mkdir($save_path, 0755, true)) {
+            $this->error_num = -4;
+            return false;
         }
         return true;
     }
 
+    /**
+     * 检查文件大小(单位：KB)
+     * 
+     * @return boolean
+     */
     public function checkFileSize() {
-        if (floor($this->fileSize / 1024) > ConfigUpload::$max_size) {
+        if (floor($this->file_size / 1024) > ConfigUpload::UPLOAD_MAX_SIZE) {
             $this->error_num = -2;
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 
+    /**
+     * 检查文件类型
+     * 
+     * @return boolean
+     */
     public function checkFileType() {
-        if (in_array(strtolower($this->fileType), ConfigUpload::$allow_type)) {
-            return true;
-        } else {
+        if (!in_array(strtolower($this->file_type), ConfigUpload::$allow_type)) {
             $this->error_num = -1;
             return false;
         }
+        return true;
     }
 
     public function setFiles($name = '', $tmp_name = '', $size = 0, $error = 0) {
@@ -206,16 +225,15 @@ class FileUpload {
     }
 
     public function copyFile() {
-        if (!$this->errorNum) {
-            $path = rtrim($this->path, '/') . '/';
-            $path .= $this->newFileName;
-            if (@\move_uploaded_file($this->tmpFileName, $path)) {
-                return true;
-            } else {
-                $this->setOption('errorNum', -3);
-                return false;
-            }
+        if ($this->error_num) {
+            return false;
+        }
+        $path = rtrim($this->path, '/') . '/';
+        $path .= $this->newFileName;
+        if (\move_uploaded_file($this->tmpFileName, $path)) {
+            return true;
         } else {
+            $this->setOption('errorNum', -3);
             return false;
         }
     }

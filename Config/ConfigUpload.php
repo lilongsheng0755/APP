@@ -23,6 +23,6 @@ class ConfigUpload {
      *
      * @var int 
      */
-    public static $max_size = 500;
+    const UPLOAD_MAX_SIZE = 500;
 
 }
