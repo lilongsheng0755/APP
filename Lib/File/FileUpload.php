@@ -13,6 +13,7 @@ use Config\ConfigUpload;
  */
 class FileUpload {
 
+    private $save_path;
     private $origin_name;
     private $tmp_file_name;
     private $file_type;
@@ -21,68 +22,79 @@ class FileUpload {
     private $error_num = 0;
     private $error_msg = '';
 
-    public function upload($upload_files, $save_path, $save_file_name) {
-        $return = true;
+    /**
+     * 单个上传文件
+     * 
+     * @param string $upload_field 上传文件的字段名（POST表单上传）
+     * @param string $save_path  保存路径
+     * @param string $save_file_name  保存文件名
+     * @return boolean
+     */
+    public function upload($upload_field, $save_path, $save_file_name) {
         if (!$this->checkFilePath($save_path)) {
             $this->error_msg = $this->errorMsg();
             return false;
         }
-        $name     = $_FILES[$fileField]['name'];
-        $tmp_name = $_FILES[$fileField]['tmp_name'];
-        $size     = $_FILES[$fileField]['size'];
-        $error    = $_FILES[$fileField]['error'];
-        if (is_array($name)) {
-            $error = array();
-            for ($i = 0; $i < count($name); $i++) {
-                if ($this->setFiles($name[$i], $tmp_name[$i], $size[$i], $error[$i])) {
-                    if (!$this->checkFileSize() || !$this->checkFileType()) {
-                        $error[] = $this->errorMsg();
-                        $return  = false;
-                    }
-                } else {
+
+        //获取上传文件的信息
+        $upload_info = $this->getUploadFileInfo($upload_field);
+        if (!$upload_info) {
+            return false;
+        }
+
+        //设置文件信息
+        if (!$this->setFiles($upload_info['name'], $upload_info['tmp_name'], $upload_info['size'], $upload_info['error'])) {
+            $this->error_msg = $this->errorMsg();
+            return false;
+        }
+
+        //校验文件大小和文件类型
+        if (!$this->checkFileSize() || !$this->checkFileType()) {
+            $this->error_msg = $this->errorMsg();
+            return false;
+        }
+
+        //设置上传后的文件名
+        $this->setNewFileName($save_file_name);
+        if (!$this->copyFile()) {
+            $this->error_msg = $this->errorMsg();
+            return false;
+        }
+        return true;
+    }
+
+    public function multiUpload($upload_field, $save_path, $save_file_name) {
+        $return = true;
+        for ($i = 0; $i < count($name); $i++) {
+            if ($this->setFiles($name[$i], $tmp_name[$i], $size[$i], $error[$i])) {
+                if (!$this->checkFileSize() || !$this->checkFileType()) {
                     $error[] = $this->errorMsg();
                     $return  = false;
                 }
-                if (!$return) {
-                    $this->setFiles();
-                }
-            }
-            if ($return) {
-                $fileNames = array();
-                for ($i = 0; $i < count($name); $i++) {
-                    if ($this->setFiles($name[$i], $tmp_name[$i], $size[$i], $error[$i])) {
-                        $this->setNewFileName();
-                        if (!$this->copyFile()) {
-                            $error[] = $this->errorMsg();
-                            $return  = false;
-                        }
-                        $fileNames[] = $this->newFileName;
-                    }
-                }
-                $this->newFileName = $fileNames;
-            }
-            $this->error_msg = $error;
-            return $return;
-        } else {
-            if ($this->setFiles($name, $tmp_name, $size, $error)) {
-                if ($this->checkFileSize() && $this->checkFileType()) {
-                    $this->setNewFileName();
-                    if ($this->copyFile()) {
-                        return true;
-                    } else {
-                        $return = false;
-                    }
-                } else {
-                    $return = false;
-                }
             } else {
-                $return = false;
+                $error[] = $this->errorMsg();
+                $return  = false;
             }
             if (!$return) {
-                $this->error_msg = $this->errorMsg();
+                $this->setFiles();
             }
-            return $return;
         }
+        if ($return) {
+            $fileNames = array();
+            for ($i = 0; $i < count($name); $i++) {
+                if ($this->setFiles($name[$i], $tmp_name[$i], $size[$i], $error[$i])) {
+                    $this->setNewFileName();
+                    if (!$this->copyFile()) {
+                        $error[] = $this->errorMsg();
+                        $return  = false;
+                    }
+                    $fileNames[] = $this->newFileName;
+                }
+            }
+            $this->newFileName = $fileNames;
+        }
+        $this->error_msg = $error;
+        return $return;
     }
 
     /**
@@ -95,12 +107,31 @@ class FileUpload {
     }
 
     /**
-     * 读取错误信息
+     * 获取错误信息
      * 
      * @return string
      */
     public function getErrorMsg() {
         return $this->error_msg;
+    }
+
+    /**
+     * 获取上传文件的信息
+     * 
+     * @param string $upload_field
+     * @return boolean
+     */
+    private function getUploadFileInfo($upload_field) {
+        if (!$upload_field || !isset($_FILES[$upload_field])) {
+            $this->error_num = -6;
+            return false;
+        }
+        $ret             = [];
+        $ret['name']     = $_FILES[$upload_field]['name'];
+        $ret['tmp_name'] = $_FILES[$upload_field]['tmp_name'];
+        $ret['size']     = $_FILES[$upload_field]['size'];
+        $ret['error']    = $_FILES[$upload_field]['error'];
+        return $ret;
     }
 
     /**
@@ -144,36 +175,48 @@ class FileUpload {
             case -5:
                 $str .= "必须指定上传文件的路径";
                 break;
+            case -6:
+                $str .= "没有找到上传文件的字段名";
+                break;
             default :
-                $str .= "未知错误";
+                $str .= "未知错误或上传字段名错误";
         }
         return $str . '！';
     }
 
-    public function setNewFileName() {
-        if ($this->israndname) {
-            $this->setOption('newFileName', $this->proRandName());
+    /**
+     * 设置上传后台的文件名
+     * 
+     * @param string $save_file_name
+     */
+    private function setNewFileName($save_file_name = '') {
+        if (!$save_file_name) {
+            $this->new_file_name = $this->proRandName();
         } else {
-            $this->setOption('newFileName', $this->originName);
+            $this->new_file_name = $save_file_name;
         }
     }
 
     /**
      * 文件路径校验
      * 
-     * @param string $save_path
+     * @param string $save_path 保存文件路径
      * @return boolean
      */
-    public function checkFilePath($save_path = '') {
+    private function checkFilePath($save_path = '') {
         if (empty($save_path)) {
             $this->error_num = -5;
             return false;
         }
-        $save_path = rtrim(UPLOAD_PATH, DS) . DS . trim($save_path, DS);
-        if (file_exists($save_path) && is_writable($save_path)) {
+
+        //校验文件路径是否存在，是否有写操作
+        $this->save_path = rtrim(UPLOAD_PATH, DS) . DS . trim($save_path, DS) . DS;
+        if (file_exists($this->save_path) && is_writable($this->save_path)) {
             return true;
         }
-        if (!mkdir($save_path, 0755, true)) {
+
+        //尝试创建文件目录
+        if (!mkdir($this->save_path, 0755, true)) {
             $this->error_num = -4;
             return false;
         }
@@ -185,7 +228,7 @@ class FileUpload {
      * 
      * @return boolean
      */
-    public function checkFileSize() {
+    private function checkFileSize() {
         if (floor($this->file_size / 1024) > ConfigUpload::UPLOAD_MAX_SIZE) {
             $this->error_num = -2;
             return false;
@@ -198,7 +241,7 @@ class FileUpload {
      * 
      * @return boolean
      */
-    public function checkFileType() {
+    private function checkFileType() {
         if (!in_array(strtolower($this->file_type), ConfigUpload::$allow_type)) {
             $this->error_num = -1;
             return false;
@@ -206,36 +249,53 @@ class FileUpload {
         return true;
     }
 
-    public function setFiles($name = '', $tmp_name = '', $size = 0, $error = 0) {
+    /**
+     * 设置文件信息
+     * 
+     * @param string $name  源文件名
+     * @param string $tmp_name  临时文件名
+     * @param int $size   文件大小
+     * @param string $error  文件上传错误码
+     * @return boolean
+     */
+    private function setFiles($name = '', $tmp_name = '', $size = 0, $error = 0) {
         $this->error_num = $error;
         if ($error) {
             return false;
         }
-        $this->setOption('originName', $name);
-        $this->setOption('tmpFileName', $tmp_name);
-        $aryStr = explode('.', $name);
-        $this->setOption('fileType', strtolower($aryStr[count($aryStr) - 1]));
-        $this->setOption('fileSize', $size);
+        $this->origin_name   = $name;
+        $this->tmp_file_name = $tmp_name;
+        $aryStr              = explode('.', $name);
+        $this->file_type     = strtolower($aryStr[count($aryStr) - 1]);
+        $this->file_size     = $size;
         return true;
     }
 
-    public function proRandName() {
+    /**
+     * 随机文件名
+     * 
+     * @return string
+     */
+    private function proRandName() {
         $fileName = date('YmdHis') . '_' . rand(100, 999);
-        return $fileName . '.' . $this->fileType;
+        return $fileName . '.' . $this->file_type;
     }
 
-    public function copyFile() {
+    /**
+     * 复制临时文件到指定目录
+     * 
+     * @return boolean
+     */
+    private function copyFile() {
         if ($this->error_num) {
             return false;
         }
-        $path = rtrim($this->path, '/') . '/';
-        $path .= $this->newFileName;
-        if (\move_uploaded_file($this->tmpFileName, $path)) {
-            return true;
-        } else {
-            $this->setOption('errorNum', -3);
+        $save_file_name = $this->save_path . $this->new_file_name;
+        if (!(\move_uploaded_file($this->tmp_file_name, $save_file_name))) {
+            $this->error_num = -3;
             return false;
         }
+        return true;
     }
 
 }
