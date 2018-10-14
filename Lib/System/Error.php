@@ -17,6 +17,17 @@ use Helper\HelperReturn;
 class Error {
 
     /**
+     * 注册异常处理
+     * @return void
+     */
+    public static function register() {
+        error_reporting(0);
+        set_error_handler([__CLASS__, 'appError']);
+        set_exception_handler([__CLASS__, 'appException']);
+        register_shutdown_function([__CLASS__, 'appShutdown']);
+    }
+
+    /**
      * 自定义错误处理函数
      * 
      * @param int $error_level  错误级别
@@ -24,8 +35,7 @@ class Error {
      * @param string $file 发生错误文件
      * @param int $line 发生错误的位置
      */
-    public static function errorHandler($error_level, $error_message, $file, $line) {
-        $exit = false;
+    public static function appError($error_level, $error_message, $file, $line) {
         switch ($error_level) {
             //提醒级别
             case E_NOTICE:
@@ -41,19 +51,58 @@ class Error {
 
             //错误级别
             case E_ERROR:
+            case E_PARSE:
+            case E_CORE_ERROR:
             case E_USER_ERROR:
+            case E_COMPILE_ERROR:
                 $error_type = 'Fatal Error';
-                $exit       = true;
                 break;
 
             //其他未知错误
             default :
                 $error_type = 'Unknown';
-                $exit       = true;
         }
         self::writeErrLog($error_type, $error_message, $file, $line);
-        ob_clean();
-        $exit && HelperReturn::jsonData('PHP ERROR!', SException::CODE_PHP_ERROR);
+    }
+
+    /**
+     * 异常处理
+     * @param  \Exception $e 异常
+     * @return void
+     */
+    public static function appException($e) {
+        if (is_object($e)) {
+            $trace = $e->getTrace();
+            if ($trace) {
+                $arr = array_pop($trace);
+            } else {
+                $arr['file'] = $e->getFile();
+                $arr['line'] = $e->getLine();
+            }
+            self::writeErrLog('Exception', $e->getMessage(), $arr['file'], $arr['line']);
+            HelperReturn::jsonData('PHP ERROR!', SException::CODE_PHP_ERROR);
+        }
+    }
+
+    /**
+     * 异常中止处理
+     * @return void
+     */
+    public static function appShutdown() {
+        //致命错误处理
+        if (!is_null($error = error_get_last()) && self::isFatal($error['type'])) {
+            // 返回标准格式给客户端
+            HelperReturn::jsonData('PHP ERROR!', SException::CODE_PHP_ERROR);
+        }
+    }
+
+    /**
+     * 确定错误类型是否致命
+     * @param  int $type 错误类型
+     * @return bool
+     */
+    private static function isFatal($type) {
+        return in_array($type, [E_ERROR, E_USER_ERROR, E_CORE_ERROR, E_COMPILE_ERROR, E_PARSE]);
     }
 
     /**
@@ -66,6 +115,7 @@ class Error {
      */
     private static function writeErrLog($error_type, $error_message, $file, $line) {
         $data = "file:{$file}({$line})\r\n";
+        $data .= "time:" . date('Y-m-d H:i:s') . "\r\n";
         $data .= "error_type:{$error_type}\r\n";
         $data .= "error_message:" . $error_message . "\r\n";
         $data .= "======================================================================\r\n";

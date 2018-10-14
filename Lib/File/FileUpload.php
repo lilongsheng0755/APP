@@ -13,13 +13,60 @@ use Config\ConfigUpload;
  */
 class FileUpload {
 
+    /**
+     * 文件上传路径
+     *
+     * @var string
+     */
     private $save_path;
+
+    /**
+     * 源文件名
+     *
+     * @var string
+     */
     private $origin_name;
+
+    /**
+     * 临时文件名
+     *
+     * @var string
+     */
     private $tmp_file_name;
+
+    /**
+     * 上传文件的类型
+     *
+     * @var string
+     */
     private $file_type;
+
+    /**
+     * 上传文件的大小
+     *
+     * @var int
+     */
     private $file_size;
+
+    /**
+     * 新文件名
+     *
+     * @var string
+     */
     private $new_file_name;
+
+    /**
+     * 上传文件错误码
+     *
+     * @var int
+     */
     private $error_num = 0;
+
+    /**
+     * 文件上传失败错误信息
+     *
+     * @var string
+     */
     private $error_msg = '';
 
     /**
@@ -30,7 +77,7 @@ class FileUpload {
      * @param string $save_file_name  保存文件名
      * @return boolean
      */
-    public function upload($upload_field, $save_path, $save_file_name) {
+    public function upload($upload_field, $save_path, $save_file_name = '') {
         if (!$this->checkFilePath($save_path)) {
             $this->error_msg = $this->errorMsg();
             return false;
@@ -61,40 +108,6 @@ class FileUpload {
             return false;
         }
         return true;
-    }
-
-    public function multiUpload($upload_field, $save_path, $save_file_name) {
-        $return = true;
-        for ($i = 0; $i < count($name); $i++) {
-            if ($this->setFiles($name[$i], $tmp_name[$i], $size[$i], $error[$i])) {
-                if (!$this->checkFileSize() || !$this->checkFileType()) {
-                    $error[] = $this->errorMsg();
-                    $return  = false;
-                }
-            } else {
-                $error[] = $this->errorMsg();
-                $return  = false;
-            }
-            if (!$return) {
-                $this->setFiles();
-            }
-        }
-        if ($return) {
-            $fileNames = array();
-            for ($i = 0; $i < count($name); $i++) {
-                if ($this->setFiles($name[$i], $tmp_name[$i], $size[$i], $error[$i])) {
-                    $this->setNewFileName();
-                    if (!$this->copyFile()) {
-                        $error[] = $this->errorMsg();
-                        $return  = false;
-                    }
-                    $fileNames[] = $this->newFileName;
-                }
-            }
-            $this->newFileName = $fileNames;
-        }
-        $this->error_msg = $error;
-        return $return;
     }
 
     /**
@@ -193,7 +206,7 @@ class FileUpload {
         if (!$save_file_name) {
             $this->new_file_name = $this->proRandName();
         } else {
-            $this->new_file_name = $save_file_name;
+            $this->new_file_name = $save_file_name . '.' . $this->file_type;
         }
     }
 
@@ -210,7 +223,7 @@ class FileUpload {
         }
 
         //校验文件路径是否存在，是否有写操作
-        $this->save_path = rtrim(UPLOAD_PATH, DS) . DS . trim($save_path, DS) . DS;
+        $this->save_path = rtrim(PATH_UPLOAD, DS) . DS . trim($save_path, DS) . DS;
         if (file_exists($this->save_path) && is_writable($this->save_path)) {
             return true;
         }

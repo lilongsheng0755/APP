@@ -1,49 +1,83 @@
 <?php
 
-//设置错误级别，脚本运行时间设置
-//error_reporting(0);
+//脚本运行时间设置
 set_time_limit(30);
 
-//定义入口常量
+/*
+ * 定义入口常量
+ */
 define('IN_APP', true);
 
-//项目名称
+/*
+ * 项目名称
+ */
 define('PROJECT_NS', 'APP');
 
-//本地环境变量
+/*
+ * 本地环境常量
+ */
 define('LOCAL', true);
 
-//生产环境变量
+/*
+ * 生产环境常量
+ */
 define('PRODUCTION_ENV', false);
 
-//是否开启debug模式
-define('APP_DEBUG', true);
+/*
+ * 环境常量cli为命令行执行
+ */
+define('IS_CLI', PHP_SAPI == 'cli' ? true : false);
 
-//设置市区
+/*
+ * 设置市区
+ */
 date_default_timezone_set('Asia/Shanghai');
 
-//简化目录分隔符
+/**
+ * 简化目录分隔符
+ */
 define('DS', DIRECTORY_SEPARATOR);
 
-//设置应用基本路径
-define('APP_PATH', __DIR__);
+/**
+ * 设置应用基本路径
+ */
+define('PATH_APP', __DIR__);
 
-//设置库文件路径
-define('LIB_PATH', APP_PATH . DS . 'Lib');
+/**
+ * 库文件基路径
+ */
+define('PATH_LIB', PATH_APP . DS . 'Lib');
 
-//日志文件路径配置
-define('DATA_PATH', APP_PATH . DS . 'Data');
+/**
+ * 日志文件基路径
+ */
+define('PATH_DATA', PATH_APP . DS . 'Data');
 
-//文件上传路径
-define('UPLOAD_PATH', APP_PATH . DS . 'Upload');
+/**
+ * 文件上传基路径
+ */
+define('PATH_UPLOAD', PATH_APP . DS . 'Upload');
 
-//静态资源路径
-define('PUBLIC_PATH', APP_PATH . DS . 'Static');
+/**
+ * 静态资源基路径
+ */
+define('PATH_PUBLIC', PATH_APP . DS . 'Static');
 
-//加载初始化文件
-require_once LIB_PATH . '/Application.php';
+/**
+ * 第三方插件基路径
+ * 
+ */
+define('PATH_PLUGS', PATH_APP . DS . 'Plugs');
 
-//APP初始化
+/**
+ * 加载初始化文件
+ */
+require_once PATH_LIB . '/Application.php';
+
+/**
+ * APP初始化
+ */
 Lib\Application::init();
-PRODUCTION_ENV && set_error_handler('Lib\System\Error::errorHandler');
+PRODUCTION_ENV && Lib\System\Error::register();
+Lib\Session\Session::start();
 

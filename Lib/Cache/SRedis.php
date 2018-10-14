@@ -981,7 +981,7 @@ class SRedis {
      * @param int|float $incr_num
      * @return boolean|int|float 成功返回自增后的值
      */
-    public function hIncrBy($hash_key, $key, $incr_num=1) {
+    public function hIncrBy($hash_key, $key, $incr_num = 1) {
         if (!$this->connect()) {
             return false;
         }
@@ -1054,7 +1054,7 @@ class SRedis {
      * @param int $error  错误信息
      */
     private function writeErrLog($err_file, $errno, $error) {
-        APP_DEBUG && die($err_file . '=======' . $error);
+        !PRODUCTION_ENV && die($err_file . '=======' . $error);
         $data = "file:{$err_file}\r\n";
         $data .= "time:" . date('Y-m-d H:i:s') . "\r\n";
         $data .= "errno:{$errno}\r\n";

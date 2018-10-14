@@ -42,6 +42,11 @@ class SException extends \Exception {
     const CODE_PHP_ERROR = -100;
 
     /**
+     * @var array 保存异常页面显示的额外 Debug 数据
+     */
+    protected $data = array();
+
+    /**
      * 覆盖Exception类构造方法
      */
     public function __construct($message = "", $code = 0) {
@@ -54,7 +59,7 @@ class SException extends \Exception {
      * @return string
      */
     public function __toString() {
-        if (APP_DEBUG) {
+        if (!PRODUCTION_ENV) {
             $data = array('file' => $this->file, 'line' => $this->line, 'msg' => $this->message);
         } else {
             $data = array();

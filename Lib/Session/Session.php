@@ -24,7 +24,7 @@ class Session {
      * @param string $session_save_path 保存session数据的路径
      */
     public static function start($session_save_path = '/tmp/session') {
-        ini_set('session.save_handler', 'files');
+        ini_set('session.save_handler', 'user');
         ini_set('session.gc_maxlifetime', 1800);
         $session_save_path && ini_set('session.save_path', $session_save_path);
         self::$session_save_path = rtrim($session_save_path ? $session_save_path : ini_get('session.save_path'), DS);

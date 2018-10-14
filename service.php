@@ -9,8 +9,6 @@ header("Pragma: no-cache");
 //载入核心文件
 require_once __DIR__ . '/core.php';
 
-ob_clean();
-Helper\HelperImage::trunX('./test.jpg');
-?>
+require_once(PATH_PLUGS . '/Smarty/Smarty.class.php');
+$smarty = new Smarty();
 
-<img src='./test.jpg'>

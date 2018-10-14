@@ -18,6 +18,13 @@ class Vcode {
     private $checkCode;
     private $image;
 
+    /**
+     * 初始化验证码
+     * 
+     * @param int $width 验证码图片宽度
+     * @param int $height 验证码图片高度
+     * @param int $codeNum  验证码图片字符个数
+     */
     public function __construct($width = 80, $height = 20, $codeNum = 4) {
         $this->width   = $width;
         $this->height  = $height;
@@ -31,25 +38,33 @@ class Vcode {
         $this->checkCode = $this->createCheckCode();
     }
 
-    public function __toString() {
-        $_SESSION['code'] = strtolower($this->checkCode);
-    }
-
-    private function outImg() {
+    /**
+     * 输出验证码图片
+     */
+    public function outImg() {
         $this->getCreateImage();
         $this->setDisturbColor();
         $this->outputText();
         $this->outputImage();
+        $this->vcodeToSession();
     }
 
+    /**
+     * 画一个矩形
+     */
     private function getCreateImage() {
         $this->image = imagecreatetruecolor($this->width, $this->height);
         $backColor   = imagecolorallocate($this->image, rand(225, 255), rand(225, 255), rand(225, 255));
-        @imagefill($this->image, 0, 0, $backColor);
+        imagefill($this->image, 0, 0, $backColor);
         $border      = imagecolorallocate($this->image, 0, 0, 0);
         imagerectangle($this->image, 0, 0, $this->width - 1, $this->height - 1, $border);
     }
 
+    /**
+     * 设置验证码字符串
+     * 
+     * @return string
+     */
     private function createCheckCode() {
         $rand_code = '3456789abcdefghijkmnpqrstuvwxyABCDEFGHIJKMNPQRSTUVWXY';
         $code      = '';
@@ -59,6 +74,9 @@ class Vcode {
         return $code;
     }
 
+    /**
+     * 画像素点，线条
+     */
     private function setDisturbColor() {
         for ($i = 0; $i < $this->disturbColorNum; $i++) {
             $color = imagecolorallocate($this->image, rand(0, 255), rand(0, 255), rand(0, 255));
@@ -71,6 +89,9 @@ class Vcode {
         }
     }
 
+    /**
+     * 画验证码字符
+     */
     private function outputText() {
         for ($i = 0; $i < $this->codeNum; $i++) {
             $fontcolor = imagecolorallocate($this->image, rand(0, 128), rand(0, 128), rand(0, 128));
@@ -81,6 +102,9 @@ class Vcode {
         }
     }
 
+    /**
+     * 生成图片
+     */
     private function outputImage() {
         if (imagetypes() & IMG_GIF) {
             header('Content-Type:image/gif');
@@ -99,8 +123,23 @@ class Vcode {
         }
     }
 
+    /**
+     * 验证码写入session
+     * 
+     * @return string
+     */
+    public function vcodeToSession() {
+        $_SESSION['vcode'] = strtolower($this->checkCode);
+        return $_SESSION['vcode'];
+    }
+
+    /**
+     * 销毁图片资源
+     */
     public function __destruct() {
-        imagedestroy($this->image);
+        if (is_object($this->image)) {
+            imagedestroy($this->image);
+        }
     }
 
 }

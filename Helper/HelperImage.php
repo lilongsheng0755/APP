@@ -61,7 +61,7 @@ class HelperImage {
 
     //加水印
     public static function waterMark($groundName, $waterName, $waterPos = 0, $qz = 'wa_') {
-        $curpath = UPLOAD_PATH . '/';
+        $curpath = PATH_UPLOAD . '/';
         $dir     = dirname($waterName);
         if ($dir == '.') {
             $wpath = $curpath;
@@ -154,7 +154,7 @@ class HelperImage {
 
     //获取图片信息
     private static function getInfo($name, $path = '.') {
-        $spath = $path == '.' ? rtrim(UPLOAD_PATH, '/') . '/' : $path . '/';
+        $spath = $path == '.' ? rtrim(PATH_UPLOAD, '/') . '/' : $path . '/';
 
         $data              = getimagesize($spath . $name);
         $imgInfo['width']  = $data[0];
@@ -165,7 +165,7 @@ class HelperImage {
 
     //获取图片画布
     private static function getImg($name, $imgInfo, $path = '.') {
-        $spath = $path == '.' ? rtrim(UPLOAD_PATH, '/') . '/' : $path . '/';
+        $spath = $path == '.' ? rtrim(PATH_UPLOAD, '/') . '/' : $path . '/';
 
         $srcPic = $spath . $name;
         switch ($imgInfo['type']) {
@@ -208,13 +208,13 @@ class HelperImage {
     private static function createNewImage($newImg, $newName, $imgInfo) {
         switch ($imgInfo['type']) {
             case 1:
-                $result = imagegif($newImg, UPLOAD_PATH . $newName);
+                $result = imagegif($newImg, PATH_UPLOAD . $newName);
                 break;
             case 2:
-                $result = imagejpeg($newImg, UPLOAD_PATH . $newName);
+                $result = imagejpeg($newImg, PATH_UPLOAD . $newName);
                 break;
             case 3:
-                $result = imagepng($newImg, UPLOAD_PATH . $newName);
+                $result = imagepng($newImg, PATH_UPLOAD . $newName);
                 break;
             default :
                 return false;

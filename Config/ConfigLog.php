@@ -42,14 +42,14 @@ class ConfigLog {
      */
     public static function getLogPath($log_type = 0) {
         $config = array(
-            self::PHP_ERR_LOG_TYPE     => DATA_PATH . DS . 'error_php',
-            self::MYSQL_ERR_LOG_TYPE   => DATA_PATH . DS . 'error_mysql',
-            self::MONGODB_ERR_LOG_TYPE => DATA_PATH . DS . 'error_mongodb',
-            self::MEM_ERR_LOG_TYPE     => DATA_PATH . DS . 'error_memcached',
-            self::REDIS_ERR_LOG_TYPE   => DATA_PATH . DS . 'error_redis',
+            self::PHP_ERR_LOG_TYPE     => PATH_DATA . DS . 'error_php',
+            self::MYSQL_ERR_LOG_TYPE   => PATH_DATA . DS . 'error_mysql',
+            self::MONGODB_ERR_LOG_TYPE => PATH_DATA . DS . 'error_mongodb',
+            self::MEM_ERR_LOG_TYPE     => PATH_DATA . DS . 'error_memcached',
+            self::REDIS_ERR_LOG_TYPE   => PATH_DATA . DS . 'error_redis',
         );
 
-        return isset($config[$log_type]) ? $config[$log_type] : DATA_PATH;
+        return isset($config[$log_type]) ? $config[$log_type] : PATH_DATA;
     }
 
 }

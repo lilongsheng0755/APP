@@ -1,0 +1,35 @@
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(11)
+time:2018-10-14 16:00:33
+error_type:Exception
+error_message:Class 'lib\SException' not found
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(11)
+time:2018-10-14 16:01:08
+error_type:Exception
+error_message:Class 'lib\SException' not found
+======================================================================
+file:()
+time:2018-10-14 16:09:20
+error_type:Exception
+error_message:Call to undefined function Lib\Page\Page()
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(11)
+time:2018-10-14 16:13:09
+error_type:Exception
+error_message:Call to undefined function Lib\Page\Page()
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(11)
+time:2018-10-14 16:20:11
+error_type:Exception
+error_message:Call to undefined function Lib\Page\Page()
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(11)
+time:2018-10-14 16:25:32
+error_type:Exception
+error_message:Call to undefined function Lib\Page\Page()
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(11)
+time:2018-10-14 16:28:02
+error_type:Exception
+error_message:Call to undefined function Lib\Page\Page()
+======================================================================

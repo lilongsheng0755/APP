@@ -24,10 +24,13 @@ class Application {
      * @param string $class_name  加载类名带上命名空间
      */
     public static function autoload($class_name) {
-        $file = APP_PATH . DS . str_replace('\\', DS, $class_name) . '.php';
+        $file = PATH_APP . DS . str_replace('\\', DS, $class_name) . '.php';
         try {
+            if (count(explode('\\', $class_name)) < 2) {
+                return true; //插件库跳过自动加载
+            }
             self::loadFile($file);
-        } catch (\lib\SException $e) {
+        } catch (\Lib\System\SException $e) {
             die($e);
         }
     }
@@ -40,7 +43,7 @@ class Application {
      */
     public static function loadFile($file) {
         if (!file_exists($file) || !is_file($file)) {
-            throw new \lib\SException("{$file} NOT EXSIST!", \lib\SException::CODE_NOT_FOUND_FILE);
+            throw new \Lib\System\SException("{$file} NOT EXSIST!", \lib\System\SException::CODE_NOT_FOUND_FILE);
         }
         require_once $file;
     }

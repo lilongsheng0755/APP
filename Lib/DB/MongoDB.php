@@ -301,7 +301,7 @@ class MongoDB {
      * @param string $query  操作语句
      */
     private function writeErrLog($err_file, $errno, $error, $query) {
-        APP_DEBUG && die($err_file . '=======' . $error . '=======' . $query);
+        !PRODUCTION_ENV && die($err_file . '=======' . $error . '=======' . $query);
         $data = "file:{$err_file}\r\n";
         $data .= "time:" . date('Y-m-d H:i:s') . "\r\n";
         $data .= "errno:{$errno}\r\n";

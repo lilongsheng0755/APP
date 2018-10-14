@@ -122,7 +122,7 @@ class SPDO extends DataBase {
             $dsn       = "mysql:host={$this->host};port={$this->port};dbname={$this->dbname}";
             $this->pdo = new \PDO($dsn, $this->username, $this->passwd, $this->driver_options);
         } catch (\PDOException $e) {
-            if (APP_DEBUG) {
+            if (!PRODUCTION_ENV) {
                 die('Connection failed: ' . $e->getMessage());
             } else {
                 die('Connection failed!');
@@ -329,7 +329,7 @@ class SPDO extends DataBase {
      * @param string $query  操作语句
      */
     private function writeErrLog($err_file, $errno, $error, $query) {
-        APP_DEBUG && die($err_file . '=======' . $error . '=======' . $query);
+        !PRODUCTION_ENV && die($err_file . '=======' . $error . '=======' . $query);
         $data = "file:{$err_file}\r\n";
         $data .= "time:" . date('Y-m-d H:i:s') . "\r\n";
         $data .= "errno:{$errno}\r\n";

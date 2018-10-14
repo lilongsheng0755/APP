@@ -264,7 +264,7 @@ class SMysqli extends DataBase {
         $arr      = (array) $e->getTrace();
         $trace    = (array) array_pop($arr);
         $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
-        APP_DEBUG && die($err_file . '=======' . $error . '=======' . $query);
+        !PRODUCTION_ENV && die($err_file . '=======' . $error . '=======' . $query);
         unset($e, $trace);
         $data     = "file:{$err_file}\r\n";
         $data     .= "time:" . date('Y-m-d H:i:s') . "\r\n";

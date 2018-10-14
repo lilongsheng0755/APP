@@ -318,7 +318,7 @@ class SMemcached {
         $arr      = (array) $e->getTrace();
         $trace    = (array) array_pop($arr);
         $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
-        APP_DEBUG && die($err_file . '=======' . $error . '=======' . $cmd);
+        !PRODUCTION_ENV && die($err_file . '=======' . $error . '=======' . $cmd);
         $data     = "file:{$err_file}\r\n";
         $data     .= "time:" . date('Y-m-d H:i:s') . "\r\n";
         $data     .= "errno:{$errno}\r\n";

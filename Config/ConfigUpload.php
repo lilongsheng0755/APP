@@ -16,13 +16,13 @@ class ConfigUpload {
      *
      * @var array 
      */
-    public static $allow_type = array('jpg', 'gif', 'png');
+    public static $allow_type = array('jpg', 'gif', 'png', 'csv');
 
     /**
      * 允许上传文件的大小（KB）
      *
      * @var int 
      */
-    const UPLOAD_MAX_SIZE = 500;
+    const UPLOAD_MAX_SIZE = 5000;
 
 }
