@@ -24,6 +24,8 @@ class Session {
      * @param string $session_save_path 保存session数据的路径
      */
     public static function start($session_save_path = '/tmp/session') {
+        file_exists($session_save_path) or die("({$session_save_path}) Directory does not exist");
+        is_writable($session_save_path) or die("({$session_save_path}) No write permission");
         ini_set('session.save_handler', 'user');
         ini_set('session.gc_maxlifetime', 1800);
         $session_save_path && ini_set('session.save_path', $session_save_path);
@@ -67,6 +69,9 @@ class Session {
      */
     public static function read($session_id) {
         $session_file = self::$session_save_path . DS . 'sess_' . md5($session_id);
+        if (!file_exists($session_file)) {
+            return '';
+        }
         return (string) file_get_contents($session_file);
     }
 
@@ -80,13 +85,14 @@ class Session {
      */
     public static function write($session_id, $session_data) {
         $session_file = self::$session_save_path . DS . 'sess_' . md5($session_id);
-        if ($fp           = fopen($session_file, 'w')) {
-            $ret = fwrite($fp, $session_data);
-            fclose($fp);
-            return (bool) $ret;
-        } else {
-            return false;
+        $fp           = fopen($session_file, 'w');
+        if (!$fp || !$session_data) {
+            $fp && fclose($fp);
+            return true;
         }
+        $ret = fwrite($fp, $session_data);
+        fclose($fp);
+        return (bool) $ret;
     }
 
     /**
