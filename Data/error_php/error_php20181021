@@ -1,0 +1,220 @@
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(12)
+time:2018-10-21 11:36:05
+error_type:Fatal Error
+error_message:Trigger a fatal error
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(12)
+time:2018-10-21 11:36:30
+error_type:Fatal Error
+error_message:Trigger a fatal error
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(12)
+time:2018-10-21 11:38:50
+error_type:Exception
+error_message:Class 'Test' not found
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(12)
+time:2018-10-21 11:39:54
+error_type:Exception
+error_message:Class 'Test' not found
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(12)
+time:2018-10-21 11:41:59
+error_type:Fatal Error
+error_message:Trigger a fatal error
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(12)
+time:2018-10-21 11:42:01
+error_type:Fatal Error
+error_message:Trigger a fatal error
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(12)
+time:2018-10-21 11:42:06
+error_type:Fatal Error
+error_message:Trigger a fatal error
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/service.php(12)
+time:2018-10-21 11:44:44
+error_type:Fatal Error
+error_message:Trigger a fatal error
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(365)
+time:2018-10-21 20:40:20
+error_type:Notice
+error_message:Undefined variable: IN_APP
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(365)
+time:2018-10-21 20:40:20
+error_type:Notice
+error_message:Undefined variable: PROJECT_NS
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(365)
+time:2018-10-21 20:40:20
+error_type:Notice
+error_message:Undefined variable: LOCAL
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(365)
+time:2018-10-21 20:40:20
+error_type:Notice
+error_message:Undefined variable: PRODUCTION_ENV
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(365)
+time:2018-10-21 20:40:20
+error_type:Notice
+error_message:Undefined variable: IS_CLI
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(365)
+time:2018-10-21 20:40:20
+error_type:Notice
+error_message:Undefined variable: DS
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(365)
+time:2018-10-21 20:40:20
+error_type:Notice
+error_message:Undefined variable: PATH_APP
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(365)
+time:2018-10-21 20:40:20
+error_type:Notice
+error_message:Undefined variable: PATH_LIB
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(365)
+time:2018-10-21 20:40:20
+error_type:Notice
+error_message:Undefined variable: PATH_DATA
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(365)
+time:2018-10-21 20:40:20
+error_type:Notice
+error_message:Undefined variable: PATH_UPLOAD
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(365)
+time:2018-10-21 20:40:20
+error_type:Notice
+error_message:Undefined variable: PATH_PUBLIC
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(365)
+time:2018-10-21 20:40:20
+error_type:Notice
+error_message:Undefined variable: PATH_PLUGS
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(365)
+time:2018-10-21 20:44:59
+error_type:Notice
+error_message:Undefined variable: IN_APP
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(365)
+time:2018-10-21 20:44:59
+error_type:Notice
+error_message:Undefined variable: PROJECT_NS
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(365)
+time:2018-10-21 20:44:59
+error_type:Notice
+error_message:Undefined variable: LOCAL
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(365)
+time:2018-10-21 20:44:59
+error_type:Notice
+error_message:Undefined variable: PRODUCTION_ENV
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(365)
+time:2018-10-21 20:44:59
+error_type:Notice
+error_message:Undefined variable: IS_CLI
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(365)
+time:2018-10-21 20:44:59
+error_type:Notice
+error_message:Undefined variable: DS
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(365)
+time:2018-10-21 20:44:59
+error_type:Notice
+error_message:Undefined variable: PATH_APP
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(365)
+time:2018-10-21 20:44:59
+error_type:Notice
+error_message:Undefined variable: PATH_LIB
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(365)
+time:2018-10-21 20:44:59
+error_type:Notice
+error_message:Undefined variable: PATH_DATA
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(365)
+time:2018-10-21 20:44:59
+error_type:Notice
+error_message:Undefined variable: PATH_UPLOAD
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(365)
+time:2018-10-21 20:44:59
+error_type:Notice
+error_message:Undefined variable: PATH_PUBLIC
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(365)
+time:2018-10-21 20:44:59
+error_type:Notice
+error_message:Undefined variable: PATH_PLUGS
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(366)
+time:2018-10-21 20:45:50
+error_type:Notice
+error_message:Undefined variable: IN_APP
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(366)
+time:2018-10-21 20:45:50
+error_type:Notice
+error_message:Undefined variable: PROJECT_NS
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(366)
+time:2018-10-21 20:45:50
+error_type:Notice
+error_message:Undefined variable: LOCAL
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(366)
+time:2018-10-21 20:45:50
+error_type:Notice
+error_message:Undefined variable: PRODUCTION_ENV
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(366)
+time:2018-10-21 20:45:50
+error_type:Notice
+error_message:Undefined variable: IS_CLI
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(366)
+time:2018-10-21 20:45:50
+error_type:Notice
+error_message:Undefined variable: DS
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(366)
+time:2018-10-21 20:45:50
+error_type:Notice
+error_message:Undefined variable: PATH_APP
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(366)
+time:2018-10-21 20:45:50
+error_type:Notice
+error_message:Undefined variable: PATH_LIB
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(366)
+time:2018-10-21 20:45:50
+error_type:Notice
+error_message:Undefined variable: PATH_DATA
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(366)
+time:2018-10-21 20:45:50
+error_type:Notice
+error_message:Undefined variable: PATH_UPLOAD
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(366)
+time:2018-10-21 20:45:50
+error_type:Notice
+error_message:Undefined variable: PATH_PUBLIC
+======================================================================
+file:/mnt/hgfs/wwwroot/GitHub/APP/View/debug.tpl(366)
+time:2018-10-21 20:45:50
+error_type:Notice
+error_message:Undefined variable: PATH_PLUGS
+======================================================================

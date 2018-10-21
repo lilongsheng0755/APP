@@ -4,6 +4,11 @@
 set_time_limit(30);
 
 /*
+ * 设置市区
+ */
+date_default_timezone_set('Asia/Shanghai');
+
+/*
  * 定义入口常量
  */
 define('IN_APP', true);
@@ -27,11 +32,6 @@ define('PRODUCTION_ENV', false);
  * 环境常量cli为命令行执行
  */
 define('IS_CLI', PHP_SAPI == 'cli' ? true : false);
-
-/*
- * 设置市区
- */
-date_default_timezone_set('Asia/Shanghai');
 
 /**
  * 简化目录分隔符
@@ -78,6 +78,6 @@ require_once PATH_LIB . '/Application.php';
  * APP初始化
  */
 Lib\Application::init();
-PRODUCTION_ENV && Lib\System\Error::register();
+Lib\System\Error::register();
 Lib\Session\Session::start();
 

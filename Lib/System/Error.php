@@ -36,6 +36,7 @@ class Error {
      * @param int $line 发生错误的位置
      */
     public static function appError($error_level, $error_message, $file, $line) {
+        $exit = false;
         switch ($error_level) {
             //提醒级别
             case E_NOTICE:
@@ -56,13 +57,16 @@ class Error {
             case E_USER_ERROR:
             case E_COMPILE_ERROR:
                 $error_type = 'Fatal Error';
+                $exit       = true;
                 break;
 
             //其他未知错误
             default :
                 $error_type = 'Unknown';
         }
+        LOCAL && include_once PATH_APP . DS . 'View' . DS . 'debug.tpl';
         self::writeErrLog($error_type, $error_message, $file, $line);
+        $exit && HelperReturn::jsonData('PHP ERROR!', SException::CODE_PHP_ERROR);
     }
 
     /**
@@ -79,6 +83,7 @@ class Error {
                 $arr['file'] = $e->getFile();
                 $arr['line'] = $e->getLine();
             }
+            LOCAL && include_once PATH_APP . DS . 'View' . DS . 'debug.tpl';
             self::writeErrLog('Exception', $e->getMessage(), $arr['file'], $arr['line']);
             HelperReturn::jsonData('PHP ERROR!', SException::CODE_PHP_ERROR);
         }

@@ -70,6 +70,35 @@ class FileUpload {
     private $error_msg = '';
 
     /**
+     * 内部实例
+     *
+     * @var Image
+     */
+    private static $instance = null;
+
+    /**
+     * 禁用外部实例化
+     * 
+     * @return boolean
+     */
+    private function __construct() {
+        return false;
+    }
+
+    /**
+     * 内部实例化
+     * 
+     * @return Image
+     */
+    public static function getInstance() {
+        if (self::$instance instanceof self) {
+            return self::$instance;
+        }
+        self::$instance = new self;
+        return self::$instance;
+    }
+
+    /**
      * 单个上传文件
      * 
      * @param string $upload_field 上传文件的字段名（POST表单上传）
