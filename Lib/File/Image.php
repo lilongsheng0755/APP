@@ -163,6 +163,10 @@ class Image {
      * @param string $img_file  图片文件
      */
     public function trunY($img_file) {
+        if (!file_exists($img_file)) {
+            $this->error_msg = "图片不存在！";
+            return false;
+        }
         $back   = imagecreatefromjpeg($img_file);
         $width  = imagesx($back);
         $height = imagesy($back);
@@ -184,6 +188,10 @@ class Image {
      * @param string $img_file  图片文件
      */
     public function trunX($img_file) {
+        if (!file_exists($img_file)) {
+            $this->error_msg = "图片不存在！";
+            return false;
+        }
         $back   = imagecreatefromjpeg($img_file);
         $width  = imagesx($back);
         $height = imagesy($back);
