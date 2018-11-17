@@ -9,6 +9,6 @@ defined('IN_APP') or die('Access denied!');
  * CreateTime: 2018-6-13 23:26:40
  * Description: 
  */
-class LoadMysql {
+class LoadMysqli {
 //put your code here
 }
