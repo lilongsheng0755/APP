@@ -57,7 +57,7 @@ class Error {
             case E_USER_ERROR:
             case E_COMPILE_ERROR:
                 $error_type = 'Fatal Error';
-                $exit       = true;
+                $exit = true;
                 break;
 
             //其他未知错误
@@ -97,6 +97,7 @@ class Error {
         //致命错误处理
         if (!is_null($error = error_get_last()) && self::isFatal($error['type'])) {
             // 返回标准格式给客户端
+            self::writeErrLog('Shutdown', $error['message'], $error['file'], $error['line']);
             HelperReturn::jsonData('PHP ERROR!', SException::CODE_PHP_ERROR);
         }
     }

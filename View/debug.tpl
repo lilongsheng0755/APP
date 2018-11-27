@@ -357,7 +357,7 @@
             <?php endforeach;?>
             <?php endif;?>
             <h3 class="subheading">APP Constants</h3>
-            <?php $const = array('IN_APP'=>IN_APP,'PROJECT_NS'=>PROJECT_NS,'LOCAL'=>LOCAL,'PRODUCTION_ENV'=>PRODUCTION_ENV,'IS_CLI'=>IS_CLI,'DS'=>DS,'PATH_APP'=>PATH_APP,'PATH_LIB'=>PATH_LIB,'PATH_DATA'=>PATH_DATA,'PATH_UPLOAD'=>PATH_UPLOAD,'PATH_PUBLIC'=>PATH_PUBLIC,'PATH_PLUGS'=>PATH_PLUGS);?>
+            <?php $const = (array)get_defined_constants(true)['user'];?>
             <?php foreach($const as $k=>$v):?>
             <?php if(!defined($k)) continue;?>
             <div>
