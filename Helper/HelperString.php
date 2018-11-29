@@ -5,8 +5,16 @@ namespace Helper;
 /**
  * Author: skylong
  * CreateTime: 2018-6-13 23:24:24
- * Description: 
+ * Description: 字符串处理类
  */
 class HelperString {
-//put your code here
+
+    public static function ip2long($ip) {
+        $long = ip2long($ip);
+        if ($long == - 1 || $long === false) {
+            return 0;
+        }
+        return sprintf("%u", $long);
+    }
+
 }

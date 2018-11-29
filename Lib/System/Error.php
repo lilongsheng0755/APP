@@ -96,7 +96,11 @@ class Error {
     public static function appShutdown() {
         //致命错误处理
         if (!is_null($error = error_get_last()) && self::isFatal($error['type'])) {
-            // 返回标准格式给客户端
+            $error_level = $error['type'];
+            $error_message = $error['message'];
+            $file = $error['file'];
+            $line = $error['line'];
+            LOCAL && include_once PATH_APP . DS . 'View' . DS . 'debug.tpl';
             self::writeErrLog('Shutdown', $error['message'], $error['file'], $error['line']);
             HelperReturn::jsonData('PHP ERROR!', SException::CODE_PHP_ERROR);
         }
