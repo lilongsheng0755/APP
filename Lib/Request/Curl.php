@@ -98,6 +98,8 @@ class Curl {
      * 获取请求头信息设置
      * POST请求并且enctype属性没有设置的情况下有效
      * 通过输入端来获取数据 file_get_contents('php://input');
+     * Content-Type：发送的数据类型
+     * Accept：希望接受的数据类型
      * 
      * @param string $header_type
      * @return array
