@@ -1054,7 +1054,7 @@ class SRedis {
      * @param int $error  错误信息
      */
     private function writeErrLog($err_file, $errno, $error) {
-        !PRODUCTION_ENV && die($err_file . '=======' . $error);
+        !PRODUCTION_ENV && die($err_file . '=======Redis Err：' . $error);
         $data = "file:{$err_file}\r\n";
         $data .= "time:" . date('Y-m-d H:i:s') . "\r\n";
         $data .= "errno:{$errno}\r\n";

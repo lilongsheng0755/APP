@@ -8,3 +8,5 @@ header("Pragma: no-cache");
 //header('Content-Type: text/html;charset=utf-8');
 //载入核心文件
 require_once __DIR__ . '/core.php';
+
+var_dump(Lib\Request\Curl::curlExec('http://192.168.0.106/test.php?user=1000',array('username'=>'小黑')));

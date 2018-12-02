@@ -35,6 +35,11 @@ class ConfigLog {
     const REDIS_ERR_LOG_TYPE = 4;
 
     /**
+     * curl错误日志类型
+     */
+    const CURL_ERR_LOG_TYPE = 5;
+
+    /**
      * 根据日志类型获取对应的日志保存路径
      * 
      * @param int $log_type
@@ -47,8 +52,8 @@ class ConfigLog {
             self::MONGODB_ERR_LOG_TYPE => PATH_DATA . DS . 'error_mongodb',
             self::MEM_ERR_LOG_TYPE     => PATH_DATA . DS . 'error_memcached',
             self::REDIS_ERR_LOG_TYPE   => PATH_DATA . DS . 'error_redis',
+            self::CURL_ERR_LOG_TYPE    => PATH_DATA . DS . 'error_curl',
         );
-
         return isset($config[$log_type]) ? $config[$log_type] : PATH_DATA;
     }
 
