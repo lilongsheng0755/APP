@@ -133,10 +133,9 @@ class HelperString {
         if (!$str = trim($str)) {
             return '';
         }
-//执行一个正则表达式搜索并且使用一个回调进行替换 
         $substr = preg_replace_callback("/(\\\ud[0-9a-f]{3})|(\\\ue[0-9a-f]{3})/", function() {
             return '';
-        }, $str);
+        }, $str); //执行一个正则表达式搜索并且使用一个回调进行替换
         return $substr ? $substr : '';
     }
 
@@ -168,7 +167,7 @@ class HelperString {
                 break;
         }
         if (strlen($str) <= ($length * $char_len)) {
-            return $str;
+            return $str; //小于指定长度，直接返回
         }
         if (function_exists("mb_substr")) {
             $slice = mb_substr($str, $start, $length, $charset);
