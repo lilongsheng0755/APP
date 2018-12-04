@@ -118,7 +118,7 @@ class HelperString {
         }
         $matches = array();
         preg_match_all('/[\x{4e00}-\x{9fff}]+/u', $str, $matches);
-        $str     = implode('', $matches[0]);
+        $str = implode('', $matches[0]);
         return $str ? $str : '';
     }
 
@@ -149,11 +149,11 @@ class HelperString {
      * @param boolean $suffix 是否尾缀 ... 省略符号，默认 true
      * @return string
      */
-    public static function msubstr($str, $start = 0, $length, $charset = "utf-8", $suffix = true) {
+    public static function msubstr($str, $start = 0, $length = 10, $charset = "utf-8", $suffix = true) {
         if (!$str = trim($str)) {
             return '';
         }
-        $start  = (int) $start;
+        $start = (int) $start;
         $length = (int) $length;
         switch ($charset) {
             case 'utf-8':
@@ -174,13 +174,13 @@ class HelperString {
         } elseif (function_exists('iconv_substr')) {
             $slice = iconv_substr($str, $start, $length, $charset);
         } else {
-            $re['utf-8']  = "/[\x01-\x7f]|[\xc2-\xdf][\x80-\xbf]|[\xe0-\xef][\x80-\xbf]{2}|[\xf0-\xff][\x80-\xbf]{3}/";
+            $re['utf-8'] = "/[\x01-\x7f]|[\xc2-\xdf][\x80-\xbf]|[\xe0-\xef][\x80-\xbf]{2}|[\xf0-\xff][\x80-\xbf]{3}/";
             $re['gb2312'] = "/[\x01-\x7f]|[\xb0-\xf7][\xa0-\xfe]/";
-            $re['gbk']    = "/[\x01-\x7f]|[\x81-\xfe][\x40-\xfe]/";
-            $re['big5']   = "/[\x01-\x7f]|[\x81-\xfe]([\x40-\x7e]|\xa1-\xfe])/";
-            $match        = array();
+            $re['gbk'] = "/[\x01-\x7f]|[\x81-\xfe][\x40-\xfe]/";
+            $re['big5'] = "/[\x01-\x7f]|[\x81-\xfe]([\x40-\x7e]|\xa1-\xfe])/";
+            $match = array();
             preg_match_all($re[$charset], $str, $match);
-            $slice        = implode('', array_slice($match[0], $start, $length));
+            $slice = implode('', array_slice($match[0], $start, $length));
         }
         if ($suffix) {
             return $slice . "…";
@@ -195,7 +195,7 @@ class HelperString {
      * @param string $mode 匹配模式
      * @return boolean
      */
-    public static function pregMatch($str, $mode = self::PREG_MATCH_PHONE) {
+    public static function pregVerify($str, $mode = self::PREG_MATCH_PHONE) {
         if (!$str = trim($str)) {
             return false;
         }
