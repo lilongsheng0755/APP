@@ -99,7 +99,7 @@ class HelperString {
      * @param string $str
      * @return string
      */
-    public static function addslashes($str) {
+    public static function escape($str) {
         if (!$str) {
             return '';
         }
@@ -214,6 +214,20 @@ class HelperString {
         );
 
         return isset($preg[$mode]) ? (bool) preg_match($preg[$mode], $str) : false;
+    }
+
+    /**
+     * 将特殊字符转换为HTML实体 对应转换函数 htmlspecialchars_decode 
+     * 
+     * @param string $str
+     * @return string
+     */
+    public static function htmlspecialchars($str) {
+        if (!$str = trim($str)) {
+            return '';
+        }
+
+        return htmlspecialchars($str);
     }
 
 }
