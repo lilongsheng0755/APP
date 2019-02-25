@@ -8,5 +8,13 @@ namespace Helper;
  * Description: API请求处理
  */
 class HelperRequest {
-    //put your code here
+
+    public static function checkParams() {
+        
+    }
+
+    public static function checkSign() {
+        
+    }
+
 }
