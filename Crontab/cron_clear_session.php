@@ -8,8 +8,8 @@ require_once '../core.php';
  * CreateTime: 2018-6-12 16:57:06
  * Description: 每天凌晨两点，定时清理过期session数据
  */
-if ($argc < 2) {
-    die;
+if (!IS_CLI) {
+    die(1001);
 }
 
 

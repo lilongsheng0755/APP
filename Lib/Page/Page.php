@@ -2,8 +2,6 @@
 
 namespace Lib\Page;
 
-defined('IN_APP') or die('Access denied!');
-
 /**
  * Author: skylong
  * CreateTime: 2018-7-22 13:57:17
@@ -82,12 +80,12 @@ class Page {
      * @param mixed $query  查询参数，可以是字符串，也可以是数组
      */
     public function __construct($total, $list_rows = 25, $list_num = 10, $query = '') {
-        $this->total     = $total;
+        $this->total = $total;
         $this->list_rows = $list_rows;
-        $this->list_num  = $list_num;
-        $this->url       = $this->getUrl($query);
-        $this->page_num  = ceil($this->total / $this->list_rows);
-        $page            = $_GET['page'] ? $_GET['page'] : 1;
+        $this->list_num = $list_num;
+        $this->url = $this->getUrl($query);
+        $this->page_num = ceil($this->total / $this->list_rows);
+        $page = $_GET['page'] ? $_GET['page'] : 1;
         if ($total > 0) {
             if (preg_match('/\D/', $page)) {
                 $this->page = 1;
@@ -133,7 +131,7 @@ class Page {
      * @return string
      */
     public function fpage() {
-        $arr     = func_get_args();
+        $arr = func_get_args();
         $html[0] = "&nbsp;共<b> {$this->total} </b>{$this->config['head']}&nbsp;";
         $html[1] = "&nbsp;本页 <b>{$this->disnum()}</b> 条&nbsp;";
         $html[2] = "&nbsp;本页从 <b>{$this->start()}-{$this->end()}</b> 条&nbsp;";
@@ -142,8 +140,8 @@ class Page {
         $html[5] = $this->pageList();
         $html[6] = $this->nextlast();
         $html[7] = $this->goPage();
-        $fpage   = '<div style="font:12px">';
-        (count($arr) < 1) && $arr     = array(0, 1, 2, 3, 4, 5, 6, 7);
+        $fpage = '<div style="font:12px">';
+        (count($arr) < 1) && $arr = array(0, 1, 2, 3, 4, 5, 6, 7);
         for ($i = 0; $i < count($arr); $i++) {
             $fpage .= $html[$arr[$i]];
         }
@@ -172,7 +170,7 @@ class Page {
      */
     private function getUrl($query) {
         $request_uri = $_SERVER['REQUEST_URI'];
-        $url         = strstr($request_uri, '?') ? $request_uri : $request_uri . '?';
+        $url = strstr($request_uri, '?') ? $request_uri : $request_uri . '?';
         if ($query && is_array($query)) {
             $url .= http_build_query($query);
         } elseif ($query) {
@@ -184,7 +182,7 @@ class Page {
             $url_params = array();
             parse_str($url_arr['query'], $url_params);
             unset($url_params['page']);
-            $url        = $url_arr['path'] . '?' . http_build_query($url_params);
+            $url = $url_arr['path'] . '?' . http_build_query($url_params);
         }
 
         if (substr($url, -1) != '?') {
@@ -234,7 +232,7 @@ class Page {
      */
     private function pageList() {
         $linkPage = "&nbsp;<b>";
-        $inum     = $this->page > floor($this->list_num / 2) ? floor($this->list_num / 2) : $this->list_num;
+        $inum = $this->page > floor($this->list_num / 2) ? floor($this->list_num / 2) : $this->list_num;
         if ($this->page > ($this->page_num - floor($this->list_num / 2))) {
             $page = $this->page_num - $this->list_num;
             for ($i = 1; $i <= $this->list_num; $i++) {

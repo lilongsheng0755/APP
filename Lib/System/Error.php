@@ -2,8 +2,6 @@
 
 namespace Lib\System;
 
-defined('IN_APP') or die('Access denied!');
-
 use Lib\System\Log;
 use Lib\System\SException;
 use Config\ConfigLog;

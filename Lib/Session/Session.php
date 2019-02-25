@@ -2,8 +2,6 @@
 
 namespace Lib\Session;
 
-defined('IN_APP') or die('Access denied!');
-
 /**
  * Author: skylong
  * CreateTime: 2018-6-13 23:18:54
@@ -85,7 +83,7 @@ class Session {
      */
     public static function write($session_id, $session_data) {
         $session_file = self::$session_save_path . DS . 'sess_' . md5($session_id);
-        $fp           = fopen($session_file, 'w');
+        $fp = fopen($session_file, 'w');
         if (!$fp || !$session_data) {
             $fp && fclose($fp);
             return true;

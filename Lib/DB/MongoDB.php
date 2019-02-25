@@ -2,8 +2,6 @@
 
 namespace Lib\DB;
 
-defined('IN_APP') or die('Access denied!');
-
 use Lib\System\SException;
 use Lib\System\Log;
 use Config\ConfigLog;
@@ -53,17 +51,17 @@ class MongoDB {
     public function __construct($host, $username, $passwd, $dbname, $port = 27017) {
         extension_loaded('mongodb') or die('No mongodb extensions installed');
         $this->dbname = $dbname;
-        $dsn          = "mongodb://{$username}:{$passwd}@{$host}:{$port}/{$dbname}";
+        $dsn = "mongodb://{$username}:{$passwd}@{$host}:{$port}/{$dbname}";
         try {
             $this->manager = new Manager($dsn);
         } catch (InvalidArgumentException $e) {
-            $arr      = (array) $e->getTrace();
-            $trace    = (array) array_pop($arr);
+            $arr = (array) $e->getTrace();
+            $trace = (array) array_pop($arr);
             $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
             $this->writeErrLog($err_file, $e->getCode(), $e->getMessage(), '<= - =>');
         } catch (RuntimeException $e) {
-            $arr      = (array) $e->getTrace();
-            $trace    = (array) array_pop($arr);
+            $arr = (array) $e->getTrace();
+            $trace = (array) array_pop($arr);
             $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
             $this->writeErrLog($err_file, $e->getCode(), $e->getMessage(), '<= - =>');
         }
@@ -78,37 +76,37 @@ class MongoDB {
      */
     public function insert($table_name = 'test', $data = array()) {
         try {
-            $bulk         = new BulkWrite();
+            $bulk = new BulkWrite();
             $bulk->insert($data);
             $writeConcern = new WriteConcern(WriteConcern::MAJORITY, 100);
-            $result       = $this->manager->executeBulkWrite($this->dbname . '.' . $table_name, $bulk, $writeConcern);
+            $result = $this->manager->executeBulkWrite($this->dbname . '.' . $table_name, $bulk, $writeConcern);
             if ($result->getWriteErrors()) {
                 return false;
             }
             return (int) $result->getInsertedCount();
         } catch (BulkWriteException $e) {
-            $arr      = (array) $e->getTrace();
-            $trace    = (array) array_pop($arr);
+            $arr = (array) $e->getTrace();
+            $trace = (array) array_pop($arr);
             $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
             $this->writeErrLog($err_file, $e->getCode(), $e->getMessage(), 'insert->' . json_encode($data));
         } catch (InvalidArgumentException $e) {
-            $arr      = (array) $e->getTrace();
-            $trace    = (array) array_pop($arr);
+            $arr = (array) $e->getTrace();
+            $trace = (array) array_pop($arr);
             $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
             $this->writeErrLog($err_file, $e->getCode(), $e->getMessage(), 'insert->' . json_encode($data));
         } catch (ConnectionException $e) {
-            $arr      = (array) $e->getTrace();
-            $trace    = (array) array_pop($arr);
+            $arr = (array) $e->getTrace();
+            $trace = (array) array_pop($arr);
             $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
             $this->writeErrLog($err_file, $e->getCode(), $e->getMessage(), 'insert->' . json_encode($data));
         } catch (AuthenticationException $e) {
-            $arr      = (array) $e->getTrace();
-            $trace    = (array) array_pop($arr);
+            $arr = (array) $e->getTrace();
+            $trace = (array) array_pop($arr);
             $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
             $this->writeErrLog($err_file, $e->getCode(), $e->getMessage(), 'insert->' . json_encode($data));
         } catch (RuntimeException $e) {
-            $arr      = (array) $e->getTrace();
-            $trace    = (array) array_pop($arr);
+            $arr = (array) $e->getTrace();
+            $trace = (array) array_pop($arr);
             $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
             $this->writeErrLog($err_file, $e->getCode(), $e->getMessage(), 'insert->' . json_encode($data));
         }
@@ -123,7 +121,7 @@ class MongoDB {
      */
     public function query($table_name, $filter = array(), $options = array()) {
         try {
-            $query          = new Query($filter, $options);
+            $query = new Query($filter, $options);
             /**
              * MongoDB\Driver\ReadPreference::RP_PRIMARY 当前主库中读取 
              * MongoDB\Driver\ReadPreference::RP_PRIMARY_PREFERRED  当前库中读取，如果不可用则从次要库读取
@@ -132,29 +130,29 @@ class MongoDB {
              * MongoDB\Driver\ReadPreference::RP_NEAREST 从最少网络延迟的从库读取
              */
             $readPreference = new ReadPreference(ReadPreference::RP_PRIMARY);
-            $result         = $this->manager->executeQuery($this->dbname . '.' . $table_name, $query, $readPreference)->toArray();
+            $result = $this->manager->executeQuery($this->dbname . '.' . $table_name, $query, $readPreference)->toArray();
             if (!$result || !is_array($result)) {
                 return array();
             }
             return $this->objectToArray($result);
         } catch (InvalidArgumentException $e) {
-            $arr      = (array) $e->getTrace();
-            $trace    = (array) array_pop($arr);
+            $arr = (array) $e->getTrace();
+            $trace = (array) array_pop($arr);
             $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
             $this->writeErrLog($err_file, $e->getCode(), $e->getMessage(), 'query->' . json_encode($filter) . '|--|' . json_encode($options));
         } catch (ConnectionException $e) {
-            $arr      = (array) $e->getTrace();
-            $trace    = (array) array_pop($arr);
+            $arr = (array) $e->getTrace();
+            $trace = (array) array_pop($arr);
             $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
             $this->writeErrLog($err_file, $e->getCode(), $e->getMessage(), 'query->' . json_encode($filter) . '|--|' . json_encode($options));
         } catch (AuthenticationException $e) {
-            $arr      = (array) $e->getTrace();
-            $trace    = (array) array_pop($arr);
+            $arr = (array) $e->getTrace();
+            $trace = (array) array_pop($arr);
             $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
             $this->writeErrLog($err_file, $e->getCode(), $e->getMessage(), 'query->' . json_encode($filter) . '|--|' . json_encode($options));
         } catch (RuntimeException $e) {
-            $arr      = (array) $e->getTrace();
-            $trace    = (array) array_pop($arr);
+            $arr = (array) $e->getTrace();
+            $trace = (array) array_pop($arr);
             $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
             $this->writeErrLog($err_file, $e->getCode(), $e->getMessage(), 'query->' . json_encode($filter) . '|--|' . json_encode($options));
         }
@@ -170,37 +168,37 @@ class MongoDB {
      */
     public function delete($table_name, $filter = array(), $limit = true) {
         try {
-            $bulk         = new BulkWrite();
+            $bulk = new BulkWrite();
             $bulk->delete($filter, ['limit' => $limit]);
             $writeConcern = new WriteConcern(WriteConcern::MAJORITY, 100);
-            $result       = $this->manager->executeBulkWrite($this->dbname . '.' . $table_name, $bulk, $writeConcern);
+            $result = $this->manager->executeBulkWrite($this->dbname . '.' . $table_name, $bulk, $writeConcern);
             if ($result->getWriteErrors()) {
                 return false;
             }
             return (int) $result->getDeletedCount();
         } catch (BulkWriteException $e) {
-            $arr      = (array) $e->getTrace();
-            $trace    = (array) array_pop($arr);
+            $arr = (array) $e->getTrace();
+            $trace = (array) array_pop($arr);
             $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
             $this->writeErrLog($err_file, $e->getCode(), $e->getMessage(), 'delete->' . json_encode($filter));
         } catch (InvalidArgumentException $e) {
-            $arr      = (array) $e->getTrace();
-            $trace    = (array) array_pop($arr);
+            $arr = (array) $e->getTrace();
+            $trace = (array) array_pop($arr);
             $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
             $this->writeErrLog($err_file, $e->getCode(), $e->getMessage(), 'delete->' . json_encode($filter));
         } catch (ConnectionException $e) {
-            $arr      = (array) $e->getTrace();
-            $trace    = (array) array_pop($arr);
+            $arr = (array) $e->getTrace();
+            $trace = (array) array_pop($arr);
             $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
             $this->writeErrLog($err_file, $e->getCode(), $e->getMessage(), 'delete->' . json_encode($filter));
         } catch (AuthenticationException $e) {
-            $arr      = (array) $e->getTrace();
-            $trace    = (array) array_pop($arr);
+            $arr = (array) $e->getTrace();
+            $trace = (array) array_pop($arr);
             $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
             $this->writeErrLog($err_file, $e->getCode(), $e->getMessage(), 'delete->' . json_encode($filter));
         } catch (RuntimeException $e) {
-            $arr      = (array) $e->getTrace();
-            $trace    = (array) array_pop($arr);
+            $arr = (array) $e->getTrace();
+            $trace = (array) array_pop($arr);
             $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
             $this->writeErrLog($err_file, $e->getCode(), $e->getMessage(), 'delete->' . json_encode($filter));
         }
@@ -218,37 +216,37 @@ class MongoDB {
      */
     public function update($table_name = 'test', $filter = array(), $data = array(), $multi = false, $upsert = false) {
         try {
-            $bulk         = new BulkWrite();
+            $bulk = new BulkWrite();
             $bulk->update($filter, ['$set' => $data], ['multi' => $multi, 'upsert' => $upsert]);
             $writeConcern = new WriteConcern(WriteConcern::MAJORITY, 100);
-            $result       = $this->manager->executeBulkWrite($this->dbname . '.' . $table_name, $bulk, $writeConcern);
+            $result = $this->manager->executeBulkWrite($this->dbname . '.' . $table_name, $bulk, $writeConcern);
             if ($result->getWriteErrors()) {
                 return false;
             }
             return (int) $result->getModifiedCount();
         } catch (BulkWriteException $e) {
-            $arr      = (array) $e->getTrace();
-            $trace    = (array) array_pop($arr);
+            $arr = (array) $e->getTrace();
+            $trace = (array) array_pop($arr);
             $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
             $this->writeErrLog($err_file, $e->getCode(), $e->getMessage(), 'update->' . json_encode($filter) . '|--|' . json_encode($data));
         } catch (InvalidArgumentException $e) {
-            $arr      = (array) $e->getTrace();
-            $trace    = (array) array_pop($arr);
+            $arr = (array) $e->getTrace();
+            $trace = (array) array_pop($arr);
             $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
             $this->writeErrLog($err_file, $e->getCode(), $e->getMessage(), 'update->' . json_encode($filter) . '|--|' . json_encode($data));
         } catch (ConnectionException $e) {
-            $arr      = (array) $e->getTrace();
-            $trace    = (array) array_pop($arr);
+            $arr = (array) $e->getTrace();
+            $trace = (array) array_pop($arr);
             $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
             $this->writeErrLog($err_file, $e->getCode(), $e->getMessage(), 'update->' . json_encode($filter) . '|--|' . json_encode($data));
         } catch (AuthenticationException $e) {
-            $arr      = (array) $e->getTrace();
-            $trace    = (array) array_pop($arr);
+            $arr = (array) $e->getTrace();
+            $trace = (array) array_pop($arr);
             $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
             $this->writeErrLog($err_file, $e->getCode(), $e->getMessage(), 'update->' . json_encode($filter) . '|--|' . json_encode($data));
         } catch (RuntimeException $e) {
-            $arr      = (array) $e->getTrace();
-            $trace    = (array) array_pop($arr);
+            $arr = (array) $e->getTrace();
+            $trace = (array) array_pop($arr);
             $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
             $this->writeErrLog($err_file, $e->getCode(), $e->getMessage(), 'update->' . json_encode($filter) . '|--|' . json_encode($data));
         }

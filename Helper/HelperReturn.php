@@ -2,8 +2,6 @@
 
 namespace Helper;
 
-defined('IN_APP') or die('Access denied!');
-
 /**
  * Author: skylong
  * CreateTime: 2018-8-27 22:37:33

@@ -2,8 +2,6 @@
 
 namespace Lib\Session;
 
-defined('IN_APP') or die('Access denied!');
-
 /**
  * Author: skylong
  * CreateTime: 2018-6-13 23:16:27
@@ -33,7 +31,7 @@ class MEMSession {
      * @param \lib\cache\SMemcached $mem
      */
     public static function start($mem) {
-        self::$mem       = $mem;
+        self::$mem = $mem;
         ini_set('session.save_handler', 'user');
         ini_set('session.gc_maxlifetime', 1800);
         self::$life_time = ini_get('session.gc_maxlifetime');

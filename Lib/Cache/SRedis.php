@@ -2,8 +2,6 @@
 
 namespace Lib\Cache;
 
-defined('IN_APP') or die('Access denied!');
-
 use Lib\System\Log;
 use Config\ConfigLog;
 
@@ -62,8 +60,8 @@ class SRedis {
      * @param string $passwd
      */
     public function __construct($host, $port = 6379, $passwd = '') {
-        $this->host   = $host;
-        $this->port   = $port;
+        $this->host = $host;
+        $this->port = $port;
         $this->passwd = $passwd;
     }
 
@@ -77,14 +75,14 @@ class SRedis {
             return $this->is_connect;
         }
         try {
-            $this->redis      = new \Redis();
+            $this->redis = new \Redis();
             $this->is_connect = $this->redis->connect($this->host, $this->port, self::TIME_OUT);
             $this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_NONE); //Redis::SERIALIZER_NONE不序列化.Redis::SERIALIZER_IGBINARY二进制序列化
             $this->passwd && $this->redis->auth($this->passwd);
             defined('PROJECT_NS') && $this->redis->setOption(\Redis::OPT_PREFIX, strtoupper(PROJECT_NS . '_')); //设置key的前缀
         } catch (\RedisException $e) {
-            $arr      = (array) $e->getTrace();
-            $trace    = (array) array_pop($arr);
+            $arr = (array) $e->getTrace();
+            $trace = (array) array_pop($arr);
             $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
             $this->writeErrLog($err_file, $e->getCode(), $e->getMessage());
         }

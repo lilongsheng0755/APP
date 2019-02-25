@@ -2,8 +2,6 @@
 
 namespace Lib\Cache;
 
-defined('IN_APP') or die('Access denied!');
-
 use Lib\System\Log;
 use Config\ConfigLog;
 
@@ -15,13 +13,14 @@ use Config\ConfigLog;
 class SMemcached {
 
     const KEY_EXPIRE = 2592000; //默认key有效时间为30天
-    const TRY_NUM    = 2; //失败重连次数
+    const TRY_NUM = 2; //失败重连次数
 
     /**
      * memcached实例
      *
      * @var \memcached
      */
+
     private $mem = null;
 
     /**
@@ -39,7 +38,7 @@ class SMemcached {
     public function __construct($mem_conf = array()) {
         class_exists('memcached') or die('Non installed memcached extension!');
         ($mem_conf && is_array($mem_conf)) && $this->mem_conf = $mem_conf;
-        $this->mem      = new \Memcached();
+        $this->mem = new \Memcached();
         $this->mem->setOption(\Memcached::OPT_BINARY_PROTOCOL, true); //开启使用二进制协议
         $this->mem->setOption(\Memcached::OPT_TCP_NODELAY, true); //开启或关闭已连接socket的无延迟特性
         $this->mem->setOption(\Memcached::OPT_NO_BLOCK, true); //开启或关闭异步I/O
@@ -129,7 +128,7 @@ class SMemcached {
      */
     public function incr($key, $num = 1) {
         for ($i = 0; $i < self::TRY_NUM; $i++) {
-            $res        = $this->mem->increment($key, $num);
+            $res = $this->mem->increment($key, $num);
             $resultCode = $this->mem->getResultCode();
             if ($res !== false && $resultCode === \Memcached::RES_SUCCESS) {
                 return $res;
@@ -151,7 +150,7 @@ class SMemcached {
      */
     public function decr($key, $num = 1) {
         for ($i = 0; $i < self::TRY_NUM; $i++) {
-            $res        = $this->mem->decrement($key, $num);
+            $res = $this->mem->decrement($key, $num);
             $resultCode = $this->mem->getResultCode();
             if ($res !== false && $resultCode === \Memcached::RES_SUCCESS) {
                 return $res;
@@ -219,7 +218,7 @@ class SMemcached {
      */
     public function get($key) {
         for ($i = 0; $i < self::TRY_NUM; $i++) {
-            $res        = $this->mem->get($key);
+            $res = $this->mem->get($key);
             $resultCode = $this->mem->getResultCode();
             if ($resultCode === \Memcached::RES_SUCCESS) {
                 return $res;
@@ -240,7 +239,7 @@ class SMemcached {
      */
     public function getMulti($keys) {
         for ($i = 0; $i < self::TRY_NUM; $i++) {
-            $res        = $this->mem->getMulti($keys);
+            $res = $this->mem->getMulti($keys);
             $resultCode = $this->mem->getResultCode();
             if ($res) {
                 return $res;
@@ -314,17 +313,17 @@ class SMemcached {
      * @param string $cmd  操作指令
      */
     private function writeErrLog($errno, $error, $cmd) {
-        $e        = new \Exception();
-        $arr      = (array) $e->getTrace();
-        $trace    = (array) array_pop($arr);
+        $e = new \Exception();
+        $arr = (array) $e->getTrace();
+        $trace = (array) array_pop($arr);
         $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
         !PRODUCTION_ENV && die($err_file . '=======Memcached Err：' . $error . '=======' . $cmd);
-        $data     = "file:{$err_file}\r\n";
-        $data     .= "time:" . date('Y-m-d H:i:s') . "\r\n";
-        $data     .= "errno:{$errno}\r\n";
-        $data     .= "error:\"{$error}\"\r\n";
-        $data     .= "cmd:\"{$cmd}\"\r\n";
-        $data     .= "======================================================================\r\n";
+        $data = "file:{$err_file}\r\n";
+        $data .= "time:" . date('Y-m-d H:i:s') . "\r\n";
+        $data .= "errno:{$errno}\r\n";
+        $data .= "error:\"{$error}\"\r\n";
+        $data .= "cmd:\"{$cmd}\"\r\n";
+        $data .= "======================================================================\r\n";
         Log::writeErrLog('error_memcached' . date('Ymd'), $data, ConfigLog::MEM_ERR_LOG_TYPE);
     }
 

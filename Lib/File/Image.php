@@ -2,8 +2,6 @@
 
 namespace Lib\File;
 
-defined('IN_APP') or die('Access denied!');
-
 /**
  * Author: skylong
  * CreateTime: 2018-10-21 21:02:50
@@ -75,10 +73,10 @@ class Image {
             $this->error_msg = "保存目录不存在或不可写！";
             return false;
         }
-        $img_info  = $this->getInfo($img_file);
-        $src_img   = $this->getImg($img_file, $img_info);
-        $size      = $this->getNewSize($width, $height, $img_info);
-        $new_img   = $this->kidOfImage($src_img, $size, $img_info);
+        $img_info = $this->getInfo($img_file);
+        $src_img = $this->getImg($img_file, $img_info);
+        $size = $this->getNewSize($width, $height, $img_info);
+        $new_img = $this->kidOfImage($src_img, $size, $img_info);
         $save_file = rtrim($save_path, DS) . DS . 'th_' . basename($img_file);
         return $this->createNewImage($new_img, $save_file, $img_info);
     }
@@ -108,16 +106,16 @@ class Image {
             return false;
         }
         $ground_info = $this->getInfo($ground_file);
-        $water_info  = $this->getInfo($water_file);
-        $water_pos   = $this->position($ground_info, $water_info, $postion);
+        $water_info = $this->getInfo($water_file);
+        $water_pos = $this->position($ground_info, $water_info, $postion);
         if ($ground_info['width'] < $water_info['width'] || $ground_info['height'] < $water_info['height']) {
             $this->error_msg = "背景不应该比水印图片小！";
             return false;
         }
         $ground_img = $this->getImg($ground_file, $ground_info);
-        $water_img  = $this->getImg($water_file, $water_info);
+        $water_img = $this->getImg($water_file, $water_info);
 
-        $new_img   = $this->copyImage($ground_img, $water_img, $water_pos, $water_info);
+        $new_img = $this->copyImage($ground_img, $water_img, $water_pos, $water_info);
         $save_file = rtrim($save_path, DS) . DS . 'wa_' . basename($ground_file);
         return $this->createNewImage($new_img, $save_file, $ground_info);
     }
@@ -148,8 +146,8 @@ class Image {
             $this->error_msg = "裁剪的位置超出了背景图片范围！";
             return false;
         }
-        $back      = $this->getImg($img_file, $img_info);
-        $cutimg    = imagecreatetruecolor($width, $height);
+        $back = $this->getImg($img_file, $img_info);
+        $cutimg = imagecreatetruecolor($width, $height);
         imagecopyresampled($cutimg, $back, 0, 0, $x, $y, $width, $height, $width, $height);
         imagedestroy($back);
         $save_file = rtrim($save_path, DS) . DS . 'cu_' . basename($img_file);
@@ -167,8 +165,8 @@ class Image {
             $this->error_msg = "图片不存在！";
             return false;
         }
-        $back   = imagecreatefromjpeg($img_file);
-        $width  = imagesx($back);
+        $back = imagecreatefromjpeg($img_file);
+        $width = imagesx($back);
         $height = imagesy($back);
 
         $new = imagecreatetruecolor($width, $height);
@@ -192,8 +190,8 @@ class Image {
             $this->error_msg = "图片不存在！";
             return false;
         }
-        $back   = imagecreatefromjpeg($img_file);
-        $width  = imagesx($back);
+        $back = imagecreatefromjpeg($img_file);
+        $width = imagesx($back);
         $height = imagesy($back);
 
         $new = imagecreatetruecolor($width, $height);
@@ -213,10 +211,10 @@ class Image {
      * @return array
      */
     private function getInfo($img_file = '') {
-        $data               = getimagesize($img_file);
-        $img_info['width']  = $data[0];
+        $data = getimagesize($img_file);
+        $img_info['width'] = $data[0];
         $img_info['height'] = $data[1];
-        $img_info['type']   = $data[2];
+        $img_info['type'] = $data[2];
         return $img_info;
     }
 
@@ -307,7 +305,7 @@ class Image {
      * @return array
      */
     private function getNewSize($width, $height, $img_info) {
-        $size['width']  = $img_info['width'];
+        $size['width'] = $img_info['width'];
         $size['height'] = $img_info['height'];
 
         if ($width < $img_info['width']) {
@@ -374,9 +372,9 @@ class Image {
      */
     private static function kidOfImage($src_img, $size, $img_info) {
         $new_img = imagecreatetruecolor($size['width'], $size['height']);
-        $otsc    = imagecolortransparent($src_img);
+        $otsc = imagecolortransparent($src_img);
         if ($otsc >= 0 && $otsc < imagecolorstotal($src_img)) {
-            $transparentcolor    = imagecolorsforindex($src_img, $otsc);
+            $transparentcolor = imagecolorsforindex($src_img, $otsc);
             $newtransparentcolor = imagecolorallocate($new_img, $transparentcolor['red'], $transparentcolor['green'], $transparentcolor['blue']);
             imagefill($new_img, 0, 0, $newtransparentcolor);
             imagecolortransparent($new_img, $newtransparentcolor);

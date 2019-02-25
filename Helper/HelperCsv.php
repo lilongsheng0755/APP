@@ -2,8 +2,6 @@
 
 namespace Helper;
 
-defined('IN_APP') or die('Access denied!');
-
 /**
  * Author: skylong
  * CreateTime: 2018-8-6 16:30:17
@@ -25,8 +23,8 @@ class HelperCsv {
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename=' . $file_name);
         header('Cache-Control: max-age=0');
-        $file      = fopen('php://output', 'a');
-        $calc      = 0;
+        $file = fopen('php://output', 'a');
+        $calc = 0;
         foreach ($title as $v) {
             $tit[] = iconv('UTF-8', 'GB2312//IGNORE', $v);
         }
@@ -56,10 +54,10 @@ class HelperCsv {
      * @return array
      */
     public static function importCsv($csv_file) {
-        $res    = array();
-        $n      = 0;
+        $res = array();
+        $n = 0;
         $handle = fopen($csv_file, 'r');
-        while ($data   = fgetcsv($handle)) {
+        while ($data = fgetcsv($handle)) {
             $num = count($data);
             for ($i = 0; $i < $num; $i++) {
                 $res[$n][$i] = iconv('gb2312', 'utf-8', $data[$i]);

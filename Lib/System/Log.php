@@ -2,8 +2,6 @@
 
 namespace Lib\System;
 
-defined('IN_APP') or die('Access denied!');
-
 use Config\ConfigLog;
 
 /**
@@ -28,7 +26,7 @@ class Log {
         }
         $file_name = rtrim($log_dir, DS) . DS . $file_name;
         $file_size = file_exists($file_name) ? filesize($file_name) : 0;
-        $flag      = $file_size >= $limit ? 0 : FILE_APPEND | LOCK_EX;
+        $flag = $file_size >= $limit ? 0 : FILE_APPEND | LOCK_EX;
         file_put_contents($file_name, $data, $flag);
     }
 

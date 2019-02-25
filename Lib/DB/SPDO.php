@@ -2,8 +2,6 @@
 
 namespace Lib\DB;
 
-defined('IN_APP') or die('Access denied!');
-
 use Lib\DB\DataBase;
 use Lib\System\Log;
 use Lib\System\SException;
@@ -91,7 +89,7 @@ class SPDO extends DataBase {
      */
     public function __construct($host, $username, $passwd, $dbname, $port = 3306) {
         extension_loaded('pdo_mysql') or die('No pdo extensions installed');
-        $driver_options       = array(
+        $driver_options = array(
             \PDO::ATTR_CASE                     => \PDO::CASE_NATURAL, //保留数据库驱动返回的列名。 
             \PDO::ATTR_ERRMODE                  => \PDO::ERRMODE_EXCEPTION, // 抛出 exceptions 异常
             \PDO::ATTR_ORACLE_NULLS             => \PDO::NULL_TO_STRING, //将 NULL 转换成空字符串
@@ -101,11 +99,11 @@ class SPDO extends DataBase {
             \PDO::ATTR_DEFAULT_FETCH_MODE       => \PDO::FETCH_ASSOC, // 设置默认的提取模式
             \PDO::ATTR_PERSISTENT               => false, // 持久化连接
         );
-        $this->host           = $host;
-        $this->username       = $username;
-        $this->passwd         = $passwd;
-        $this->dbname         = $dbname;
-        $this->port           = $port;
+        $this->host = $host;
+        $this->username = $username;
+        $this->passwd = $passwd;
+        $this->dbname = $dbname;
+        $this->port = $port;
         $this->driver_options = $driver_options;
     }
 
@@ -119,7 +117,7 @@ class SPDO extends DataBase {
             return $this->pdo;
         }
         try {
-            $dsn       = "mysql:host={$this->host};port={$this->port};dbname={$this->dbname}";
+            $dsn = "mysql:host={$this->host};port={$this->port};dbname={$this->dbname}";
             $this->pdo = new \PDO($dsn, $this->username, $this->passwd, $this->driver_options);
         } catch (\PDOException $e) {
             if (!PRODUCTION_ENV) {
@@ -141,8 +139,8 @@ class SPDO extends DataBase {
         try {
             $this->result = $this->pdo->query($sql);
         } catch (\PDOException $ex) {
-            $arr      = (array) $ex->getTrace();
-            $trace    = (array) array_pop($arr);
+            $arr = (array) $ex->getTrace();
+            $trace = (array) array_pop($arr);
             $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
             $this->writeErrLog($err_file, $ex->getCode(), $ex->getMessage(), $sql);
         }
@@ -161,7 +159,7 @@ class SPDO extends DataBase {
         if (!$res || !($res instanceof \PDOStatement)) {
             return array();
         }
-        $row            = $res->fetch($result_type);
+        $row = $res->fetch($result_type);
         $row && $this->num_rows = 1;
         $res->closeCursor();
         return $row ? $row : array();
@@ -200,7 +198,7 @@ class SPDO extends DataBase {
         if (!$res || !($res instanceof \PDOStatement)) {
             return array();
         }
-        $row            = $res->fetchObject($class_name);
+        $row = $res->fetchObject($class_name);
         $row && $this->num_rows = 1;
         $res->closeCursor();
         return $row ? $row : array();
@@ -266,8 +264,8 @@ class SPDO extends DataBase {
         try {
             return $this->pdo->exec($sql);
         } catch (\PDOException $ex) {
-            $arr      = (array) $ex->getTrace();
-            $trace    = (array) array_pop($arr);
+            $arr = (array) $ex->getTrace();
+            $trace = (array) array_pop($arr);
             $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
             $this->writeErrLog($err_file, $ex->getCode(), $ex->getMessage(), $sql);
         }
@@ -313,8 +311,8 @@ class SPDO extends DataBase {
             $this->result = $this->pdo->prepare($sql);
             return $this->result->execute($prepare);
         } catch (\PDOException $ex) {
-            $arr      = (array) $ex->getTrace();
-            $trace    = (array) array_pop($arr);
+            $arr = (array) $ex->getTrace();
+            $trace = (array) array_pop($arr);
             $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
             $this->writeErrLog($err_file, $ex->getCode(), $ex->getMessage(), $sql);
         }

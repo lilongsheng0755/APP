@@ -2,8 +2,6 @@
 
 namespace Lib\System;
 
-defined('IN_APP') or die('Access denied!');
-
 /**
  * Author: skylong
  * CreateTime: 2018-6-7 16:10:57

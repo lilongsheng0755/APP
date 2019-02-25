@@ -2,8 +2,6 @@
 
 namespace Lib\Session;
 
-defined('IN_APP') or die('Access denied!');
-
 /**
  * Author: skylong
  * CreateTime: 2018-7-7 20:41:32
@@ -70,16 +68,16 @@ class DBSession {
     public static function start($db, $tblname = 'user_session', $primary_key = 'sid') {
         ini_set('session.save_handler', 'user');
         ini_set('session.gc_maxlifetime', 1800);
-        self::$db           = $db;
+        self::$db = $db;
         self::$client_agent = isset($_SERVER['HTTP_USER_AGENT']) ? trim($_SERVER['HTTP_USER_AGENT']) : '';
-        $client_ip          = !empty($_SERVER['HTTP_CLIENT_IP']) ? $_SERVER['HTTP_CLIENT_IP'] : (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) ?
+        $client_ip = !empty($_SERVER['HTTP_CLIENT_IP']) ? $_SERVER['HTTP_CLIENT_IP'] : (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) ?
                 $_SERVER['HTTP_X_FORWARDED_FOR'] : (!empty($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 0);
 
-        filter_var($client_ip, FILTER_VALIDATE_IP) === false && $client_ip         = '0.0.0.0';
-        self::$client_ip   = $client_ip;
-        self::$life_time   = ini_get('session.gc_maxlifetime');
-        self::$time        = time();
-        self::$tblname     = $tblname;
+        filter_var($client_ip, FILTER_VALIDATE_IP) === false && $client_ip = '0.0.0.0';
+        self::$client_ip = $client_ip;
+        self::$life_time = ini_get('session.gc_maxlifetime');
+        self::$time = time();
+        self::$tblname = $tblname;
         self::$primary_key = $primary_key;
 
         session_set_save_handler(
@@ -116,10 +114,10 @@ class DBSession {
      */
     public static function read($sid) {
         $tblname = self::$tblname;
-        $field   = self::$primary_key;
-        $sid     = md5(trim($sid));
-        $sql     = "SELECT * FROM `{$tblname}` WHERE `{$field}`='{$sid}' LIMIT 1";
-        if (!$result  = self::$db->getOne($sql)) {
+        $field = self::$primary_key;
+        $sid = md5(trim($sid));
+        $sql = "SELECT * FROM `{$tblname}` WHERE `{$field}`='{$sid}' LIMIT 1";
+        if (!$result = self::$db->getOne($sql)) {
             return '';
         }
 
@@ -146,14 +144,14 @@ class DBSession {
      * @return boolean
      */
     public static function write($sid, $data) {
-        $tblname     = self::$tblname;
-        $field       = self::$primary_key;
+        $tblname = self::$tblname;
+        $field = self::$primary_key;
         $update_time = self::$time;
-        $client_ip   = self::$client_ip;
-        $user_agent  = self::$client_agent;
-        $sid         = md5(trim($sid));
-        $sql         = "SELECT * FROM `{$tblname}` WHERE `{$field}`='{$sid}' LIMIT 1";
-        if ($result      = self::$db->getOne($sql)) {
+        $client_ip = self::$client_ip;
+        $user_agent = self::$client_agent;
+        $sid = md5(trim($sid));
+        $sql = "SELECT * FROM `{$tblname}` WHERE `{$field}`='{$sid}' LIMIT 1";
+        if ($result = self::$db->getOne($sql)) {
             //数据有变动时更新，或者间隔30秒更新一次
             if ($result['data'] != $data || self::$time > ($result['update_time'] + 30)) {
                 $sql = "UPDATE `{$tblname}` SET `update_time` = {$update_time}, `data` = '{$data}' WHERE `{$field}` = '{$sid}'";
@@ -176,9 +174,9 @@ class DBSession {
      */
     public static function destroy($sid) {
         $tblname = self::$tblname;
-        $field   = self::$primary_key;
-        $sid     = md5(trim($sid));
-        $sql     = "DELETE FROM `{$tblname}` WHERE `{$field}` = '{$sid}'";
+        $field = self::$primary_key;
+        $sid = md5(trim($sid));
+        $sql = "DELETE FROM `{$tblname}` WHERE `{$field}` = '{$sid}'";
         self::$db->query($sql);
         return true;
     }
@@ -190,9 +188,9 @@ class DBSession {
      * @return boolean
      */
     public static function gc($life_time) {
-        $tblname     = self::$tblname;
+        $tblname = self::$tblname;
         $update_time = self::$time - $life_time;
-        $sql         = "DELETE FROM `{$tblname}` WHERE `update_time` < $update_time";
+        $sql = "DELETE FROM `{$tblname}` WHERE `update_time` < $update_time";
         self::$db->query($sql);
         return true;
     }

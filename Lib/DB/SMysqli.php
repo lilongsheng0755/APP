@@ -2,8 +2,6 @@
 
 namespace Lib\DB;
 
-defined('IN_APP') or die('Access denied!');
-
 use Lib\DB\DataBase;
 use Lib\System\Log;
 use Lib\System\SException;
@@ -77,11 +75,11 @@ class SMysqli extends DataBase {
      */
     public function __construct($host, $username, $passwd, $dbname, $port = 3306) {
         extension_loaded('mysqli') or die('No mysqli extensions installed');
-        $this->host     = $host;
+        $this->host = $host;
         $this->username = $username;
-        $this->passwd   = $passwd;
-        $this->dbname   = $dbname;
-        $this->port     = $port;
+        $this->passwd = $passwd;
+        $this->dbname = $dbname;
+        $this->port = $port;
     }
 
     /**
@@ -260,18 +258,18 @@ class SMysqli extends DataBase {
      * @param string $query  操作语句
      */
     private function writeErrLog($errno, $error, $query) {
-        $e        = new \mysqli_sql_exception();
-        $arr      = (array) $e->getTrace();
-        $trace    = (array) array_pop($arr);
+        $e = new \mysqli_sql_exception();
+        $arr = (array) $e->getTrace();
+        $trace = (array) array_pop($arr);
         $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
         !PRODUCTION_ENV && die($err_file . '=======' . $error . '=======' . $query);
         unset($e, $trace);
-        $data     = "file:{$err_file}\r\n";
-        $data     .= "time:" . date('Y-m-d H:i:s') . "\r\n";
-        $data     .= "errno:{$errno}\r\n";
-        $data     .= "error:\"{$error}\"\r\n";
-        $data     .= "query:\"{$query}\"\r\n";
-        $data     .= "======================================================================\r\n";
+        $data = "file:{$err_file}\r\n";
+        $data .= "time:" . date('Y-m-d H:i:s') . "\r\n";
+        $data .= "errno:{$errno}\r\n";
+        $data .= "error:\"{$error}\"\r\n";
+        $data .= "query:\"{$query}\"\r\n";
+        $data .= "======================================================================\r\n";
         Log::writeErrLog('error_mysql' . date('Ymd'), $data, ConfigLog::MYSQL_ERR_LOG_TYPE);
         HelperReturn::jsonData('DB ERROR!', SException::CODE_MYSQL_ERROR);
     }

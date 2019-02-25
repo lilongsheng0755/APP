@@ -2,8 +2,6 @@
 
 namespace Lib\File;
 
-defined('IN_APP') or die('Access denied!');
-
 use Config\ConfigUpload;
 
 /**
@@ -168,11 +166,11 @@ class FileUpload {
             $this->error_num = -6;
             return false;
         }
-        $ret             = [];
-        $ret['name']     = $_FILES[$upload_field]['name'];
+        $ret = [];
+        $ret['name'] = $_FILES[$upload_field]['name'];
         $ret['tmp_name'] = $_FILES[$upload_field]['tmp_name'];
-        $ret['size']     = $_FILES[$upload_field]['size'];
-        $ret['error']    = $_FILES[$upload_field]['error'];
+        $ret['size'] = $_FILES[$upload_field]['size'];
+        $ret['error'] = $_FILES[$upload_field]['error'];
         return $ret;
     }
 
@@ -305,11 +303,11 @@ class FileUpload {
         if ($error) {
             return false;
         }
-        $this->origin_name   = $name;
+        $this->origin_name = $name;
         $this->tmp_file_name = $tmp_name;
-        $aryStr              = explode('.', $name);
-        $this->file_type     = strtolower($aryStr[count($aryStr) - 1]);
-        $this->file_size     = $size;
+        $aryStr = explode('.', $name);
+        $this->file_type = strtolower($aryStr[count($aryStr) - 1]);
+        $this->file_size = $size;
         return true;
     }
 

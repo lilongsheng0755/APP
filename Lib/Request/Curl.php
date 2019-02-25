@@ -2,8 +2,6 @@
 
 namespace Lib\Request;
 
-defined('IN_APP') or die('Access denied!');
-
 use Lib\System\Log;
 use Config\ConfigLog;
 
@@ -52,7 +50,7 @@ class Curl {
         if ((!$url = trim($url))) {
             return false;
         }
-        $ch      = curl_init($url);
+        $ch = curl_init($url);
         $request = '';
         if ($data && is_array($data)) {
             $request = self::doRequestParams($data, $header_type);
@@ -63,7 +61,7 @@ class Curl {
             $request && curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
         } else {
             $parse_url = parse_url($url);
-            $url       = (strpos($url, '?') !== false && !empty($parse_url['query'])) ? "{$url}&{$request}" : rtrim($url, '?') . "?{$request}";
+            $url = (strpos($url, '?') !== false && !empty($parse_url['query'])) ? "{$url}&{$request}" : rtrim($url, '?') . "?{$request}";
             $request && curl_setopt($ch, CURLOPT_URL, $url);
         }
         curl_setopt($ch, CURLOPT_HEADER, false); // 启用时会将头文件的信息作为数据流输出。 
@@ -79,10 +77,10 @@ class Curl {
         if ($header) {
             curl_setopt($ch, CURLOPT_HTTPHEADER, $header); //curl设置header头
         }
-        $ret   = curl_exec($ch); //成功时返回 TRUE ， 或者在失败时返回 FALSE 。 然而，如果 CURLOPT_RETURNTRANSFER 选项被设置，函数执行成功时会返回执行的结果
+        $ret = curl_exec($ch); //成功时返回 TRUE ， 或者在失败时返回 FALSE 。 然而，如果 CURLOPT_RETURNTRANSFER 选项被设置，函数执行成功时会返回执行的结果
         $error = curl_error($ch);
         $errno = curl_errno($ch);
-        $info  = curl_getinfo($ch);
+        $info = curl_getinfo($ch);
         if ($error || $errno || ($info && isset($info['http_code']) && $info['http_code'] >= 400)) {
             $errno = $errno ? $errno : $info['http_code'];
             $error = $error ? $error : 'http_code ' . $errno;
@@ -149,15 +147,15 @@ class Curl {
      * @param int $error  错误信息
      */
     private static function writeErrLog($errno, $error) {
-        $trace    = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 0);
-        $trace && $trace    = array_pop($trace);
+        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 0);
+        $trace && $trace = array_pop($trace);
         $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
         !PRODUCTION_ENV && die($err_file . '=======CURL Err：' . $error);
-        $data     = "file:{$err_file}\r\n";
-        $data     .= "time:" . date('Y-m-d H:i:s') . "\r\n";
-        $data     .= "errno:{$errno}\r\n";
-        $data     .= "error:\"{$error}\"\r\n";
-        $data     .= "======================================================================\r\n";
+        $data = "file:{$err_file}\r\n";
+        $data .= "time:" . date('Y-m-d H:i:s') . "\r\n";
+        $data .= "errno:{$errno}\r\n";
+        $data .= "error:\"{$error}\"\r\n";
+        $data .= "======================================================================\r\n";
         Log::writeErrLog('error_curl' . date('Ymd'), $data, ConfigLog::CURL_ERR_LOG_TYPE);
     }
 

@@ -2,8 +2,6 @@
 
 namespace Load;
 
-defined('IN_APP') or die('Access denied!');
-
 /**
  * Author: skylong
  * CreateTime: 2018-10-14 18:47:42

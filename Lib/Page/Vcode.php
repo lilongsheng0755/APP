@@ -2,8 +2,6 @@
 
 namespace Lib\Page;
 
-defined('IN_APP') or die('Access denied!');
-
 /**
  * Author: skylong
  * CreateTime: 2018-8-12 12:13:14
@@ -26,10 +24,10 @@ class Vcode {
      * @param int $codeNum  验证码图片字符个数
      */
     public function __construct($width = 80, $height = 20, $codeNum = 4) {
-        $this->width   = $width;
-        $this->height  = $height;
+        $this->width = $width;
+        $this->height = $height;
         $this->codeNum = $codeNum;
-        $number        = floor(($height * $width) / 15);
+        $number = floor(($height * $width) / 15);
         if ($number > 240 - $codeNum) {
             $this->disturbColorNum = 240 - $codeNum;
         } else {
@@ -54,9 +52,9 @@ class Vcode {
      */
     private function getCreateImage() {
         $this->image = imagecreatetruecolor($this->width, $this->height);
-        $backColor   = imagecolorallocate($this->image, rand(225, 255), rand(225, 255), rand(225, 255));
+        $backColor = imagecolorallocate($this->image, rand(225, 255), rand(225, 255), rand(225, 255));
         imagefill($this->image, 0, 0, $backColor);
-        $border      = imagecolorallocate($this->image, 0, 0, 0);
+        $border = imagecolorallocate($this->image, 0, 0, 0);
         imagerectangle($this->image, 0, 0, $this->width - 1, $this->height - 1, $border);
     }
 
@@ -67,7 +65,7 @@ class Vcode {
      */
     private function createCheckCode() {
         $rand_code = '3456789abcdefghijkmnpqrstuvwxyABCDEFGHIJKMNPQRSTUVWXY';
-        $code      = '';
+        $code = '';
         for ($i = 0; $i < $this->codeNum; $i++) {
             $code .= $rand_code[rand(0, strlen($rand_code) - 1)];
         }
@@ -95,9 +93,9 @@ class Vcode {
     private function outputText() {
         for ($i = 0; $i < $this->codeNum; $i++) {
             $fontcolor = imagecolorallocate($this->image, rand(0, 128), rand(0, 128), rand(0, 128));
-            $fontsize  = rand(3, 5);
-            $x         = floor($this->width / $this->codeNum) * $i + 3;
-            $y         = rand(0, $this->height - imagefontheight($fontsize));
+            $fontsize = rand(3, 5);
+            $x = floor($this->width / $this->codeNum) * $i + 3;
+            $y = rand(0, $this->height - imagefontheight($fontsize));
             imagechar($this->image, $fontsize, $x, $y, $this->checkCode[$i], $fontcolor);
         }
     }

@@ -2,8 +2,6 @@
 
 namespace Config;
 
-defined('IN_APP') or die('Access denied!');
-
 /**
  * Author: skylong
  * CreateTime: 2018-10-9 22:30:34
