@@ -12,7 +12,7 @@ class DBSession {
     /**
      * pdo对象
      *
-     * @var \lib\db\SPDO
+     * @var \Lib\DB\SPDO
      */
     protected static $db = null;
 
@@ -61,7 +61,7 @@ class DBSession {
     /**
      * 自定义session初始化
      * 
-     * @param object $db  \lib\db\SPDO | \lib\db\SMysqli
+     * @param object $db  \Lib\DB\SPDO | \Lib\DB\SMysqli
      * @param string $tblname  保存session数据的表名
      * @param string $primary_key  session表主键key  sessionID
      */

@@ -8,3 +8,4 @@ header("Pragma: no-cache");
 //header('Content-Type: text/html;charset=utf-8');
 //载入核心文件
 require_once __DIR__ . '/core.php';
+

@@ -14,7 +14,7 @@ class MEMSession {
     /**
      * memcached对象
      *
-     * @var \lib\cache\SMemcached
+     * @var \Lib\Cache\SMemcached
      */
     protected static $mem = null;
 
@@ -28,7 +28,7 @@ class MEMSession {
     /**
      * 自定义session初始化
      * 
-     * @param \lib\cache\SMemcached $mem
+     * @param \Lib\Cache\SMemcached $mem
      */
     public static function start($mem) {
         self::$mem = $mem;
