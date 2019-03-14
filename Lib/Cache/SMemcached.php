@@ -28,7 +28,7 @@ class SMemcached {
      *
      * @var array 
      */
-    private $mem_conf = array(array('192.168.0.102', 11211, 100));
+    private $mem_conf = array(array('192.168.0.101', 11211, 100));
 
     /**
      * memcached服务器组 例如：array(array('192.168.0.102', 11211, 100));
@@ -259,7 +259,15 @@ class SMemcached {
      * @return bool
      */
     public function flush() {
-        return $this->mem->flush();
+        for ($i = 0; $i < self::TRY_NUM; $i++) {
+            $res = $this->mem->flush();
+            $resultCode = $this->mem->getResultCode();
+            if ($res) {
+                return $res;
+            }
+        }
+        $this->writeErrLog($resultCode, $this->mem->getResultMessage(), "flush");
+        return false;
     }
 
     /**
@@ -271,7 +279,15 @@ class SMemcached {
      */
     public function touch($key, $expire = 86400) {
         $expire = (int) $expire > 0 ? (int) $expire : self::KEY_EXPIRE;
-        return $this->mem->touch($key, $expire);
+        for ($i = 0; $i < self::TRY_NUM; $i++) {
+            $res = $this->mem->touch($key, $expire);
+            $resultCode = $this->mem->getResultCode();
+            if ($res) {
+                return $res;
+            }
+        }
+        $this->writeErrLog($resultCode, $this->mem->getResultMessage(), "touch");
+        return false;
     }
 
     /**
@@ -281,7 +297,15 @@ class SMemcached {
      * @return int
      */
     public function getOption($memOpt) {
-        return $this->mem->getOption($memOpt);
+        for ($i = 0; $i < self::TRY_NUM; $i++) {
+            $res = $this->mem->getOption($memOpt);
+            $resultCode = $this->mem->getResultCode();
+            if ($res) {
+                return $res;
+            }
+        }
+        $this->writeErrLog($resultCode, $this->mem->getResultMessage(), "getOption");
+        return false;
     }
 
     /**
