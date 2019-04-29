@@ -36,7 +36,7 @@ class SMemcached {
      * @param array $mem_conf
      */
     public function __construct($mem_conf = array()) {
-        class_exists('memcached') or die('Non installed memcached extension!');
+        class_exists('memcached') or die('Not installed memcached extension!');
         ($mem_conf && is_array($mem_conf)) && $this->mem_conf = $mem_conf;
         $this->mem = new \Memcached();
         $this->mem->setOption(\Memcached::OPT_BINARY_PROTOCOL, true); //开启使用二进制协议

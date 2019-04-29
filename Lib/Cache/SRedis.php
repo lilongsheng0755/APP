@@ -60,6 +60,7 @@ class SRedis {
      * @param string $passwd
      */
     public function __construct($host, $port = 6379, $passwd = '') {
+        class_exists('Redis') or die('Not installed redis extension!');
         $this->host = $host;
         $this->port = $port;
         $this->passwd = $passwd;
