@@ -9,17 +9,19 @@ use Config\ConfigLog;
  * CreateTime: 2018-6-1 16:20:13
  * Description: 日志操作类(业务操作日志和系统错误日志)
  */
-class Log {
+class Log
+{
 
     /**
      * 写入日志文件
-     * 
+     *
      * @param string $file_name 日志文件名
-     * @param string $data  日志信息
-     * @param int $log_type  日志类型
-     * @param int $limit  文件大小限制，默认为1MB
+     * @param string $data      日志信息
+     * @param int    $log_type  日志类型
+     * @param int    $limit     文件大小限制，默认为1MB
      */
-    public static function writeErrLog($file_name, $data, $log_type = ConfigLog::PHP_ERR_LOG_TYPE, $limit = 1048576) {
+    public static function writeErrLog($file_name, $data, $log_type = ConfigLog::PHP_ERR_LOG_TYPE, $limit = 1048576)
+    {
         $log_dir = ConfigLog::getLogPath($log_type);
         if (!is_dir($log_dir) || !file_exists($log_dir)) {
             mkdir($log_dir, 0744, true);

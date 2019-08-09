@@ -7,7 +7,8 @@ namespace Lib\System;
  * CreateTime: 2018-6-7 16:10:57
  * Description: 自定义异常类
  */
-class SException extends \Exception {
+class SException extends \Exception
+{
 
     /**
      * 文件不存在时异常码
@@ -42,27 +43,29 @@ class SException extends \Exception {
     /**
      * @var array 保存异常页面显示的额外 Debug 数据
      */
-    protected $data = array();
+    protected $data = [];
 
     /**
      * 覆盖Exception类构造方法
      */
-    public function __construct($message = "", $code = 0) {
+    public function __construct($message = "", $code = 0)
+    {
         parent::__construct($message, $code);
     }
 
     /**
      * 覆盖Exception类的__toString方法
-     * 
+     *
      * @return string
      */
-    public function __toString() {
+    public function __toString()
+    {
         if (!PRODUCTION_ENV) {
-            $data = array('file' => $this->file, 'line' => $this->line, 'msg' => $this->message);
+            $data = ['file' => $this->file, 'line' => $this->line, 'msg' => $this->message];
         } else {
-            $data = array();
+            $data = [];
         }
-        return json_encode(array('code' => $this->code, 'data' => $data));
+        return json_encode(['code' => $this->code, 'data' => $data]);
     }
 
 }

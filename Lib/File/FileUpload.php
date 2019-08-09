@@ -3,13 +3,15 @@
 namespace Lib\File;
 
 use Config\ConfigUpload;
+use Lib\SPL\SingleBase;
 
 /**
  * Author: skylong
  * CreateTime: 2018-8-11 16:45:32
  * Description: 文件上传类
  */
-class FileUpload {
+class FileUpload extends SingleBase
+{
 
     /**
      * 文件上传路径
@@ -68,43 +70,28 @@ class FileUpload {
     private $error_msg = '';
 
     /**
-     * 内部实例
+     * 继承单例模式
      *
-     * @var Image
+     * @param array $params
+     *
+     * @return FileUpload|object
      */
-    private static $instance = null;
-
-    /**
-     * 禁用外部实例化
-     * 
-     * @return boolean
-     */
-    private function __construct() {
-        return false;
-    }
-
-    /**
-     * 内部实例化
-     * 
-     * @return Image
-     */
-    public static function getInstance() {
-        if (self::$instance instanceof self) {
-            return self::$instance;
-        }
-        self::$instance = new self;
-        return self::$instance;
+    public static function getInstance(...$params)
+    {
+        return parent::getInstance(...$params);
     }
 
     /**
      * 单个上传文件
-     * 
-     * @param string $upload_field 上传文件的字段名（POST表单上传）
-     * @param string $save_path  保存路径
-     * @param string $save_file_name  保存文件名
+     *
+     * @param string $upload_field   上传文件的字段名（POST表单上传）
+     * @param string $save_path      保存路径
+     * @param string $save_file_name 保存文件名
+     *
      * @return boolean
      */
-    public function upload($upload_field, $save_path, $save_file_name = '') {
+    public function upload($upload_field, $save_path, $save_file_name = '')
+    {
         if (!$this->checkFilePath($save_path)) {
             $this->error_msg = $this->errorMsg();
             return false;
@@ -139,29 +126,33 @@ class FileUpload {
 
     /**
      * 获取上传后的文件名
-     * 
+     *
      * @return string
      */
-    public function getFileName() {
+    public function getFileName()
+    {
         return $this->new_file_name;
     }
 
     /**
      * 获取错误信息
-     * 
+     *
      * @return string
      */
-    public function getErrorMsg() {
+    public function getErrorMsg()
+    {
         return $this->error_msg;
     }
 
     /**
      * 获取上传文件的信息
-     * 
+     *
      * @param string $upload_field
-     * @return boolean
+     *
+     * @return array|bool
      */
-    private function getUploadFileInfo($upload_field) {
+    private function getUploadFileInfo($upload_field)
+    {
         if (!$upload_field || !isset($_FILES[$upload_field])) {
             $this->error_num = -6;
             return false;
@@ -176,10 +167,11 @@ class FileUpload {
 
     /**
      * 错误信息配置
-     * 
+     *
      * @return string
      */
-    private function errorMsg() {
+    private function errorMsg()
+    {
         $str = "上传文件<font color='red'>{$this->origin_name}</font>时出错：";
         switch ($this->error_num) {
             case 7:
@@ -226,10 +218,11 @@ class FileUpload {
 
     /**
      * 设置上传后台的文件名
-     * 
+     *
      * @param string $save_file_name
      */
-    private function setNewFileName($save_file_name = '') {
+    private function setNewFileName($save_file_name = '')
+    {
         if (!$save_file_name) {
             $this->new_file_name = $this->proRandName();
         } else {
@@ -239,11 +232,13 @@ class FileUpload {
 
     /**
      * 文件路径校验
-     * 
+     *
      * @param string $save_path 保存文件路径
+     *
      * @return boolean
      */
-    private function checkFilePath($save_path = '') {
+    private function checkFilePath($save_path = '')
+    {
         if (empty($save_path)) {
             $this->error_num = -5;
             return false;
@@ -265,10 +260,11 @@ class FileUpload {
 
     /**
      * 检查文件大小(单位：KB)
-     * 
+     *
      * @return boolean
      */
-    private function checkFileSize() {
+    private function checkFileSize()
+    {
         if (floor($this->file_size / 1024) > ConfigUpload::UPLOAD_MAX_SIZE) {
             $this->error_num = -2;
             return false;
@@ -278,10 +274,11 @@ class FileUpload {
 
     /**
      * 检查文件类型
-     * 
+     *
      * @return boolean
      */
-    private function checkFileType() {
+    private function checkFileType()
+    {
         if (!in_array(strtolower($this->file_type), ConfigUpload::$allow_type)) {
             $this->error_num = -1;
             return false;
@@ -291,14 +288,16 @@ class FileUpload {
 
     /**
      * 设置文件信息
-     * 
-     * @param string $name  源文件名
-     * @param string $tmp_name  临时文件名
-     * @param int $size   文件大小
-     * @param string $error  文件上传错误码
+     *
+     * @param string $name     源文件名
+     * @param string $tmp_name 临时文件名
+     * @param int    $size     文件大小
+     * @param string $error    文件上传错误码
+     *
      * @return boolean
      */
-    private function setFiles($name = '', $tmp_name = '', $size = 0, $error = 0) {
+    private function setFiles($name = '', $tmp_name = '', $size = 0, $error = 0)
+    {
         $this->error_num = $error;
         if ($error) {
             return false;
@@ -313,20 +312,22 @@ class FileUpload {
 
     /**
      * 随机文件名
-     * 
+     *
      * @return string
      */
-    private function proRandName() {
+    private function proRandName()
+    {
         $fileName = date('YmdHis') . '_' . rand(100, 999);
         return $fileName . '.' . $this->file_type;
     }
 
     /**
      * 复制临时文件到指定目录
-     * 
+     *
      * @return boolean
      */
-    private function copyFile() {
+    private function copyFile()
+    {
         if ($this->error_num) {
             return false;
         }

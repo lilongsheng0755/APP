@@ -10,7 +10,8 @@ use Config\ConfigLog;
  * CreateTime: 2018-12-1 11:13:04
  * Description: 基于curl扩展辅助类
  */
-class Curl {
+class Curl
+{
 
     /**
      * POST方式请求
@@ -39,14 +40,16 @@ class Curl {
 
     /**
      * 执行curl请求
-     * 
-     * @param string $url url请求地址
-     * @param array $data 请求参数
-     * @param string $method 请求方式 HEADER_*
+     *
+     * @param string $url         url请求地址
+     * @param array  $data        请求参数
+     * @param string $method      请求方式 HEADER_*
      * @param string $header_type 请求头信息类型 EADER_*
+     *
      * @return boolean
      */
-    public static function curlExec($url, $data = array(), $method = self::METHOD_POST, $header_type = self::HEADER_JSON) {
+    public static function curlExec($url, $data = [], $method = self::METHOD_POST, $header_type = self::HEADER_JSON)
+    {
         if ((!$url = trim($url))) {
             return false;
         }
@@ -98,15 +101,17 @@ class Curl {
      * 通过输入端来获取数据 file_get_contents('php://input');
      * Content-Type：发送的数据类型
      * Accept：希望接受的数据类型
-     * 
+     *
      * @param string $header_type
+     *
      * @return array
      */
-    private static function getHeaderType($header_type = '') {
+    private static function getHeaderType($header_type = '')
+    {
         if (!$header_type) {
-            return array();
+            return [];
         }
-        $header = array();
+        $header = [];
         switch ($header_type) {
             case self::HEADER_JSON:
                 array_push($header, 'Content-Type:application/json');
@@ -117,45 +122,48 @@ class Curl {
                 array_push($header, 'Accept:text/html,application/xhtml+xml,application/xml');
                 break;
             default:
-                return array();
+                return [];
         }
         return $header;
     }
 
     /**
      * 处理请求参数的格式
-     * 
-     * @param array $request 请求的数据
+     *
+     * @param array  $request     请求的数据
      * @param string $header_type 请求头信息类型 EADER_*
-     * @return string 
+     *
+     * @return string
      */
-    private static function doRequestParams($request = array(), $header_type = self::HEADER_JSON) {
-        if (!$request || !is_array($request) || $header_type == self::HEADER_JSON) {
+    private static function doRequestParams($request = [], $header_type = self::HEADER_JSON)
+    {
+        if ($header_type == self::HEADER_JSON) {
             return $request ? json_encode($request) : '';
         }
         $params = '';
         foreach ($request as $key => $val) {
             $params .= "{$key}={$val}&";
         }
-        return $params ? rtrim(str_replace(array(' ', "\n", "\t", "\r"), '', $params), '&') : '';
+        return $params ? rtrim(str_replace([' ', "\n", "\t", "\r"], '', $params), '&') : '';
     }
 
     /**
      * 写操作curl失败的日志
-     * 
-     * @param int $errno  错误编号
-     * @param int $error  错误信息
+     *
+     * @param int $errno 错误编号
+     * @param int $error 错误信息
      */
-    private static function writeErrLog($errno, $error) {
+    private static function writeErrLog($errno, $error)
+    {
         $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 0);
         $trace && $trace = array_pop($trace);
-        $err_file = (string) $trace['file'] . '(' . (string) $trace['line'] . ')';
+        $err_file = (string)$trace['file'] . '(' . (string)$trace['line'] . ')';
         !PRODUCTION_ENV && die($err_file . '=======CURL Err：' . $error);
-        $data = "file:{$err_file}\r\n";
-        $data .= "time:" . date('Y-m-d H:i:s') . "\r\n";
-        $data .= "errno:{$errno}\r\n";
-        $data .= "error:\"{$error}\"\r\n";
-        $data .= "======================================================================\r\n";
+        $data = "file:{$err_file}" . PHP_EOL;
+        $data .= "time:" . date('Y-m-d H:i:s') . PHP_EOL;
+        $data .= "errno:{$errno}" . PHP_EOL;
+        $data .= "error:{$error}" . PHP_EOL;
+        $data .= "======================================================================" . PHP_EOL;
         Log::writeErrLog('error_curl' . date('Ymd'), $data, ConfigLog::CURL_ERR_LOG_TYPE);
     }
 

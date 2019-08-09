@@ -2,19 +2,15 @@
 
 namespace Lib\File;
 
+use Lib\SPL\SingleBase;
+
 /**
  * Author: skylong
  * CreateTime: 2018-10-21 21:02:50
  * Description: 图片处理类（加水印，缩放图片，剪切）
  */
-class Image {
-
-    /**
-     * 内部实例
-     *
-     * @var Image
-     */
-    private static $instance = null;
+class Image extends SingleBase
+{
 
     /**
      * 错误信息
@@ -24,46 +20,39 @@ class Image {
     private $error_msg = '';
 
     /**
-     * 禁用外部实例化
-     * 
-     * @return boolean
+     * 继承单例模式
+     *
+     * @param array $params
+     *
+     * @return Image|object
      */
-    private function __construct() {
-        return false;
-    }
-
-    /**
-     * 内部实例化
-     * 
-     * @return Image
-     */
-    public static function getInstance() {
-        if (self::$instance instanceof self) {
-            return self::$instance;
-        }
-        self::$instance = new self;
-        return self::$instance;
+    public static function getInstance(...$params)
+    {
+        return parent::getInstance(...$params);
     }
 
     /**
      * 获取错误信息
-     * 
+     *
      * @return string
      */
-    public function getErrorMsg() {
+    public function getErrorMsg()
+    {
         return $this->error_msg;
     }
 
     /**
      * 缩放图片
-     * 
+     *
      * @param string $img_file  原图路径
-     * @param int $width 缩略图宽度
-     * @param int $height 缩略图高度
+     * @param int    $width     缩略图宽度
+     * @param int    $height    缩略图高度
      * @param string $save_path 缩略图保存路径
+     *
      * @return boolean
      */
-    public function thumb($img_file, $width, $height, $save_path = '') {
+    public function thumb($img_file, $width, $height, $save_path = '')
+    {
         if (!file_exists($img_file)) {
             $this->error_msg = "图片不存在！";
             return false;
@@ -83,15 +72,17 @@ class Image {
 
     /**
      * 图片加水印
-     * 
+     *
      * @param string $ground_file 需要加水印的图片
-     * @param string $water_file 水印图片
-     * @param int $postion 加水印的位置：水印的位置：默认随机，1-顶端居左，2-顶端水平居中，3-顶端居右，4-靠左垂直居中，
-     * 5-水平和垂直居中，6-靠右垂直居中，7-底部靠左，8-底部水平居中，9-底部靠右
-     * @param string $save_path 加完水印后的图片保存路径
+     * @param string $water_file  水印图片
+     * @param int    $postion     加水印的位置：水印的位置：默认随机，1-顶端居左，2-顶端水平居中，3-顶端居右，4-靠左垂直居中，
+     *                            5-水平和垂直居中，6-靠右垂直居中，7-底部靠左，8-底部水平居中，9-底部靠右
+     * @param string $save_path   加完水印后的图片保存路径
+     *
      * @return boolean
      */
-    public function waterMark($ground_file, $water_file, $postion = 0, $save_path = '') {
+    public function waterMark($ground_file, $water_file, $postion = 0, $save_path = '')
+    {
         if (!file_exists($ground_file)) {
             $this->error_msg = "图片不存在！";
             return false;
@@ -122,16 +113,18 @@ class Image {
 
     /**
      * 图片剪切
-     * 
-     * @param string $img_file 原图片
-     * @param int $x 开始坐标X
-     * @param int $y 开始坐标Y
-     * @param int $width 剪切宽度
-     * @param int $height 剪切高度
+     *
+     * @param string $img_file  原图片
+     * @param int    $x         开始坐标X
+     * @param int    $y         开始坐标Y
+     * @param int    $width     剪切宽度
+     * @param int    $height    剪切高度
      * @param string $save_path 保存路径
+     *
      * @return boolean
      */
-    public function cut($img_file, $x, $y, $width, $height, $save_path = '') {
+    public function cut($img_file, $x, $y, $width, $height, $save_path = '')
+    {
         if (!file_exists($img_file)) {
             $this->error_msg = "图片不存在！";
             return false;
@@ -157,10 +150,13 @@ class Image {
     /**
      * 图片随Y轴翻转
      * 原理：从右侧一个像素条一个像素条，从左到右的方式拷贝到新的一个画布
-     * 
-     * @param string $img_file  图片文件
+     *
+     * @param string $img_file 图片文件
+     *
+     * @return bool
      */
-    public function trunY($img_file) {
+    public function trunY($img_file)
+    {
         if (!file_exists($img_file)) {
             $this->error_msg = "图片不存在！";
             return false;
@@ -182,10 +178,13 @@ class Image {
     /**
      * 图片随X轴翻转
      * 原理：从下一个像素条一个像素条，从上到下的方式拷贝到新的一个画布
-     * 
-     * @param string $img_file  图片文件
+     *
+     * @param string $img_file 图片文件
+     *
+     * @return bool
      */
-    public function trunX($img_file) {
+    public function trunX($img_file)
+    {
         if (!file_exists($img_file)) {
             $this->error_msg = "图片不存在！";
             return false;
@@ -206,11 +205,13 @@ class Image {
 
     /**
      * 获取图片大小，类型等
-     * 
+     *
      * @param string $img_file 图片地址
+     *
      * @return array
      */
-    private function getInfo($img_file = '') {
+    private function getInfo($img_file = '')
+    {
         $data = getimagesize($img_file);
         $img_info['width'] = $data[0];
         $img_info['height'] = $data[1];
@@ -220,12 +221,14 @@ class Image {
 
     /**
      * 根据图片尺寸获取图片画布
-     * 
-     * @param string $img_file  图片地址
-     * @param array $img_info  图片信息
+     *
+     * @param string $img_file 图片地址
+     * @param array  $img_info 图片信息
+     *
      * @return mixed
      */
-    private function getImg($img_file, $img_info) {
+    private function getImg($img_file, $img_info)
+    {
         switch ($img_info['type']) {
             case 1:
                 $img = imagecreatefromgif($img_file);
@@ -244,14 +247,16 @@ class Image {
 
     /**
      * 确定水印图片的位置
-     * 
+     *
      * @param array $ground_info 需要加水印的图片信息
-     * @param array $water_info 水印图片信息
-     * @param int $water_pos 水印的位置：默认随机，1-顶端居左，2-顶端水平居中，3-顶端居右，4-靠左垂直居中，
-     * 5-水平和垂直居中，6-靠右垂直居中，7-底部靠左，8-底部水平居中，9-底部靠右
-     * @return boolean
+     * @param array $water_info  水印图片信息
+     * @param int   $water_pos   水印的位置：默认随机，1-顶端居左，2-顶端水平居中，3-顶端居右，4-靠左垂直居中，
+     *                           5-水平和垂直居中，6-靠右垂直居中，7-底部靠左，8-底部水平居中，9-底部靠右
+     *
+     * @return array
      */
-    private function position($ground_info, $water_info, $water_pos) {
+    private function position($ground_info, $water_info, $water_pos)
+    {
         switch ($water_pos) {
             case 1: //顶端居左
                 $posX = 0;
@@ -293,18 +298,20 @@ class Image {
                 $posX = rand(0, ($ground_info['width'] - $water_info['width']));
                 $posY = rand(0, ($ground_info['height'] - $water_info['height']));
         }
-        return array('posX' => $posX, 'posY' => $posY);
+        return ['posX' => $posX, 'posY' => $posY];
     }
 
     /**
      * 返回等比缩放图片的宽度和高度，如果原图比缩放后的还小保持不变
-     * 
-     * @param int $width 缩略图宽度
-     * @param int $height 缩略图高度
+     *
+     * @param int   $width    缩略图宽度
+     * @param int   $height   缩略图高度
      * @param array $img_info 原图信息
+     *
      * @return array
      */
-    private function getNewSize($width, $height, $img_info) {
+    private function getNewSize($width, $height, $img_info)
+    {
         $size['width'] = $img_info['width'];
         $size['height'] = $img_info['height'];
 
@@ -325,11 +332,13 @@ class Image {
 
     /**
      * 校验目录是否存在，是否有可写权限
-     * 
+     *
      * @param string $save_path 保存路径
+     *
      * @return boolean
      */
-    private function checkSavePath($save_path = '') {
+    private function checkSavePath($save_path = '')
+    {
         if (file_exists($save_path) && is_dir($save_path) && is_writable($save_path)) {
             return true;
         }
@@ -338,13 +347,15 @@ class Image {
 
     /**
      * 用于保存图像，并保留原有图片格式
-     * 
-     * @param source $new_img 缩略图资源
-     * @param string $save_file 保存文件
-     * @param array $img_info 原图片信息
+     *
+     * @param resource $new_img   缩略图资源
+     * @param string   $save_file 保存文件
+     * @param array    $img_info  原图片信息
+     *
      * @return boolean
      */
-    private function createNewImage($new_img, $save_file, $img_info) {
+    private function createNewImage($new_img, $save_file, $img_info)
+    {
         switch ($img_info['type']) {
             case 1:
                 $result = imagegif($new_img, $save_file);
@@ -364,13 +375,15 @@ class Image {
 
     /**
      * 处理带有透明度的图片保存原样
-     * 
-     * @param source $src_img 原图片资源
-     * @param array $size 缩略图大小
-     * @param array $img_info  原图片信息
-     * @return source 缩略图资源
+     *
+     * @param resource $src_img  原图片资源
+     * @param array    $size     缩略图大小
+     * @param array    $img_info 原图片信息
+     *
+     * @return resource 缩略图资源
      */
-    private static function kidOfImage($src_img, $size, $img_info) {
+    private static function kidOfImage($src_img, $size, $img_info)
+    {
         $new_img = imagecreatetruecolor($size['width'], $size['height']);
         $otsc = imagecolortransparent($src_img);
         if ($otsc >= 0 && $otsc < imagecolorstotal($src_img)) {
@@ -386,14 +399,16 @@ class Image {
 
     /**
      * 用于加水印时复制图像
-     * 
-     * @param source $ground_img 需要加水印的图片资源
-     * @param source $water_img 水印图片资源
-     * @param array $water_pos 水印的位置
-     * @param array $water_info 水印图片信息
-     * @return source
+     *
+     * @param resource $ground_img 需要加水印的图片资源
+     * @param resource $water_img  水印图片资源
+     * @param array    $water_pos  水印的位置
+     * @param array    $water_info 水印图片信息
+     *
+     * @return resource
      */
-    private static function copyImage($ground_img, $water_img, $water_pos, $water_info) {
+    private static function copyImage($ground_img, $water_img, $water_pos, $water_info)
+    {
         imagecopy($ground_img, $water_img, $water_pos['posX'], $water_pos['posY'], 0, 0, $water_info['width'], $water_info['height']);
         imagedestroy($water_img);
         return $ground_img;

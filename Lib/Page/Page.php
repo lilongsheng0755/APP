@@ -7,24 +7,25 @@ namespace Lib\Page;
  * CreateTime: 2018-7-22 13:57:17
  * Description: 数据分页类
  */
-class Page {
+class Page
+{
 
     /**
      * 数据表中总记录数
      *
-     * @var int 
+     * @var int
      */
     private $total;
 
     /**
      * 每页显示行数
      *
-     * @var int 
+     * @var int
      */
     private $list_rows;
 
     /**
-     * SQL语句使用limit从句，限制获取记录个数 
+     * SQL语句使用limit从句，限制获取记录个数
      *
      * @var int
      */
@@ -47,7 +48,7 @@ class Page {
     /**
      * 当前页
      *
-     * @var int 
+     * @var int
      */
     private $page;
 
@@ -56,13 +57,13 @@ class Page {
      *
      * @var array
      */
-    private $config = array(
+    private $config = [
         'head'  => '条记录',
         'prev'  => '上一页',
         'next'  => '下一页',
         'first' => '首页',
         'last'  => '末页',
-    );
+    ];
 
     /**
      * 分页码显示个数
@@ -73,19 +74,20 @@ class Page {
 
     /**
      * 分页类初始化
-     * 
-     * @param int $total  总记录数
-     * @param int $list_rows 每页显示记录数
-     * @param int $list_num  分页码显示个数
-     * @param mixed $query  查询参数，可以是字符串，也可以是数组
+     *
+     * @param int   $total     总记录数
+     * @param int   $list_rows 每页显示记录数
+     * @param int   $list_num  分页码显示个数
+     * @param mixed $query     查询参数，可以是字符串，也可以是数组
      */
-    public function __construct($total, $list_rows = 25, $list_num = 10, $query = '') {
+    public function __construct($total = 0, $list_rows = 25, $list_num = 10, $query = '')
+    {
         $this->total = $total;
         $this->list_rows = $list_rows;
         $this->list_num = $list_num;
         $this->url = $this->getUrl($query);
         $this->page_num = ceil($this->total / $this->list_rows);
-        $page = $_GET['page'] ? $_GET['page'] : 1;
+        $page = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
         if ($total > 0) {
             if (preg_match('/\D/', $page)) {
                 $this->page = 1;
@@ -100,12 +102,14 @@ class Page {
 
     /**
      * 设置分页中显示的内容
-     * 
+     *
      * @param string $param
      * @param string $value
+     *
      * @return $this
      */
-    public function set($param, $value) {
+    public function set($param, $value)
+    {
         if (array_key_exists($param, $this->config)) {
             $this->config[$param] = $value;
         }
@@ -114,23 +118,26 @@ class Page {
 
     /**
      * 外部获取私有属性
-     * 
+     *
      * @param string $args
-     * @return string|null
+     *
+     * @return string
      */
-    public function __get($args) {
+    public function get($args = '')
+    {
         if ($args == 'limit' || $args == 'page') {
             return $this->$args;
         }
-        return null;
+        return '';
     }
 
     /**
      * 按指定格式输出分页
-     * 
+     *
      * @return string
      */
-    public function fpage() {
+    public function fpage()
+    {
         $arr = func_get_args();
         $html[0] = "&nbsp;共<b> {$this->total} </b>{$this->config['head']}&nbsp;";
         $html[1] = "&nbsp;本页 <b>{$this->disnum()}</b> 条&nbsp;";
@@ -140,8 +147,8 @@ class Page {
         $html[5] = $this->pageList();
         $html[6] = $this->nextlast();
         $html[7] = $this->goPage();
-        $fpage = '<div style="font:12px">';
-        (count($arr) < 1) && $arr = array(0, 1, 2, 3, 4, 5, 6, 7);
+        $fpage = '<div style="font-size: 14px;">';
+        (count($arr) < 1) && $arr = [0, 1, 2, 3, 4, 5, 6, 7];
         for ($i = 0; $i < count($arr); $i++) {
             $fpage .= $html[$arr[$i]];
         }
@@ -151,10 +158,11 @@ class Page {
 
     /**
      * 设置limit取值范围
-     * 
+     *
      * @return int
      */
-    private function setLimit() {
+    private function setLimit()
+    {
         if ($this->page > 0) {
             return ($this->page - 1) * $this->list_rows . ", {$this->list_rows}";
         } else {
@@ -164,22 +172,25 @@ class Page {
 
     /**
      * 获取当前url地址
-     * 
+     *
      * @param mixed $query
+     *
      * @return string
      */
-    private function getUrl($query) {
+    private function getUrl($query)
+    {
         $request_uri = $_SERVER['REQUEST_URI'];
         $url = strstr($request_uri, '?') ? $request_uri : $request_uri . '?';
+
         if ($query && is_array($query)) {
-            $url .= http_build_query($query);
+            $url .= '&' . http_build_query($query);
         } elseif ($query) {
             $url .= '&' . trim($query, '?&');
         }
 
         $url_arr = parse_url($url);
         if (isset($url_arr['query'])) {
-            $url_params = array();
+            $url_params = [];
             parse_str($url_arr['query'], $url_params);
             unset($url_params['page']);
             $url = $url_arr['path'] . '?' . http_build_query($url_params);
@@ -193,10 +204,11 @@ class Page {
 
     /**
      * 本页开始记录
-     * 
+     *
      * @return int
      */
-    private function start() {
+    private function start()
+    {
         if ($this->total == 0) {
             return 0;
         }
@@ -205,32 +217,36 @@ class Page {
 
     /**
      * 本页结束记录
-     * 
+     *
      * @return int
      */
-    private function end() {
+    private function end()
+    {
         return min($this->page * $this->list_rows, $this->total);
     }
 
     /**
      * 首页 上一页
-     * 
+     *
      * @return string
      */
-    private function firstprev() {
+    private function firstprev()
+    {
         if ($this->page > 1) {
             $str = "&nbsp;<a href='{$this->url}page=1'>{$this->config['first']}</a>&nbsp;";
             $str .= "&nbsp;<a href='{$this->url}page=" . ($this->page - 1) . "'>{$this->config['prev']}</a>&nbsp;";
             return $str;
         }
+        return '';
     }
 
     /**
      * 页码列表
-     * 
+     *
      * @return string
      */
-    private function pageList() {
+    private function pageList()
+    {
         $linkPage = "&nbsp;<b>";
         $inum = $this->page > floor($this->list_num / 2) ? floor($this->list_num / 2) : $this->list_num;
         if ($this->page > ($this->page_num - floor($this->list_num / 2))) {
@@ -270,23 +286,27 @@ class Page {
 
     /**
      * 下一页，最后一页
-     * 
+     *
      * @return string
      */
-    private function nextlast() {
+    private function nextlast()
+    {
         if ($this->page != $this->page_num) {
             $str = "&nbsp;<a href='{$this->url}page=" . ($this->page + 1) . "'>{$this->config['next']}</a>&nbsp;";
             $str .= "&nbsp;<a href='{$this->url}page={$this->page_num}'>{$this->config['last']}</a>&nbsp;";
             return $str;
         }
+
+        return '';
     }
 
     /**
      * 跳转页码
-     * 
+     *
      * @return string
      */
-    private function goPage() {
+    private function goPage()
+    {
         if ($this->page_num <= 1) {
             return '';
         }
@@ -301,10 +321,11 @@ class Page {
 
     /**
      * 本页记录数
-     * 
+     *
      * @return int
      */
-    private function disnum() {
+    private function disnum()
+    {
         if ($this->total > 0) {
             return $this->end() - $this->start() + 1;
         }

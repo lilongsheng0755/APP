@@ -7,7 +7,8 @@ namespace Lib\DB;
  * CreateTime: 2018-8-20 18:28:05
  * Description: 数据库抽象类
  */
-abstract class DataBase {
+abstract class DataBase
+{
 
     /**
      * 执行一条SQL语句
