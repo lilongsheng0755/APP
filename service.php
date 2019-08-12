@@ -15,7 +15,7 @@ require_once __DIR__ . '/core.php';
 //                $ip = $a . '.' . $b . '.' . $c . '.' . $d;
 //                $ip2long = sprintf('%u', ip2long($ip));
 //                if ($ip2long > 2147483647) {
-//                    $sql = "insert into `test` set `ip`='{$ip}',`ip2long`='{$ ip2long}'";
+//                    $sql = "insert into `test` set `ip`='{$ip}',`ip2long`='{$ip2long}'";
 //                    $pdo->exec($sql);
 //                }     
 //            }

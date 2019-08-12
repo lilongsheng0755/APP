@@ -4,7 +4,7 @@ namespace Lib\SPL;
 /**
  * Author: skylong
  * CreateTime: 2019-6-11 14:41:59
- * Description: 用于单例模式实例化基类
+ * Description: 单例模式实例化基类
  */
 abstract class SingleBase
 {
