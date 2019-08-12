@@ -5,7 +5,7 @@ namespace Helper;
 /**
  * Author: skylong
  * CreateTime: 2018-8-27 22:37:33
- * Description: 接口返回定义类
+ * Description: 接口返回数据辅助类
  */
 class HelperReturn
 {

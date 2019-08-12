@@ -19,9 +19,9 @@ define('IN_APP', true);
 define('PROJECT_NS', 'APP');
 
 /*
- * 本地环境常量
+ * 是否开启调试模式【生产环境要改回false】
  */
-define('LOCAL', true);
+define('APP_DEBUG', true);
 
 /*
  * 生产环境常量
@@ -79,6 +79,6 @@ require_once PATH_LIB . '/Application.php';
  */
 Lib\Application::init();
 Lib\System\Error::register();
-Lib\Session\Session::start();
+//Lib\Session\Session::start();
 //Lib\Session\DBSession::start($db, $tblname, $primary_key); 使用db存储session
 //Lib\Session\MEMSession::start($mem); 使用cache存储session

@@ -23,11 +23,11 @@ abstract class SingleBase
      *
      * @return object
      */
-    public static function getInstance(...$params)
+    public static function getInstance()
     {
         $class = get_called_class();
         if (!isset(self::$instance[$class]) || !self::$instance[$class] instanceof $class) {
-            self::$instance[$class] = new $class(...$params);
+            self::$instance[$class] = new $class();
         }
         return self::$instance[$class];
     }

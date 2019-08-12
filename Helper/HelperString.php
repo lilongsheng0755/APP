@@ -7,7 +7,8 @@ namespace Helper;
  * CreateTime: 2018-6-13 23:24:24
  * Description: 字符串处理类
  */
-class HelperString {
+class HelperString
+{
 
     /**
      * 匹配非中文（UTF-8编码）
@@ -66,13 +67,15 @@ class HelperString {
 
     /**
      * IP地址转换成整型,数据库保存类型为bigint，PHP中的互转函数为long2ip()
-     * 
+     *
      * @param string $ip
+     *
      * @return int|string
      */
-    public static function ip2long($ip) {
+    public static function ip2long($ip)
+    {
         $long = ip2long($ip);
-        if ($long == - 1 || $long === false) {
+        if ($long == -1 || $long === false) {
             return 0;
         }
         return sprintf("%u", $long);
@@ -80,11 +83,13 @@ class HelperString {
 
     /**
      * 去除字符串中的转义，PHP中的互转函数为addcslashes()
-     * 
+     *
      * @param string $str
+     *
      * @return string
      */
-    public static function stripslashes($str) {
+    public static function stripslashes($str)
+    {
         if (!$str) {
             return '';
         }
@@ -93,11 +98,13 @@ class HelperString {
 
     /**
      * 反斜线引用字符串单引号（'）、双引号（"）、反斜线（\）与 NUL（ NULL  字符），PHP中的互转函数为stripslashes()
-     * 
+     *
      * @param string $str
+     *
      * @return string
      */
-    public static function escape($str) {
+    public static function escape($str)
+    {
         if (!$str) {
             return '';
         }
@@ -106,15 +113,17 @@ class HelperString {
 
     /**
      * 只保留字符串中的中文部分
-     * 
+     *
      * @param string $str
+     *
      * @return string
      */
-    public static function keepOnlyZh($str) {
+    public static function keepOnlyZh($str)
+    {
         if (!$str = trim($str)) {
             return '';
         }
-        $matches = array();
+        $matches = [];
         preg_match_all('/[\x{4e00}-\x{9fff}]+/u', $str, $matches);
         $str = implode('', $matches[0]);
         return $str ? $str : '';
@@ -123,15 +132,17 @@ class HelperString {
     /**
      * 过滤微信emoji表情
      * 如果subject是一个数组， 返回一个数组，其他情况返回字符串。错误发生时返回 NULL 。
-     * 
+     *
      * @param string $str
+     *
      * @return string
      */
-    public static function filterEmoji($str) {
+    public static function filterEmoji($str)
+    {
         if (!$str = trim($str)) {
             return '';
         }
-        $substr = preg_replace_callback("/(\\\ud[0-9a-f]{3})|(\\\ue[0-9a-f]{3})/", function() {
+        $substr = preg_replace_callback("/(\\\ud[0-9a-f]{3})|(\\\ue[0-9a-f]{3})/", function () {
             return '';
         }, $str); //执行一个正则表达式搜索并且使用一个回调进行替换
         return $substr ? $substr : '';
@@ -139,20 +150,22 @@ class HelperString {
 
     /**
      * 中文字符串截取
-     * 
-     * @param string $str 需要截取的中文字符串
-     * @param int $start 截取开始的位置，默认=0，第一位开始
-     * @param int $length 需要截取的长度
-     * @param string $charset 字符串编码，utf-8 / UTF8
-     * @param boolean $suffix 是否尾缀 ... 省略符号，默认 true
+     *
+     * @param string  $str     需要截取的中文字符串
+     * @param int     $start   截取开始的位置，默认=0，第一位开始
+     * @param int     $length  需要截取的长度
+     * @param string  $charset 字符串编码，utf-8 / UTF8
+     * @param boolean $suffix  是否尾缀 ... 省略符号，默认 true
+     *
      * @return string
      */
-    public static function msubstr($str, $start = 0, $length = 10, $charset = "utf-8", $suffix = true) {
+    public static function msubstr($str, $start = 0, $length = 10, $charset = "utf-8", $suffix = true)
+    {
         if (!$str = trim($str)) {
             return '';
         }
-        $start = (int) $start;
-        $length = (int) $length;
+        $start = (int)$start;
+        $length = (int)$length;
         switch ($charset) {
             case 'utf-8':
                 $char_len = 3;
@@ -176,7 +189,7 @@ class HelperString {
             $re['gb2312'] = "/[\x01-\x7f]|[\xb0-\xf7][\xa0-\xfe]/";
             $re['gbk'] = "/[\x01-\x7f]|[\x81-\xfe][\x40-\xfe]/";
             $re['big5'] = "/[\x01-\x7f]|[\x81-\xfe]([\x40-\x7e]|\xa1-\xfe])/";
-            $match = array();
+            $match = [];
             preg_match_all($re[$charset], $str, $match);
             $slice = implode('', array_slice($match[0], $start, $length));
         }
@@ -187,17 +200,35 @@ class HelperString {
     }
 
     /**
+     * 将特殊字符转换为HTML实体 对应转换函数 htmlspecialchars_decode
+     *
+     * @param string $str
+     *
+     * @return string
+     */
+    public static function htmlspecialchars($str)
+    {
+        if (!$str = trim($str)) {
+            return '';
+        }
+
+        return htmlspecialchars($str);
+    }
+
+    /**
      * 匹配字符串
-     * 
-     * @param string $str 需要匹配的字符串
+     *
+     * @param string $str  需要匹配的字符串
      * @param string $mode 匹配模式
+     *
      * @return boolean
      */
-    public static function pregVerify($str, $mode = self::PREG_MATCH_PHONE) {
+    public static function pregVerify($str, $mode = self::PREG_MATCH_PHONE)
+    {
         if (!$str = trim($str)) {
             return false;
         }
-        $preg = array(
+        $preg = [
             self::PREG_MATCH_NOT_ZH   => '/[^\x{4e00}-\x{9fa5}]/u', // 匹配非中文（UTF-8编码）
             self::PREG_MATCH_ZH       => '/^\x{4e00}-\x{9fa5}+$/u', // 匹配中文（UTF-8编码）
             self::PREG_MATCH_PHONE    => '/^1\d{10}$/', // 匹配手机
@@ -208,24 +239,11 @@ class HelperString {
             self::PREG_MATCH_BLANK    => '/\s+?/s', // 单行模式 匹配空白字符
             self::PREG_MATCH_MIXED    => '/[^0-9a-zA-Z]+?/', // 匹配非数字、字母、下划线
             self::PREG_MATCH_MIXED_ZH => '/[^0-9a-zA-Z_\x{4e00}-\x{9fa5}]+?/u', // 匹配非数字、字母、下划线、中文（UTF-8编码）
-            self::PREG_MATCH_URL      => "/^http(s?):\/\/(?:[A-za-z0-9-]+\.)+[A-za-z]{2,4}(:\d+)?(?:[\/\?#][\/=\?%\-&~`@[\]\':+!\.#\w]*)?$/" // 匹配URL
-        );
+            self::PREG_MATCH_URL      => "/^http(s?):\/\/(?:[A-za-z0-9-]+\.)+[A-za-z]{2,4}(:\d+)?(?:[\/\?#][\/=\?%\-&~`@[\]\':+!\.#\w]*)?$/"
+            // 匹配URL
+        ];
 
-        return isset($preg[$mode]) ? (bool) preg_match($preg[$mode], $str) : false;
-    }
-
-    /**
-     * 将特殊字符转换为HTML实体 对应转换函数 htmlspecialchars_decode 
-     * 
-     * @param string $str
-     * @return string
-     */
-    public static function htmlspecialchars($str) {
-        if (!$str = trim($str)) {
-            return '';
-        }
-
-        return htmlspecialchars($str);
+        return isset($preg[$mode]) ? (bool)preg_match($preg[$mode], $str) : false;
     }
 
 }

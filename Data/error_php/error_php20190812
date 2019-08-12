@@ -1,0 +1,10 @@
+file:/mnt/hgfs/www/github/APP/service.php(35)
+time:2019-08-12 11:04:14
+error_type:Shutdown
+error_message:Class 'Page' not found
+======================================================================
+file:/mnt/hgfs/www/github/APP/View/debug.tpl(330)
+time:2019-08-12 11:09:16
+error_type:Notice
+error_message:Undefined variable: _SESSION
+======================================================================

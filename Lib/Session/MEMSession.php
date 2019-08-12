@@ -7,7 +7,8 @@ namespace Lib\Session;
  * CreateTime: 2018-6-13 23:16:27
  * Description: 基于memcached扩展的session管理类
  */
-class MEMSession {
+class MEMSession
+{
 
     const NS = 'SESSION_';
 
@@ -27,28 +28,36 @@ class MEMSession {
 
     /**
      * 自定义session初始化
-     * 
+     *
      * @param \Lib\Cache\SMemcached $mem
      */
-    public static function start($mem) {
+    public static function start($mem)
+    {
         self::$mem = $mem;
         ini_set('session.save_handler', 'user');
         ini_set('session.gc_maxlifetime', 1800);
         self::$life_time = ini_get('session.gc_maxlifetime');
         session_set_save_handler(
-                array(__CLASS__, 'open'), array(__CLASS__, 'close'), array(__CLASS__, 'read'), array(__CLASS__, 'write'), array(__CLASS__, 'destroy'), array(__CLASS__, 'gc')
+            [__CLASS__, 'open'],
+            [__CLASS__, 'close'],
+            [__CLASS__, 'read'],
+            [__CLASS__, 'write'],
+            [__CLASS__, 'destroy'],
+            [__CLASS__, 'gc']
         );
         session_start();
     }
 
     /**
      * session初始化时执行此操作
-     * 
-     * @param string $save_path php.ini文件中配置的session文件保存路径
-     * @param type $session_name  session名称
+     *
+     * @param string $save_path    php.ini文件中配置的session文件保存路径
+     * @param string $session_name session名称
+     *
      * @return boolean
      */
-    public static function open($save_path, $session_name) {
+    public static function open($save_path, $session_name)
+    {
         unset($save_path, $session_name);
         return true;
     }
@@ -57,32 +66,37 @@ class MEMSession {
      * 在脚本执行完成或者调用session_write_close()、session_destory()时被执行
      * @return boolean
      */
-    public static function close() {
+    public static function close()
+    {
         return true;
     }
 
     /**
      * 读取session数据
-     * 
-     * @param type $sid  
+     *
+     * @param string $sid
+     *
      * @return string
      */
-    public static function read($sid) {
+    public static function read($sid)
+    {
         $out = self::$mem->get(self::session_key($sid));
         if ($out === false || $out === null) {
-            return (string) $out;
+            return (string)$out;
         }
         return $out;
     }
 
     /**
      * 更新session操作
-     * 
+     *
      * @param string $sid
      * @param string $data
+     *
      * @return boolean
      */
-    public static function write($sid, $data) {
+    public static function write($sid, $data)
+    {
         $method = $data ? 'set' : 'replace';
         self::$mem->$method(self::session_key($sid), $data, self::$life_time);
         return true;
@@ -90,32 +104,38 @@ class MEMSession {
 
     /**
      * 销毁session操作
-     * 
+     *
      * @param string $sid
+     *
      * @return boolean
      */
-    public static function destroy($sid) {
-        return (bool) self::$mem->delete(self::session_key($sid));
+    public static function destroy($sid)
+    {
+        return (bool)self::$mem->delete(self::session_key($sid));
     }
 
     /**
      * 过期session数据垃圾回收
-     * 
+     *
      * @param string $life_time
+     *
      * @return boolean
      */
-    public static function gc($life_time) {
+    public static function gc($life_time)
+    {
         unset($life_time);
         return true;
     }
 
     /**
      * 自定义sessionKey
-     * 
+     *
      * @param string $sid
+     *
      * @return string
      */
-    private static function session_key($sid) {
+    private static function session_key($sid)
+    {
         $session_key = '';
         $session_key .= self::NS . md5($sid);
         return strtoupper($session_key);

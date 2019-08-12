@@ -65,9 +65,9 @@ class Error
             default :
                 $error_type = 'Unknown';
         }
-        LOCAL && include_once PATH_APP . DS . 'View' . DS . 'debug.tpl';
+        APP_DEBUG && include_once PATH_APP . DS . 'View' . DS . 'debug.tpl';
         self::writeErrLog($error_type, $error_message, $file, $line);
-        $exit && HelperReturn::jsonData('PHP ERROR!', SException::CODE_PHP_ERROR);
+        $exit && HelperReturn::jsonData(['msg' => 'PHP ERROR!'], SException::CODE_PHP_ERROR);
     }
 
     /**
@@ -87,9 +87,9 @@ class Error
                 $arr['file'] = $e->getFile();
                 $arr['line'] = $e->getLine();
             }
-            LOCAL && include_once PATH_APP . DS . 'View' . DS . 'debug.tpl';
+            APP_DEBUG && include_once PATH_APP . DS . 'View' . DS . 'debug.tpl';
             self::writeErrLog('Exception', $e->getMessage(), $arr['file'], $arr['line']);
-            HelperReturn::jsonData('PHP ERROR!', SException::CODE_PHP_ERROR);
+            HelperReturn::jsonData(['msg' => 'PHP ERROR!'], SException::CODE_PHP_ERROR);
         }
     }
 
@@ -105,9 +105,9 @@ class Error
             $error_message = $error['message'];
             $file = $error['file'];
             $line = $error['line'];
-            LOCAL && include_once PATH_APP . DS . 'View' . DS . 'debug.tpl';
+            APP_DEBUG && include_once PATH_APP . DS . 'View' . DS . 'debug.tpl';
             self::writeErrLog('Shutdown', $error['message'], $error['file'], $error['line']);
-            HelperReturn::jsonData('PHP ERROR!', SException::CODE_PHP_ERROR);
+            HelperReturn::jsonData(['msg' => 'PHP ERROR!'], SException::CODE_PHP_ERROR);
         }
     }
 

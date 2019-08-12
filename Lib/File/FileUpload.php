@@ -72,13 +72,11 @@ class FileUpload extends SingleBase
     /**
      * 继承单例模式
      *
-     * @param array $params
-     *
      * @return FileUpload|object
      */
-    public static function getInstance(...$params)
+    public static function getInstance()
     {
-        return parent::getInstance(...$params);
+        return parent::getInstance();
     }
 
     /**

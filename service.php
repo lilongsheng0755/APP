@@ -4,8 +4,6 @@
 header("Cache-Control: no-cache");
 header("Pragma: no-cache");
 
-//设置返回编码
-//header('Content-Type: text/html;charset=utf-8');
 //载入核心文件
 require_once __DIR__ . '/core.php';
 
@@ -31,8 +29,3 @@ $mem = new Lib\Cache\SMemcached([['192.168.3.182', 11211, 100]]);
 $mem->set('mykey', 'he he da', 120);
 
 var_dump($mem->get('mykey'), $mem->touch('mykey', 120));*/
-
-$page = new \Lib\Page\Page(10000,20,5,'userid=10&a=12');
-echo $page->fpage();
-echo $page->get();
-
