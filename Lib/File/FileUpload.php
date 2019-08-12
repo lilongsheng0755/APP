@@ -2,7 +2,6 @@
 
 namespace Lib\File;
 
-use Config\ConfigUpload;
 use Lib\SPL\SingleBase;
 
 /**
@@ -70,6 +69,20 @@ class FileUpload extends SingleBase
     private $error_msg = '';
 
     /**
+     * 允许上传的文件类型
+     *
+     * @var array
+     */
+    private $allow_type = ['jpg', 'gif', 'png', 'csv'];
+
+    /**
+     * 允许上传文件的大小（KB）
+     *
+     * @var int
+     */
+    private $upload_max_size = 5000;
+
+    /**
      * 继承单例模式
      *
      * @return FileUpload|object
@@ -78,6 +91,27 @@ class FileUpload extends SingleBase
     {
         return parent::getInstance();
     }
+
+    /**
+     * 设置上传文件大小
+     *
+     * @param int $size
+     */
+    public function setUploadMaxSize($size = 0)
+    {
+        $this->upload_max_size = ($size && is_numeric($size)) ? $size : $this->upload_max_size;
+    }
+
+    /**
+     * 设置允许上传的文件类型
+     *
+     * @param array $allow_type
+     */
+    public function setAllowType($allow_type = [])
+    {
+        $this->allow_type = ($allow_type && is_array($allow_type)) ? $allow_type : $this->allow_type;
+    }
+
 
     /**
      * 单个上传文件
@@ -194,7 +228,7 @@ class FileUpload extends SingleBase
                 $str .= "未允许类型";
                 break;
             case -2:
-                $str .= '文件过大，上传的文件不能超过' . ConfigUpload::UPLOAD_MAX_SIZE . 'KB';
+                $str .= '文件过大，上传的文件不能超过' . $this->upload_max_size . 'KB';
                 break;
             case -3:
                 $str .= "上传失败";
@@ -263,7 +297,7 @@ class FileUpload extends SingleBase
      */
     private function checkFileSize()
     {
-        if (floor($this->file_size / 1024) > ConfigUpload::UPLOAD_MAX_SIZE) {
+        if (floor($this->file_size / 1024) > $this->upload_max_size) {
             $this->error_num = -2;
             return false;
         }
@@ -277,7 +311,7 @@ class FileUpload extends SingleBase
      */
     private function checkFileType()
     {
-        if (!in_array(strtolower($this->file_type), ConfigUpload::$allow_type)) {
+        if (!in_array(strtolower($this->file_type), $this->allow_type)) {
             $this->error_num = -1;
             return false;
         }
