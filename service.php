@@ -29,3 +29,7 @@ $mem = new Lib\Cache\SMemcached([['192.168.3.182', 11211, 100]]);
 $mem->set('mykey', 'he he da', 120);
 
 var_dump($mem->get('mykey'), $mem->touch('mykey', 120));*/
+
+$image = \Lib\File\Image::getInstance();
+
+var_dump($image);

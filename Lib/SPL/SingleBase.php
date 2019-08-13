@@ -25,11 +25,11 @@ abstract class SingleBase
      */
     public static function getInstance()
     {
-        $class = get_called_class();
-        if (!isset(self::$instance[$class]) || !self::$instance[$class] instanceof $class) {
-            self::$instance[$class] = new $class();
+        $key = md5(static::class);
+        if (!isset(self::$instance[$key]) || !self::$instance[$key] instanceof static) {
+            self::$instance[$key] = new static();
         }
-        return self::$instance[$class];
+        return self::$instance[$key];
     }
 
 }

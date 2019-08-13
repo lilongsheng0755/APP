@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Config;
+namespace Config\APP1001;
 
 /**
  * Author: lilongsheng
