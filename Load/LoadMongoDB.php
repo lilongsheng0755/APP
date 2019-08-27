@@ -5,8 +5,9 @@ namespace Load;
 /**
  * Author: skylong
  * CreateTime: 2018-6-13 23:27:19
- * Description: 
+ * Description:
  */
-class LoadMongoDB {
+class LoadMongoDB
+{
 //put your code here
 }

@@ -2,7 +2,7 @@
 
 namespace Lib\File;
 
-use Lib\SPL\SingleBase;
+use Lib\SPL\SplAbstract\SingleBase;
 
 /**
  * Author: skylong
@@ -324,7 +324,7 @@ class FileUpload extends SingleBase
      * @param string $name     源文件名
      * @param string $tmp_name 临时文件名
      * @param int    $size     文件大小
-     * @param string $error    文件上传错误码
+     * @param int    $error    文件上传错误码
      *
      * @return boolean
      */

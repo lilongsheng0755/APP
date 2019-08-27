@@ -1,6 +1,6 @@
 <?php
 
-namespace Lib\SPL;
+namespace Lib\SPL\SplAbstract;
 /**
  * Author: skylong
  * CreateTime: 2019-6-11 14:41:59

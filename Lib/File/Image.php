@@ -2,7 +2,7 @@
 
 namespace Lib\File;
 
-use Lib\SPL\SingleBase;
+use Lib\SPL\SplAbstract\SingleBase;
 
 /**
  * Author: skylong
