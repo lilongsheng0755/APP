@@ -10,9 +10,9 @@ namespace Config;
 class ConfigApp
 {
     /**
-     * 默认应用
+     * 默认应用【系统应用】
      */
-    const APPID_DEFAULT = 1001;
+    const APPID_SYSTEM = 1001;
 
     /**
      * 应用名配置
@@ -20,7 +20,7 @@ class ConfigApp
      * @var array
      */
     public static $appid = [
-        self::APPID_DEFAULT => '默认应用1',
+        self::APPID_SYSTEM => '系统应用',
     ];
 
 }

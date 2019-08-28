@@ -2,14 +2,14 @@
 
 namespace Lib\File;
 
-use Lib\SPL\SplAbstract\SingleBase;
+use Lib\SPL\SplAbstract\ASingleBase;
 
 /**
  * Author: skylong
  * CreateTime: 2018-8-11 16:45:32
  * Description: 文件上传类
  */
-class FileUpload extends SingleBase
+class FileUpload extends ASingleBase
 {
 
     /**

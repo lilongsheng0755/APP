@@ -65,9 +65,13 @@ define('PATH_PUBLIC', PATH_APP . DS . 'Static');
 
 /**
  * 第三方插件基路径
- * 
  */
 define('PATH_PLUGS', PATH_APP . DS . 'Plugs');
+
+/**
+ * 配置常量：local - 本地环境，dev - 外网测试环境【RC】，product - 生产环境【GA】
+ */
+define('CONFIG_ENVIRONMENT', 'local');
 
 /**
  * 加载初始化文件

@@ -6,7 +6,7 @@ namespace Lib\SPL\SplAbstract;
  * CreateTime: 2019-6-11 14:41:59
  * Description: 单例模式实例化基类
  */
-abstract class SingleBase
+abstract class ASingleBase
 {
 
     /**

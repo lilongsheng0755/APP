@@ -2,14 +2,14 @@
 
 namespace Lib\File;
 
-use Lib\SPL\SplAbstract\SingleBase;
+use Lib\SPL\SplAbstract\ASingleBase;
 
 /**
  * Author: skylong
  * CreateTime: 2018-10-21 21:02:50
  * Description: 图片处理类（加水印，缩放图片，剪切）
  */
-class Image extends SingleBase
+class Image extends ASingleBase
 {
 
     /**
