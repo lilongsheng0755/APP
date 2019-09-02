@@ -278,18 +278,17 @@ class WxPayConfig extends ASingleBase
     }
 
     /**
-     * 获取商户证书路径
-     *
+     * 获取商户证书路
      * @return array ['ssl_cert_path' => '', 'ssl_key_path' => '']
      * @throws WxPayException
      */
     public function getSSLCertPath()
     {
         $ret = ['ssl_cert_path' => '', 'ssl_key_path' => ''];
-        if (isset($this->config['ssl_cert_path']) && !$this->config['ssl_cert_path']) {
+        if (isset($this->config['ssl_cert_path']) || !$this->config['ssl_cert_path']) {
             throw new WxPayException('未配置商户证书cert文件路径！');
         }
-        if (isset($this->config['ssl_key_path']) && !$this->config['ssl_key_path']) {
+        if (isset($this->config['ssl_key_path']) || !$this->config['ssl_key_path']) {
             throw new WxPayException('未配置商户证书key文件路径！');
         }
         return $ret;
