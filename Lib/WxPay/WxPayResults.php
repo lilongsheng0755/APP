@@ -6,7 +6,7 @@ namespace Lib\WxPay;
 /**
  * Author: lilongsheng
  * CreateTime: 2019/9/4 13:45
- * Description:微信支付返回结果处理
+ * Description:微信支付接口调用返回结果处理
  */
 class WxPayResults extends WxPayData
 {
@@ -27,7 +27,7 @@ class WxPayResults extends WxPayData
             foreach ($obj->values as $key => $value) {
                 #除了return_code和return_msg之外其他的参数存在，则报错
                 if ($key != "return_code" && $key != "return_msg") {
-                    throw new WxPayException("支付返回数据存在异常！");
+                    throw new WxPayException("接口调用返回数据存在异常！");
                 }
             }
             return $obj->getValues();
