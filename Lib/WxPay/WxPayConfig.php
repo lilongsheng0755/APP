@@ -279,6 +279,7 @@ class WxPayConfig extends ASingleBase
 
     /**
      * 获取商户证书路
+     *
      * @return array ['ssl_cert_path' => '', 'ssl_key_path' => '']
      * @throws WxPayException
      */
@@ -293,4 +294,5 @@ class WxPayConfig extends ASingleBase
         }
         return $ret;
     }
+
 }
