@@ -1,8 +1,9 @@
 <?php
 
-namespace Lib\WxPay;
+namespace Lib\WxPay\PayConfig;
 
 use Lib\SPL\SplAbstract\ASingleBase;
+use Lib\WxPay\PayException\WxPayException;
 
 /**
  * Author: lilongsheng

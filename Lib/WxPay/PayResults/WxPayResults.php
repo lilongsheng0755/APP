@@ -1,7 +1,10 @@
 <?php
 
-namespace Lib\WxPay;
+namespace Lib\WxPay\PayResults;
 
+
+use Lib\WxPay\PayData\WxPayData;
+use Lib\WxPay\PayException\WxPayException;
 
 /**
  * Author: lilongsheng
@@ -13,17 +16,17 @@ class WxPayResults extends WxPayData
     /**
      * 校验xml数据并转成数组
      *
-     * @param $xml
+     * @param string $xml 接口返回结果
      *
      * @return array|bool
      * @throws WxPayException
      */
-    public static function init()
+    public static function init($xml)
     {
         $obj = new self();
-        $obj->fromXml(file_get_contents('php://input'));
+        $obj->fromXml($xml);
         //失败则直接返回失败
-        if ($obj->values['return_code'] != 'SUCCESS') {
+        if (!isset($obj->values['return_code']) || $obj->values['return_code'] != 'SUCCESS') {
             foreach ($obj->values as $key => $value) {
                 #除了return_code和return_msg之外其他的参数存在，则报错
                 if ($key != "return_code" && $key != "return_msg") {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Lib\WxPay;
+namespace Lib\WxPay\PayException;
 /**
  * Author: lilongsheng
  * CreateTime: 2019/9/2 11:03

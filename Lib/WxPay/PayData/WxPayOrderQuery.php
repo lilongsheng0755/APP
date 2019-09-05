@@ -1,12 +1,12 @@
 <?php
 
-namespace Lib\WxPay\HandleData;
+namespace Lib\WxPay\PayData;
 
 
 /**
  * Author: lilongsheng
  * CreateTime: 2019/9/4 18:01
- * Description:订单查询字段处理
+ * Description:订单查询请求字段处理
  */
 class WxPayOrderQuery extends WxPayData
 {
