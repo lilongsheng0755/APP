@@ -443,4 +443,14 @@ class WxPayReport extends WxPayData
         return array_key_exists('time', $this->values);
     }
 
+    /**
+     * 继承单例模式
+     *
+     * @return object|WxPayReport
+     */
+    public static function getInstance()
+    {
+        return parent::getInstance();
+    }
+
 }

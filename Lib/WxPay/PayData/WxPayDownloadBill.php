@@ -106,7 +106,7 @@ class WxPayDownloadBill extends WxPayData
      *
      * @param string $value
      **/
-    public function SetNonce_str($value)
+    public function SetNonceStr($value)
     {
         $this->values['nonce_str'] = $value;
     }

@@ -158,4 +158,34 @@ class WxPayBizPayUrl extends WxPayData
     {
         return array_key_exists('product_id', $this->values);
     }
+
+    /**
+     * 设置取值如下：JSAPI，NATIVE，APP，详细说明见参数规定
+     *
+     * @param string $value
+     **/
+    public function setTradeType($value)
+    {
+        $this->values['trade_type'] = $value;
+    }
+
+    /**
+     * 获取取值如下：JSAPI，NATIVE，APP，详细说明见参数规定的值
+     *
+     * @return mixed
+     */
+    public function getTradeType()
+    {
+        return $this->values['trade_type'];
+    }
+
+    /**
+     * 判断取值如下：JSAPI，NATIVE，APP，详细说明见参数规定是否存在
+     *
+     * @return bool
+     **/
+    public function isTradeTypeSet()
+    {
+        return array_key_exists('trade_type', $this->values);
+    }
 }
