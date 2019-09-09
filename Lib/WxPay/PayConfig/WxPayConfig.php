@@ -81,6 +81,7 @@ class WxPayConfig extends ASingleBase
     public function setSignType($sign_type)
     {
         $this->config['sign_type'] = $sign_type;
+
     }
 
     /**
