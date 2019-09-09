@@ -138,7 +138,7 @@ class Error
         $data .= "error_type:{$error_type}" . PHP_EOL;
         $data .= "error_message:" . $error_message . PHP_EOL;
         $data .= "======================================================================" . PHP_EOL;
-        Log::writeErrLog('error_php' . date('Ymd'), $data, ConfigLog::PHP_ERR_LOG_TYPE);
+        Log::writeErrLog('error_php' . date('Ymd'), $data, ConfigLog::ERR_PHP_LOG_TYPE);
     }
 
 }

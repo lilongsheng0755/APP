@@ -60,6 +60,20 @@ class WxPayConfig extends ASingleBase
     }
 
     /**
+     * 微信支付类型
+     *
+     * @var array
+     */
+    public static $map_pay_type = [
+        self::PAY_TYPE_PAYCODE         => '付款码支付',
+        self::PAY_TYPE_NATIVE          => 'Native支付',
+        self::PAY_TYPE_JSAPI           => 'JSAPI支付',
+        self::PAY_TYPE_APP             => 'APP支付',
+        self::PAY_TYPE_H5              => 'H5支付',
+        self::PAY_TYPE_SMALL_PROCEDURE => '小程序支付',
+    ];
+
+    /**
      * 设置签名生成算法类型 支持md5和sha256方式
      *
      * @param string $sign_type MD5|HMAC-SHA256

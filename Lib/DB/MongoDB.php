@@ -338,7 +338,7 @@ class MongoDB
         $data .= "error:{$error}" . PHP_EOL;
         $data .= "cmd:{$query}" . PHP_EOL;
         $data .= "======================================================================" . PHP_EOL;
-        Log::writeErrLog('error_mongodb' . date('Ymd'), $data, ConfigLog::MONGODB_ERR_LOG_TYPE);
+        Log::writeErrLog('error_mongodb' . date('Ymd'), $data, ConfigLog::ERR_MONGODB_LOG_TYPE);
         HelperReturn::jsonData('mongodb ERROR!', SException::CODE_MONGODB_ERROR);
     }
 

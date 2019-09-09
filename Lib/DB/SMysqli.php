@@ -300,7 +300,7 @@ class SMysqli extends DataBase
         $data .= "error:{$error}" . PHP_EOL;
         $data .= "query:{$query}" . PHP_EOL;
         $data .= "======================================================================" . PHP_EOL;
-        Log::writeErrLog('error_mysql' . date('Ymd'), $data, ConfigLog::MYSQL_ERR_LOG_TYPE);
+        Log::writeErrLog('error_mysql' . date('Ymd'), $data, ConfigLog::ERR_MYSQL_LOG_TYPE);
         HelperReturn::jsonData('DB ERROR!', SException::CODE_MYSQL_ERROR);
     }
 

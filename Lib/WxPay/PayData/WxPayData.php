@@ -23,7 +23,7 @@ class WxPayData extends ASingleBase
     /**
      * 设置签名生成算法类型
      *
-     * @param string $sign_type
+     * @param string $sign_type MD5|HMAC-SHA256
      **/
     public function setSignType($sign_type)
     {

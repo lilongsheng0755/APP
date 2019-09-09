@@ -164,7 +164,7 @@ class Curl
         $data .= "errno:{$errno}" . PHP_EOL;
         $data .= "error:{$error}" . PHP_EOL;
         $data .= "======================================================================" . PHP_EOL;
-        Log::writeErrLog('error_curl' . date('Ymd'), $data, ConfigLog::CURL_ERR_LOG_TYPE);
+        Log::writeErrLog('error_curl' . date('Ymd'), $data, ConfigLog::ERR_CURL_LOG_TYPE);
     }
 
 }

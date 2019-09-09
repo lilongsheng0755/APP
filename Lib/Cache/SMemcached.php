@@ -382,7 +382,7 @@ class SMemcached
         $data .= "error:{$error}" . PHP_EOL;
         $data .= "cmd:{$cmd}" . PHP_EOL;
         $data .= "======================================================================" . PHP_EOL;
-        Log::writeErrLog('error_memcached' . date('Ymd'), $data, ConfigLog::MEM_ERR_LOG_TYPE);
+        Log::writeErrLog('error_memcached' . date('Ymd'), $data, ConfigLog::ERR_MEM_LOG_TYPE);
         HelperReturn::jsonData('memcached ERROR!', SException::CODE_MEMCACHED_ERROR);
     }
 

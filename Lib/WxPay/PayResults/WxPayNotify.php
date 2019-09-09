@@ -2,8 +2,11 @@
 
 namespace Lib\WxPay\PayResults;
 
+use Config\ConfigLog;
+use Lib\System\Log;
 use Lib\WxPay\PayApi\WxPayApi;
 use Lib\WxPay\PayData\WxPayData;
+use Lib\WxPay\PayException\WxPayException;
 
 /**
  * Author: lilongsheng
@@ -62,15 +65,23 @@ class WxPayNotify extends WxPayData
      * @param string $xml
      *
      * @return array|bool|WxPayNotify
-     * @throws \Lib\WxPay\PayException\WxPayException
      */
     public static function init($xml)
     {
         $obj = new self();
-        $obj->fromXml($xml);
-        //失败则直接返回失败
-        $obj->checkSign();
-        return $obj;
+        try {
+            $obj->fromXml($xml);
+            //失败则直接返回失败
+            $obj->checkSign();
+            return $obj;
+        } catch (WxPayException $ex) {
+            // 记录错误日志
+            $xml = '======' . date('Y-m-d H:i:s') . '======' . PHP_EOL . $xml . PHP_EOL;
+            $xml .= 'WxPayNotify::init------' . $ex->errorMessage() . '------' . PHP_EOL;
+            Log::writeErrLog('error_wxpay_callback' . date('Ymd'), $xml, ConfigLog::ERR_WXPAY_CALLBACK_LOG_TYPE);
+            return $obj;
+        }
+
     }
 
     /**
@@ -79,7 +90,6 @@ class WxPayNotify extends WxPayData
      * @param bool $needSign 是否需要签名返回
      *
      * @return bool
-     * @throws \Lib\WxPay\PayException\WxPayException
      */
     public function handle($needSign = true)
     {
@@ -89,7 +99,7 @@ class WxPayNotify extends WxPayData
         if ($result == false) {
             $this->setReturnCode("FAIL");
             $this->setReturnMsg($msg);
-            $this->replyNotify(false);
+            $this->replyNotify($needSign);
             return true;
         } else {
             //该分支在成功回调到NotifyCallBack方法，处理完成之后流程
@@ -155,21 +165,27 @@ class WxPayNotify extends WxPayData
     }
 
     /**
-     * @param bool $needSign
+     * @param bool $needSign 是否需要签名返回
      *
-     * @throws \Lib\WxPay\PayException\WxPayException
      */
     final private function replyNotify($needSign = true)
     {
-        //如果需要签名
-        if ($needSign == true &&
-            $this->getReturnCode() == "SUCCESS") {
-            $this->setSign($this->makeSign());
+        try {
+            //如果需要签名
+            if ($needSign == true &&
+                $this->getReturnCode() == "SUCCESS") {
+                $this->setSign($this->makeSign());
+            }
+
+            $xml = $this->toXml();
+            $this->logAfterProcess($xml);
+            WxpayApi::replyNotify($xml);
+        } catch (WxPayException $ex) {
+            // 记录错误日志
+            $str = 'WxPayNotify::replyNotify------' . $ex->errorMessage() . '------' . PHP_EOL;
+            Log::writeErrLog('error_wxpay_callback' . date('Ymd'), $str, ConfigLog::ERR_WXPAY_CALLBACK_LOG_TYPE);
         }
 
-        $xml = $this->toXml();
-        $this->logAfterProcess($xml);
-        WxpayApi::replyNotify($xml);
     }
 
 }

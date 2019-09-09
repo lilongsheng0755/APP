@@ -1195,7 +1195,7 @@ class SRedis
         $data .= "errno:{$errno}" . PHP_EOL;
         $data .= "error:{$error}" . PHP_EOL;
         $data .= "======================================================================" . PHP_EOL;
-        Log::writeErrLog('error_redis' . date('Ymd'), $data, ConfigLog::REDIS_ERR_LOG_TYPE);
+        Log::writeErrLog('error_redis' . date('Ymd'), $data, ConfigLog::ERR_REDIS_LOG_TYPE);
         HelperReturn::jsonData('redis ERROR!', SException::CODE_REDIS_ERROR);
     }
 

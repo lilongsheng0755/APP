@@ -12,7 +12,7 @@ class ConfigApp
     /**
      * 默认应用【系统应用】
      */
-    const APPID_SYSTEM = 1001;
+    const APPID_SYSTEM = 'System';
 
     /**
      * 应用名配置
