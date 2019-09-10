@@ -57,9 +57,12 @@ class WxPayResults extends WxPayData
      *
      * @param string $key
      * @param string $value
+     *
+     * @return WxPayResults
      */
     public function setData($key, $value)
     {
         $this->values[$key] = $value;
+        return $this;
     }
 }

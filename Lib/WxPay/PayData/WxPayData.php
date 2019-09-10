@@ -24,10 +24,13 @@ class WxPayData extends ASingleBase
      * 设置签名生成算法类型
      *
      * @param string $sign_type MD5|HMAC-SHA256
-     **/
+     *
+     * @return WxPayData
+     */
     public function setSignType($sign_type)
     {
         $this->values['sign_type'] = $sign_type;
+        return $this;
     }
 
     /**
@@ -49,10 +52,13 @@ class WxPayData extends ASingleBase
      * 设置生成的签名
      *
      * @param string $sign
-     **/
+     *
+     * @return WxPayData
+     */
     public function setSign($sign)
     {
         $this->values['sign'] = $sign;
+        return $this;
     }
 
     /**获取生成的签名
@@ -207,5 +213,15 @@ class WxPayData extends ASingleBase
     public function getValues()
     {
         return $this->values;
+    }
+
+    /**
+     * 继承单利模式
+     *
+     * @return object|WxPayData
+     */
+    public static function getInstance()
+    {
+        return parent::getInstance();
     }
 }

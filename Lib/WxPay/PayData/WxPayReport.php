@@ -14,10 +14,13 @@ class WxPayReport extends WxPayData
      * 设置微信分配的公众账号ID
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayReport
+     */
     public function setAppid($value)
     {
         $this->values['appid'] = $value;
+        return $this;
     }
 
     /**
@@ -45,10 +48,13 @@ class WxPayReport extends WxPayData
      * 设置微信支付分配的商户号
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayReport
+     */
     public function setMchId($value)
     {
         $this->values['mch_id'] = $value;
+        return $this;
     }
 
     /**
@@ -76,10 +82,13 @@ class WxPayReport extends WxPayData
      * 设置微信支付分配的终端设备号，商户自定义
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayReport
+     */
     public function setDeviceInfo($value)
     {
         $this->values['device_info'] = $value;
+        return $this;
     }
 
     /**
@@ -107,10 +116,13 @@ class WxPayReport extends WxPayData
      * 设置随机字符串，不长于32位。推荐随机数生成算法
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayReport
+     */
     public function setNonceStr($value)
     {
         $this->values['nonce_str'] = $value;
+        return $this;
     }
 
     /**
@@ -138,10 +150,13 @@ class WxPayReport extends WxPayData
      * 设置上报对应的接口的完整URL，类似：https://api.mch.weixin.qq.com/pay/unifiedorder对于被扫支付，为更好的和商户共同分析一次业务行为的整体耗时情况，对于两种接入模式，请都在门店侧对一次被扫行为进行一次单独的整体上报，上报URL指定为：https://api.mch.weixin.qq.com/pay/micropay/total关于两种接入模式具体可参考本文档章节：被扫支付商户接入模式其它接口调用仍然按照调用一次，上报一次来进行。
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayReport
+     */
     public function setInterfaceUrl($value)
     {
         $this->values['interface_url'] = $value;
+        return $this;
     }
 
     /**
@@ -169,10 +184,13 @@ class WxPayReport extends WxPayData
      * 设置接口耗时情况，单位为毫秒
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayReport
+     */
     public function setExecuteTime($value)
     {
         $this->values['execute_time_'] = $value;
+        return $this;
     }
 
     /**
@@ -200,10 +218,13 @@ class WxPayReport extends WxPayData
      * 设置SUCCESS/FAIL此字段是通信标识，非交易标识，交易是否成功需要查看trade_state来判断
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayReport
+     */
     public function setReturnCode($value)
     {
         $this->values['return_code'] = $value;
+        return $this;
     }
 
     /**
@@ -231,10 +252,13 @@ class WxPayReport extends WxPayData
      * 设置返回信息，如非空，为错误原因签名失败参数格式校验错误
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayReport
+     */
     public function setReturnMsg($value)
     {
         $this->values['return_msg'] = $value;
+        return $this;
     }
 
     /**
@@ -262,10 +286,13 @@ class WxPayReport extends WxPayData
      * 设置SUCCESS/FAIL
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayReport
+     */
     public function setResultCode($value)
     {
         $this->values['result_code'] = $value;
+        return $this;
     }
 
     /**
@@ -293,10 +320,13 @@ class WxPayReport extends WxPayData
      * 设置ORDERNOTEXIST—订单不存在SYSTEMERROR—系统错误
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayReport
+     */
     public function setErrCode($value)
     {
         $this->values['err_code'] = $value;
+        return $this;
     }
 
     /**
@@ -324,10 +354,13 @@ class WxPayReport extends WxPayData
      * 设置结果信息描述
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayReport
+     */
     public function setErrCodeDes($value)
     {
         $this->values['err_code_des'] = $value;
+        return $this;
     }
 
     /**
@@ -355,10 +388,13 @@ class WxPayReport extends WxPayData
      * 设置商户系统内部的订单号,商户可以在上报时提供相关商户订单号方便微信支付更好的提高服务质量。
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayReport
+     */
     public function setOutTradeNo($value)
     {
         $this->values['out_trade_no'] = $value;
+        return $this;
     }
 
     /**
@@ -386,10 +422,13 @@ class WxPayReport extends WxPayData
      * 设置发起接口调用时的机器IP
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayReport
+     */
     public function setUserIp($value)
     {
         $this->values['user_ip'] = $value;
+        return $this;
     }
 
     /**
@@ -417,10 +456,13 @@ class WxPayReport extends WxPayData
      * 设置系统时间，格式为yyyyMMddHHmmss，如2009年12月27日9点10分10秒表示为20091227091010。其他详见时间规则
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayReport
+     */
     public function setTime($value)
     {
         $this->values['time'] = $value;
+        return $this;
     }
 
     /**
@@ -446,7 +488,7 @@ class WxPayReport extends WxPayData
     /**
      * 继承单例模式
      *
-     * @return object|WxPayReport
+     * @return WxPayData|object|WxPayReport
      */
     public static function getInstance()
     {

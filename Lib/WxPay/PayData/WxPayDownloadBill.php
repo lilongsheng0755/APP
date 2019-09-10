@@ -12,10 +12,13 @@ class WxPayDownloadBill extends WxPayData
      * 设置微信分配的公众账号ID
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayDownloadBill
+     */
     public function setAppid($value)
     {
         $this->values['appid'] = $value;
+        return $this;
     }
 
     /**
@@ -43,10 +46,13 @@ class WxPayDownloadBill extends WxPayData
      * 设置微信支付分配的商户号
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayDownloadBill
+     */
     public function setMchId($value)
     {
         $this->values['mch_id'] = $value;
+        return $this;
     }
 
     /**
@@ -74,10 +80,13 @@ class WxPayDownloadBill extends WxPayData
      * 设置微信支付分配的终端设备号，填写此字段，只下载该设备号的对账单
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayDownloadBill
+     */
     public function setDeviceInfo($value)
     {
         $this->values['device_info'] = $value;
+        return $this;
     }
 
     /**
@@ -105,10 +114,13 @@ class WxPayDownloadBill extends WxPayData
      * 设置随机字符串，不长于32位。推荐随机数生成算法
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayDownloadBill
+     */
     public function SetNonceStr($value)
     {
         $this->values['nonce_str'] = $value;
+        return $this;
     }
 
     /**
@@ -135,10 +147,13 @@ class WxPayDownloadBill extends WxPayData
      * 设置下载对账单的日期，格式：20140603
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayDownloadBill
+     */
     public function setBillDate($value)
     {
         $this->values['bill_date'] = $value;
+        return $this;
     }
 
     /**
@@ -166,10 +181,13 @@ class WxPayDownloadBill extends WxPayData
      * 设置ALL，返回当日所有订单信息，默认值SUCCESS，返回当日成功支付的订单REFUND，返回当日退款订单REVOKED，已撤销的订单
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayDownloadBill
+     */
     public function setBillType($value)
     {
         $this->values['bill_type'] = $value;
+        return $this;
     }
 
     /**
@@ -190,5 +208,15 @@ class WxPayDownloadBill extends WxPayData
     public function isBillTypeSet()
     {
         return array_key_exists('bill_type', $this->values);
+    }
+
+    /**
+     * 继承单利模式
+     *
+     * @return WxPayData|object|WxPayDownloadBill
+     */
+    public static function getInstance()
+    {
+        return parent::getInstance();
     }
 }

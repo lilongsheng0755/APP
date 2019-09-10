@@ -12,10 +12,13 @@ class WxPayBizPayUrl extends WxPayData
      * 设置微信分配的公众账号ID
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayBizPayUrl
+     */
     public function setAppid($value)
     {
         $this->values['appid'] = $value;
+        return $this;
     }
 
     /**
@@ -43,10 +46,13 @@ class WxPayBizPayUrl extends WxPayData
      * 设置微信支付分配的商户号
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayBizPayUrl
+     */
     public function setMchId($value)
     {
         $this->values['mch_id'] = $value;
+        return $this;
     }
 
     /**
@@ -73,10 +79,13 @@ class WxPayBizPayUrl extends WxPayData
      * 设置支付时间戳
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayBizPayUrl
+     */
     public function setTimeStamp($value)
     {
         $this->values['time_stamp'] = $value;
+        return $this;
     }
 
     /**
@@ -103,10 +112,13 @@ class WxPayBizPayUrl extends WxPayData
      * 设置随机字符串
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayBizPayUrl
+     */
     public function setNonceStr($value)
     {
         $this->values['nonce_str'] = $value;
+        return $this;
     }
 
     /**
@@ -133,10 +145,13 @@ class WxPayBizPayUrl extends WxPayData
      * 设置商品ID
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayBizPayUrl
+     */
     public function setProductId($value)
     {
         $this->values['product_id'] = $value;
+        return $this;
     }
 
     /**
@@ -163,10 +178,13 @@ class WxPayBizPayUrl extends WxPayData
      * 设置取值如下：JSAPI，NATIVE，APP，详细说明见参数规定
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayBizPayUrl
+     */
     public function setTradeType($value)
     {
         $this->values['trade_type'] = $value;
+        return $this;
     }
 
     /**
@@ -187,5 +205,15 @@ class WxPayBizPayUrl extends WxPayData
     public function isTradeTypeSet()
     {
         return array_key_exists('trade_type', $this->values);
+    }
+
+    /**
+     * 继承单利模式
+     *
+     * @return WxPayData|object|WxPayBizPayUrl
+     */
+    public static function getInstance()
+    {
+        return parent::getInstance();
     }
 }

@@ -12,10 +12,13 @@ class WxPayJsApiPay extends WxPayData
      * 设置微信分配的公众账号ID
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayJsApiPay
+     */
     public function setAppid($value)
     {
         $this->values['appId'] = $value;
+        return $this;
     }
 
     /**
@@ -43,10 +46,13 @@ class WxPayJsApiPay extends WxPayData
      * 设置支付时间戳
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayJsApiPay
+     */
     public function setTimeStamp($value)
     {
         $this->values['timeStamp'] = $value;
+        return $this;
     }
 
     /**
@@ -73,10 +79,13 @@ class WxPayJsApiPay extends WxPayData
      * 随机字符串
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayJsApiPay
+     */
     public function setNonceStr($value)
     {
         $this->values['nonceStr'] = $value;
+        return $this;
     }
 
     /**
@@ -104,10 +113,13 @@ class WxPayJsApiPay extends WxPayData
      * 设置订单详情扩展字符串
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayJsApiPay
+     */
     public function setPackage($value)
     {
         $this->values['package'] = $value;
+        return $this;
     }
 
     /**
@@ -134,10 +146,13 @@ class WxPayJsApiPay extends WxPayData
      * 设置签名方式
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayJsApiPay
+     */
     public function setSignType($value)
     {
         $this->values['signType'] = $value;
+        return $this;
     }
 
     /**
@@ -164,10 +179,13 @@ class WxPayJsApiPay extends WxPayData
      * 设置签名方式
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayJsApiPay
+     */
     public function setPaySign($value)
     {
         $this->values['paySign'] = $value;
+        return $this;
     }
 
     /**
@@ -188,5 +206,15 @@ class WxPayJsApiPay extends WxPayData
     public function isPaySignSet()
     {
         return array_key_exists('paySign', $this->values);
+    }
+
+    /**
+     * 继承单利模式
+     *
+     * @return WxPayData|object|WxPayJsApiPay
+     */
+    public static function getInstance()
+    {
+        return parent::getInstance();
     }
 }

@@ -14,10 +14,13 @@ class WxPayReverse extends WxPayData
      * 设置微信分配的公众账号ID
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayReverse
+     */
     public function setAppid($value)
     {
         $this->values['appid'] = $value;
+        return $this;
     }
 
     /**
@@ -45,10 +48,13 @@ class WxPayReverse extends WxPayData
      * 设置微信支付分配的商户号
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayReverse
+     */
     public function setMchId($value)
     {
         $this->values['mch_id'] = $value;
+        return $this;
     }
 
     /**
@@ -76,10 +82,13 @@ class WxPayReverse extends WxPayData
      * 设置微信的订单号，优先使用
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayReverse
+     */
     public function setTransactionId($value)
     {
         $this->values['transaction_id'] = $value;
+        return $this;
     }
 
     /**
@@ -107,10 +116,13 @@ class WxPayReverse extends WxPayData
      * 设置商户系统内部的订单号,transaction_id、out_trade_no二选一，如果同时存在优先级：transaction_id> out_trade_no
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayReverse
+     */
     public function setOutTradeNo($value)
     {
         $this->values['out_trade_no'] = $value;
+        return $this;
     }
 
     /**
@@ -138,10 +150,13 @@ class WxPayReverse extends WxPayData
      * 设置随机字符串，不长于32位。推荐随机数生成算法
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayReverse
+     */
     public function setNonceStr($value)
     {
         $this->values['nonce_str'] = $value;
+        return $this;
     }
 
     /**
@@ -162,5 +177,15 @@ class WxPayReverse extends WxPayData
     public function isNonceStrSet()
     {
         return array_key_exists('nonce_str', $this->values);
+    }
+
+    /**
+     * 继承单利模式
+     *
+     * @return WxPayData|object|WxPayReverse
+     */
+    public static function getInstance()
+    {
+        return parent::getInstance();
     }
 }

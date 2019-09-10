@@ -14,10 +14,13 @@ class WxPayRefund extends WxPayData
      * 设置微信分配的公众账号ID
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayRefund
+     */
     public function setAppid($value)
     {
         $this->values['appid'] = $value;
+        return $this;
     }
 
     /**
@@ -45,10 +48,13 @@ class WxPayRefund extends WxPayData
      * 设置微信支付分配的商户号
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayRefund
+     */
     public function setMchId($value)
     {
         $this->values['mch_id'] = $value;
+        return $this;
     }
 
     /**
@@ -76,10 +82,13 @@ class WxPayRefund extends WxPayData
      * 设置微信支付分配的终端设备号，与下单一致
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayRefund
+     */
     public function setDeviceInfo($value)
     {
         $this->values['device_info'] = $value;
+        return $this;
     }
 
     /**
@@ -107,10 +116,13 @@ class WxPayRefund extends WxPayData
      * 设置随机字符串，不长于32位。推荐随机数生成算法
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayRefund
+     */
     public function setNonceStr($value)
     {
         $this->values['nonce_str'] = $value;
+        return $this;
     }
 
     /**
@@ -137,10 +149,13 @@ class WxPayRefund extends WxPayData
      * 设置微信订单号
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayRefund
+     */
     public function setTransactionId($value)
     {
         $this->values['transaction_id'] = $value;
+        return $this;
     }
 
     /**
@@ -168,10 +183,13 @@ class WxPayRefund extends WxPayData
      * 设置商户系统内部的订单号,transaction_id、out_trade_no二选一，如果同时存在优先级：transaction_id> out_trade_no
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayRefund
+     */
     public function setOutTradeNo($value)
     {
         $this->values['out_trade_no'] = $value;
+        return $this;
     }
 
     /**
@@ -199,10 +217,13 @@ class WxPayRefund extends WxPayData
      * 设置商户系统内部的退款单号，商户系统内部唯一，同一退款单号多次请求只退一笔
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayRefund
+     */
     public function setOutRefundNo($value)
     {
         $this->values['out_refund_no'] = $value;
+        return $this;
     }
 
     /**
@@ -230,10 +251,13 @@ class WxPayRefund extends WxPayData
      * 设置订单总金额，单位为分，只能为整数，详见支付金额
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayRefund
+     */
     public function setTotalFee($value)
     {
         $this->values['total_fee'] = $value;
+        return $this;
     }
 
     /**
@@ -261,10 +285,13 @@ class WxPayRefund extends WxPayData
      * 设置退款总金额，订单总金额，单位为分，只能为整数，详见支付金额
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayRefund
+     */
     public function setRefundFee($value)
     {
         $this->values['refund_fee'] = $value;
+        return $this;
     }
 
     /**
@@ -292,10 +319,13 @@ class WxPayRefund extends WxPayData
      * 设置货币类型，符合ISO 4217标准的三位字母代码，默认人民币：CNY，其他值列表详见货币类型
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayRefund
+     */
     public function setRefundFeeType($value)
     {
         $this->values['refund_fee_type'] = $value;
+        return $this;
     }
 
     /**
@@ -323,10 +353,13 @@ class WxPayRefund extends WxPayData
      * 设置操作员帐号, 默认为商户号
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayRefund
+     */
     public function setOpUserId($value)
     {
         $this->values['op_user_id'] = $value;
+        return $this;
     }
 
     /**
@@ -347,6 +380,16 @@ class WxPayRefund extends WxPayData
     public function isOpUserIdSet()
     {
         return array_key_exists('op_user_id', $this->values);
+    }
+
+    /**
+     * 继承单利模式
+     *
+     * @return WxPayData|object|WxPayRefund
+     */
+    public static function getInstance()
+    {
+        return parent::getInstance();
     }
 
 }

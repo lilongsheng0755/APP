@@ -14,10 +14,13 @@ class WxPayUnifiedOrder extends WxPayData
      * 设置微信分配的公众账号ID
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayUnifiedOrder
+     */
     public function setAppid($value)
     {
         $this->values['appid'] = $value;
+        return $this;
     }
 
     /**
@@ -45,10 +48,13 @@ class WxPayUnifiedOrder extends WxPayData
      * 设置微信支付分配的商户号
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayUnifiedOrder
+     */
     public function setMchId($value)
     {
         $this->values['mch_id'] = $value;
+        return $this;
     }
 
     /**
@@ -76,10 +82,13 @@ class WxPayUnifiedOrder extends WxPayData
      * 设置微信支付分配的终端设备号，商户自定义
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayUnifiedOrder
+     */
     public function setDeviceInfo($value)
     {
         $this->values['device_info'] = $value;
+        return $this;
     }
 
     /**
@@ -107,10 +116,13 @@ class WxPayUnifiedOrder extends WxPayData
      * 设置随机字符串，不长于32位。推荐随机数生成算法
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayUnifiedOrder
+     */
     public function setNonceStr($value)
     {
         $this->values['nonce_str'] = $value;
+        return $this;
     }
 
     /**
@@ -137,10 +149,13 @@ class WxPayUnifiedOrder extends WxPayData
      * 设置商品或支付单简要描述
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayUnifiedOrder
+     */
     public function setBody($value)
     {
         $this->values['body'] = $value;
+        return $this;
     }
 
     /**
@@ -168,10 +183,13 @@ class WxPayUnifiedOrder extends WxPayData
      * 设置商品名称明细列表
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayUnifiedOrder
+     */
     public function setDetail($value)
     {
         $this->values['detail'] = $value;
+        return $this;
     }
 
     /**
@@ -199,10 +217,13 @@ class WxPayUnifiedOrder extends WxPayData
      * 设置附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayUnifiedOrder
+     */
     public function setAttach($value)
     {
         $this->values['attach'] = $value;
+        return $this;
     }
 
     /**
@@ -230,10 +251,13 @@ class WxPayUnifiedOrder extends WxPayData
      * 设置商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayUnifiedOrder
+     */
     public function setOutTradeNo($value)
     {
         $this->values['out_trade_no'] = $value;
+        return $this;
     }
 
     /**
@@ -261,10 +285,13 @@ class WxPayUnifiedOrder extends WxPayData
      * 设置符合ISO 4217标准的三位字母代码，默认人民币：CNY，其他值列表详见货币类型
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayUnifiedOrder
+     */
     public function setFeeType($value)
     {
         $this->values['fee_type'] = $value;
+        return $this;
     }
 
     /**
@@ -292,10 +319,13 @@ class WxPayUnifiedOrder extends WxPayData
      * 设置订单总金额，只能为整数，详见支付金额
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayUnifiedOrder
+     */
     public function setTotalFee($value)
     {
         $this->values['total_fee'] = $value;
+        return $this;
     }
 
     /**
@@ -323,10 +353,13 @@ class WxPayUnifiedOrder extends WxPayData
      * 设置APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP。
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayUnifiedOrder
+     */
     public function setSpbillCreateIp($value)
     {
         $this->values['spbill_create_ip'] = $value;
+        return $this;
     }
 
     /**
@@ -354,10 +387,13 @@ class WxPayUnifiedOrder extends WxPayData
      * 设置订单生成时间，格式为yyyyMMddHHmmss，如2009年12月25日9点10分10秒表示为20091225091010。其他详见时间规则
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayUnifiedOrder
+     */
     public function setTimeStart($value)
     {
         $this->values['time_start'] = $value;
+        return $this;
     }
 
     /**
@@ -385,10 +421,13 @@ class WxPayUnifiedOrder extends WxPayData
      * 设置订单失效时间，格式为yyyyMMddHHmmss，如2009年12月27日9点10分10秒表示为20091227091010。其他详见时间规则
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayUnifiedOrder
+     */
     public function setTimeExpire($value)
     {
         $this->values['time_expire'] = $value;
+        return $this;
     }
 
     /**
@@ -416,10 +455,13 @@ class WxPayUnifiedOrder extends WxPayData
      * 设置商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayUnifiedOrder
+     */
     public function setGoodsTag($value)
     {
         $this->values['goods_tag'] = $value;
+        return $this;
     }
 
     /**
@@ -447,10 +489,13 @@ class WxPayUnifiedOrder extends WxPayData
      * 设置接收微信支付异步通知回调地址
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayUnifiedOrder
+     */
     public function setNotifyUrl($value)
     {
         $this->values['notify_url'] = $value;
+        return $this;
     }
 
     /**
@@ -478,10 +523,13 @@ class WxPayUnifiedOrder extends WxPayData
      * 设置取值如下：JSAPI，NATIVE，APP，详细说明见参数规定
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayUnifiedOrder
+     */
     public function setTradeType($value)
     {
         $this->values['trade_type'] = $value;
+        return $this;
     }
 
     /**
@@ -509,10 +557,13 @@ class WxPayUnifiedOrder extends WxPayData
      * 设置trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayUnifiedOrder
+     */
     public function setProductId($value)
     {
         $this->values['product_id'] = $value;
+        return $this;
     }
 
     /**获取trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。的值
@@ -539,10 +590,13 @@ class WxPayUnifiedOrder extends WxPayData
      * 设置trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。下单前需要调用【网页授权获取用户信息】接口获取到用户的Openid。
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayUnifiedOrder
+     */
     public function setOpenid($value)
     {
         $this->values['openid'] = $value;
+        return $this;
     }
 
     /**
@@ -563,6 +617,16 @@ class WxPayUnifiedOrder extends WxPayData
     public function isOpenidSet()
     {
         return array_key_exists('openid', $this->values);
+    }
+
+    /**
+     * 继承单利模式
+     *
+     * @return WxPayData|object|WxPayUnifiedOrder
+     */
+    public static function getInstance()
+    {
+        return parent::getInstance();
     }
 
 }

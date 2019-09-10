@@ -14,10 +14,13 @@ class WxPayShortUrl extends WxPayData
      * 设置微信分配的公众账号ID
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayShortUrl
+     */
     public function setAppid($value)
     {
         $this->values['appid'] = $value;
+        return $this;
     }
 
     /**
@@ -45,10 +48,13 @@ class WxPayShortUrl extends WxPayData
      * 设置微信支付分配的商户号
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayShortUrl
+     */
     public function setMchId($value)
     {
         $this->values['mch_id'] = $value;
+        return $this;
     }
 
     /**
@@ -76,10 +82,13 @@ class WxPayShortUrl extends WxPayData
      * 设置需要转换的URL，签名用原串，传输需URL encode
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayShortUrl
+     */
     public function setLongUrl($value)
     {
         $this->values['long_url'] = $value;
+        return $this;
     }
 
     /**
@@ -107,10 +116,13 @@ class WxPayShortUrl extends WxPayData
      * 设置随机字符串，不长于32位。推荐随机数生成算法
      *
      * @param string $value
-     **/
+     *
+     * @return WxPayShortUrl
+     */
     public function setNonceStr($value)
     {
         $this->values['nonce_str'] = $value;
+        return $this;
     }
 
     /**
@@ -131,5 +143,15 @@ class WxPayShortUrl extends WxPayData
     public function isNonceStrSet()
     {
         return array_key_exists('nonce_str', $this->values);
+    }
+
+    /**
+     * 继承单利模式
+     *
+     * @return WxPayData|object|WxPayShortUrl
+     */
+    public static function getInstance()
+    {
+        return parent::getInstance();
     }
 }

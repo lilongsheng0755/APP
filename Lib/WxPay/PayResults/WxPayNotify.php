@@ -20,10 +20,13 @@ class WxPayNotify extends WxPayData
      * 设置错误码 FAIL 或者 SUCCESS
      *
      * @param string
+     *
+     * @return WxPayNotify
      */
     public function setReturnCode($return_code)
     {
         $this->values['return_code'] = $return_code;
+        return $this;
     }
 
     /**
@@ -42,10 +45,13 @@ class WxPayNotify extends WxPayData
      * 设置错误信息
      *
      * @param string $return_msg
+     *
+     * @return WxPayNotify
      */
     public function setReturnMsg($return_msg)
     {
         $this->values['return_msg'] = $return_msg;
+        return $this;
     }
 
     /**
@@ -71,7 +77,8 @@ class WxPayNotify extends WxPayData
         $obj = new self();
         try {
             $obj->fromXml($xml);
-            //失败则直接返回失败
+
+            //签名校验
             $obj->checkSign();
             return $obj;
         } catch (WxPayException $ex) {
@@ -79,6 +86,9 @@ class WxPayNotify extends WxPayData
             $xml = '======' . date('Y-m-d H:i:s') . '======' . PHP_EOL . $xml . PHP_EOL;
             $xml .= 'WxPayNotify::init------' . $ex->errorMessage() . '------' . PHP_EOL;
             Log::writeErrLog('error_wxpay_callback' . date('Ymd'), $xml, ConfigLog::ERR_WXPAY_CALLBACK_LOG_TYPE);
+            $obj->setReturnCode("FAIL");
+            $obj->setReturnMsg("OK");
+            $obj->replyNotify(false);
             return $obj;
         }
 
@@ -88,6 +98,10 @@ class WxPayNotify extends WxPayData
      * 回调入口
      *
      * @param bool $needSign 是否需要签名返回
+     *
+     * //TODO 1、进行参数校验
+     * //TODO 2、进行签名验证
+     * //TODO 3、处理业务逻辑
      *
      * @return bool
      */
@@ -112,9 +126,6 @@ class WxPayNotify extends WxPayData
 
     /**
      * 回调方法入口，子类可重写该方法
-     * //TODO 1、进行参数校验
-     * //TODO 2、进行签名验证
-     * //TODO 3、处理业务逻辑
      * 注意：
      * 1、微信回调超时时间为2s，建议用户使用异步处理流程，确认成功之后立刻回复微信服务器
      * 2、微信服务器在调用失败或者接到回包为非确认包的时候，会发起重试，需确保你的回调是可以重入

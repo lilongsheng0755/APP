@@ -60,7 +60,7 @@ class WxPayConfig extends ASingleBase
     }
 
     /**
-     * 微信支付类型
+     * 微信支付类型描述
      *
      * @var array
      */
@@ -74,14 +74,30 @@ class WxPayConfig extends ASingleBase
     ];
 
     /**
+     * 微信支付交易类型
+     *
+     * @var array
+     */
+    public static $map_trade_type = [
+        self::PAY_TYPE_PAYCODE         => 'MICROPAY',
+        self::PAY_TYPE_NATIVE          => 'NATIVE',
+        self::PAY_TYPE_JSAPI           => 'JSAPI',
+        self::PAY_TYPE_APP             => 'APP',
+        self::PAY_TYPE_H5              => 'MWEB',
+        self::PAY_TYPE_SMALL_PROCEDURE => 'JSAPI',
+    ];
+
+    /**
      * 设置签名生成算法类型 支持md5和sha256方式
      *
      * @param string $sign_type MD5|HMAC-SHA256
-     **/
+     *
+     * @return WxPayConfig
+     */
     public function setSignType($sign_type)
     {
         $this->config['sign_type'] = $sign_type;
-
+        return $this;
     }
 
     /**
@@ -104,10 +120,13 @@ class WxPayConfig extends ASingleBase
      * 设置商户支付密钥，参考开户邮件设置（必须配置，登录商户平台自行设置）
      *
      * @param string $pay_key
+     *
+     * @return WxPayConfig
      */
     public function setPayKey($pay_key = '')
     {
         $this->config['pay_key'] = $pay_key;
+        return $this;
     }
 
     /**
@@ -128,10 +147,13 @@ class WxPayConfig extends ASingleBase
      * 设置绑定支付的APPID（必须配置，开户邮件中可查看）
      *
      * @param string $appid
+     *
+     * @return WxPayConfig
      */
     public function setAppId($appid = '')
     {
         $this->config['appid'] = $appid;
+        return $this;
     }
 
     /**
@@ -152,10 +174,13 @@ class WxPayConfig extends ASingleBase
      * 设置公众帐号secert（仅JSAPI支付的时候需要配置， 登录公众平台，进入开发者中心可设置）
      *
      * @param string $secret_key
+     *
+     * @return WxPayConfig
      */
     public function setAppSecret($secret_key = '')
     {
         $this->config['secret_key'] = $secret_key;
+        return $this;
     }
 
     /**
@@ -177,10 +202,13 @@ class WxPayConfig extends ASingleBase
      * 设置商户号（必须配置，开户邮件中可查看）
      *
      * @param string $mch_id
+     *
+     * @return WxPayConfig
      */
     public function setMerchantId($mch_id = '')
     {
         $this->config['mch_id'] = $mch_id;
+        return $this;
     }
 
     /**
@@ -201,10 +229,13 @@ class WxPayConfig extends ASingleBase
      * 设置支付回调URL地址
      *
      * @param string $notify_url 仅支持单个URL地址，不能带get请求参数
+     *
+     * @return WxPayConfig
      */
     public function setNotifyUrl($notify_url = '')
     {
         $this->config['notify_url'] = $notify_url;
+        return $this;
     }
 
     /**
@@ -227,11 +258,14 @@ class WxPayConfig extends ASingleBase
      *
      * @param string $proxy_host 代理IP地址
      * @param string $proxy_port 代理端口
+     *
+     * @return WxPayConfig
      */
     public function setCurlProxy($proxy_host = '', $proxy_port = '')
     {
         $this->config['curl_proxy_host'] = $proxy_host ? $proxy_host : '0.0.0.0';
         $this->config['curl_proxy_port'] = $proxy_port ? $proxy_port : '0';
+        return $this;
     }
 
     /**
@@ -259,10 +293,13 @@ class WxPayConfig extends ASingleBase
      * 接口调用上报等级，默认紧错误上报（注意：上报超时间为【1s】，上报无论成败【永不抛出异常】
      *
      * @param int $report_level 上报等级，0.关闭上报; 1.仅错误出错上报; 2.全量上报
+     *
+     * @return WxPayConfig
      */
     public function setReportLevel($report_level = 1)
     {
         $this->config['report_level'] = $report_level;
+        return $this;
     }
 
     /**
@@ -286,11 +323,14 @@ class WxPayConfig extends ASingleBase
      *
      * @param string $ssl_cert_path 证书cert文件路径
      * @param string $ssl_key_path  证书key文件路径
+     *
+     * @return WxPayConfig
      */
     public function setSSLCertPath($ssl_cert_path = '', $ssl_key_path = '')
     {
         $this->config['ssl_cert_path'] = $ssl_cert_path ? $ssl_cert_path : '';
         $this->config['ssl_key_path'] = $ssl_key_path ? $ssl_key_path : '';
+        return $this;
     }
 
     /**
