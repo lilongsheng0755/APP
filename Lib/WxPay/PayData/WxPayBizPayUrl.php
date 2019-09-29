@@ -2,7 +2,7 @@
 
 namespace Lib\WxPay\PayData;
 /**
- * Author: lilongsheng
+ * Author: skylong
  * CreateTime: 2019/9/5 16:09
  * Description: 扫码支付模式一生成二维码请求字段处理
  */

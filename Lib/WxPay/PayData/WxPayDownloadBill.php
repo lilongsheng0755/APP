@@ -2,7 +2,7 @@
 
 namespace Lib\WxPay\PayData;
 /**
- * Author: lilongsheng
+ * Author: skylong
  * CreateTime: 2019/9/5 15:58
  * Description: 下载对账单请求参数处理
  */

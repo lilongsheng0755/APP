@@ -6,7 +6,7 @@ use Lib\SPL\SplAbstract\ASingleBase;
 use Lib\WxPay\PayException\WxPayException;
 
 /**
- * Author: lilongsheng
+ * Author: skylong
  * CreateTime: 2019/9/2 11:07
  * Description:微信支付配置相关定义类
  */

@@ -4,7 +4,7 @@ namespace Lib\WxPay\PayData;
 
 
 /**
- * Author: lilongsheng
+ * Author: skylong
  * CreateTime: 2019/9/5 16:00
  * Description: 测速上报请求字段处理
  */

@@ -4,7 +4,7 @@ namespace Lib\WxPay\PayData;
 
 
 /**
- * Author: lilongsheng
+ * Author: skylong
  * CreateTime: 2019/9/5 15:56
  * Description: 退款查询请求字段处理
  */

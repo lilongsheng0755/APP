@@ -7,7 +7,7 @@ use Lib\WxPay\PayData\WxPayData;
 use Lib\WxPay\PayException\WxPayException;
 
 /**
- * Author: lilongsheng
+ * Author: skylong
  * CreateTime: 2019/9/4 13:45
  * Description:微信支付接口调用返回结果处理
  */

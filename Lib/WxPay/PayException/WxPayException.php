@@ -2,7 +2,7 @@
 
 namespace Lib\WxPay\PayException;
 /**
- * Author: lilongsheng
+ * Author: skylong
  * CreateTime: 2019/9/2 11:03
  * Description: 微信支付异常处理类
  */

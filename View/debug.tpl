@@ -370,7 +370,7 @@
         </div>
         <div>
             <div class="copyright">
-                <a title="源码下载" href="https://github.com/lilongsheng0755/APP">APP</a> 
+                <a title="源码下载" href="https://github.com/skylong0755/APP">APP</a>
                 <span>V1.0</span> 
                 <span>{ 轻量级APP框架web }</span>
             </div>

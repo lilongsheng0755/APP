@@ -6,7 +6,7 @@ use Lib\WxPay\PayData\WxPayOrderQuery;
 use Lib\WxPay\PayResults\WxPayNotify;
 
 /**
- * Author: lilongsheng
+ * Author: skylong
  * CreateTime: 2019/9/9 14:54
  * Description: 微信支付通知发货
  */

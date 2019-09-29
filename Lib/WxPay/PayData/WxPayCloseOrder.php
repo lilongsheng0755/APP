@@ -2,7 +2,7 @@
 
 namespace Lib\WxPay\PayData;
 /**
- * Author: lilongsheng
+ * Author: skylong
  * CreateTime: 2019/9/5 11:47
  * Description: 关闭订单请求字段处理
  */

@@ -4,7 +4,7 @@
 namespace Lib\SPL\SplInterface;
 
 /**
- * Author: lilongsheng
+ * Author: skylong
  * CreateTime: 2019/8/28 10:22
  * Description: 配置接口规范定义
  */

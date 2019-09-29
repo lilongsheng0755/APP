@@ -19,7 +19,7 @@ use Lib\WxPay\PayResults\WxPayNotify;
 use Lib\WxPay\PayResults\WxPayResults;
 
 /**
- * Author: lilongsheng
+ * Author: skylong
  * CreateTime: 2019/9/2 13:34
  * Description:微信支付接口处理类
  *

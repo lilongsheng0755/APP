@@ -9,7 +9,7 @@ use Lib\WxPay\PayData\WxPayData;
 use Lib\WxPay\PayException\WxPayException;
 
 /**
- * Author: lilongsheng
+ * Author: skylong
  * CreateTime: 2019/9/2 14:06
  * Description:微信支付回调处理类
  */
