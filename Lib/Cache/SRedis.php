@@ -1189,7 +1189,7 @@ class SRedis
      */
     private function writeErrLog($err_file, $errno, $error)
     {
-        !PRODUCTION_ENV && die($err_file . '=======Redis Err：' . $error);
+        !IS_PRODUCTION && die($err_file . '=======Redis Err：' . $error);
         $data = "file:{$err_file}" . PHP_EOL;
         $data .= "time:" . date('Y-m-d H:i:s') . PHP_EOL;
         $data .= "errno:{$errno}" . PHP_EOL;

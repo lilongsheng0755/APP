@@ -158,7 +158,7 @@ class Curl
         $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 0);
         $trace && $trace = array_pop($trace);
         $err_file = (string)$trace['file'] . '(' . (string)$trace['line'] . ')';
-        !PRODUCTION_ENV && die($err_file . '=======CURL Err：' . $error);
+        !IS_PRODUCTION && die($err_file . '=======CURL Err：' . $error);
         $data = "file:{$err_file}" . PHP_EOL;
         $data .= "time:" . date('Y-m-d H:i:s') . PHP_EOL;
         $data .= "errno:{$errno}" . PHP_EOL;

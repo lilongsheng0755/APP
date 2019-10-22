@@ -331,7 +331,7 @@ class MongoDB
      */
     private function writeErrLog($err_file, $errno, $error, $query)
     {
-        !PRODUCTION_ENV && die($err_file . '=======' . $error . '=======' . $query);
+        !IS_PRODUCTION && die($err_file . '=======' . $error . '=======' . $query);
         $data = "file:{$err_file}" . PHP_EOL;
         $data .= "time:" . date('Y-m-d H:i:s') . PHP_EOL;
         $data .= "errno:{$errno}" . PHP_EOL;

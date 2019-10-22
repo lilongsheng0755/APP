@@ -17,6 +17,7 @@ class Application
      */
     public static function init()
     {
+        // 自动加载项目文件
         spl_autoload_register('self::autoload');
     }
 

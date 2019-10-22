@@ -9,11 +9,6 @@ set_time_limit(30);
 date_default_timezone_set('Asia/Shanghai');
 
 /*
- * 定义入口常量
- */
-define('IN_APP', true);
-
-/*
  * 项目名称
  */
 define('PROJECT_NS', 'APP');
@@ -24,9 +19,9 @@ define('PROJECT_NS', 'APP');
 define('APP_DEBUG', true);
 
 /*
- * 生产环境常量
+ * 是否为生产环境
  */
-define('PRODUCTION_ENV', false);
+define('IS_PRODUCTION', false);
 
 /*
  * 环境常量cli为命令行执行
@@ -69,9 +64,9 @@ define('PATH_PUBLIC', PATH_APP . DS . 'Static');
 define('PATH_PLUGS', PATH_APP . DS . 'Plugs');
 
 /**
- * 配置常量：local - 本地环境，dev - 外网测试环境【RC】，product - 生产环境【GA】
+ * 环境常量：local - 本地环境，dev - 外网测试环境【RC】，product - 生产环境【GA】
  */
-define('CONFIG_ENVIRONMENT', 'local');
+define('APP_ENV', 'local');
 
 /**
  * 加载初始化文件

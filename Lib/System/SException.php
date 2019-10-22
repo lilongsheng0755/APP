@@ -60,7 +60,7 @@ class SException extends \Exception
      */
     public function __toString()
     {
-        if (!PRODUCTION_ENV) {
+        if (!IS_PRODUCTION) {
             $data = ['file' => $this->file, 'line' => $this->line, 'msg' => $this->message];
         } else {
             $data = [];

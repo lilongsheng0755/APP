@@ -375,7 +375,7 @@ class SMemcached
         $arr = (array)$e->getTrace();
         $trace = (array)array_pop($arr);
         $err_file = (string)$trace['file'] . '(' . (string)$trace['line'] . ')';
-        !PRODUCTION_ENV && die($err_file . '=======Memcached Err：' . $error . '=======' . $cmd);
+        !IS_PRODUCTION && die($err_file . '=======Memcached Err：' . $error . '=======' . $cmd);
         $data = "file:{$err_file}" . PHP_EOL;
         $data .= "time:" . date('Y-m-d H:i:s') . PHP_EOL;
         $data .= "errno:{$errno}" . PHP_EOL;

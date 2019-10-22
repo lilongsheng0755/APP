@@ -123,7 +123,7 @@ class SPDO extends DataBase
             $dsn = "mysql:host={$this->host};port={$this->port};dbname={$this->dbname}";
             $this->pdo = new \PDO($dsn, $this->username, $this->passwd, $this->driver_options);
         } catch (\PDOException $e) {
-            if (!PRODUCTION_ENV) {
+            if (!IS_PRODUCTION) {
                 die('Connection failed: ' . $e->getMessage());
             } else {
                 die('Connection failed!');
@@ -354,7 +354,7 @@ class SPDO extends DataBase
      */
     private function writeErrLog($err_file, $errno, $error, $query)
     {
-        !PRODUCTION_ENV && die($err_file . '=======' . $error . '=======' . $query);
+        !IS_PRODUCTION && die($err_file . '=======' . $error . '=======' . $query);
         $data = "file:{$err_file}" . PHP_EOL;
         $data .= "time:" . date('Y-m-d H:i:s') . PHP_EOL;
         $data .= "errno:{$errno}" . PHP_EOL;
