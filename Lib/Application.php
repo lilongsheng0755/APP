@@ -19,6 +19,9 @@ class Application
     {
         // 自动加载项目文件
         spl_autoload_register('self::autoload');
+
+        // 初始化常量
+        self::setConstVal();
     }
 
     /**
@@ -32,24 +35,32 @@ class Application
     {
         $file = PATH_APP . DS . str_replace('\\', DS, $class_name) . '.php';
         if (file_exists($file) || is_file($file)) {
-            require_once $file;
+            include_once($file);
         }
         return true;
     }
 
     /**
      * 设置系统常量
+     *
+     * @return bool
      */
     public static function setConstVal()
     {
-        $appid = $_SESSION['appid'] ? (int)$_SESSION['appid'] : (int)trim($_REQUEST['appid']);
+        $appid = isset($_SESSION['appid']) ? (int)$_SESSION['appid'] : (isset($_REQUEST['appid']) ? (int)trim($_REQUEST['appid']) : 0);
         define('APPID', $appid); // 设置项目APPID常量
         if (key_exists($appid, ConfigApp::$map_appid_names)) {
             define('PROJECT_NS', 'APP' . $appid); // 项目缓存key前缀
         }
-    }
 
-    public static function route(){
-        
+        if (isset($_REQUEST['sss'])) {
+            define('REQUEST_SOURCE', 1); // 来至页面请求
+        } elseif (isset($_POST['postData'])) {
+            define('REQUEST_SOURCE', 2); // 来至API请求
+        } else {
+            header('HTTP/1.1 404 Not Found');
+            exit();
+        }
+        return true;
     }
 }
