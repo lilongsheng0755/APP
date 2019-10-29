@@ -211,7 +211,7 @@ class Smarty_Internal_Debug extends Smarty_Internal_Data
         $debObj = new Smarty();
         // copy the working dirs from application
         $debObj->setCompileDir($smarty->getCompileDir());
-        // init properties by hand as user may have edited the original Smarty class
+        // init properties by hand as User may have edited the original Smarty class
         $debObj->setPluginsDir(is_dir(__DIR__ . '/../plugins') ? __DIR__ . '/../plugins' : $smarty->getPluginsDir());
         $debObj->force_compile = false;
         $debObj->compile_check = true;

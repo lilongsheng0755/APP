@@ -187,7 +187,7 @@ class Smarty_Internal_Compile_Include extends Smarty_Internal_CompileBase
 
         /*
         * if the {include} tag provides individual parameter for caching or compile_id
-        * the subtemplate must not be included into the common cache file and is treated like
+        * the subtemplate must not be included into the Common cache file and is treated like
         * a call in nocache mode.
         *
         */

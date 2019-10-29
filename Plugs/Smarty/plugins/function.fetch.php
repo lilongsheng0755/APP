@@ -85,7 +85,7 @@ function smarty_function_fetch($params, $template)
                     case "assign":
                     case "assign_headers":
                         break;
-                    case "user":
+                    case "User":
                         if (!empty($param_value)) {
                             $user = $param_value;
                         }

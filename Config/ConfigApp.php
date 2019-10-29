@@ -15,11 +15,11 @@ class ConfigApp
     const APPID_SYSTEM = 'System';
 
     /**
-     * 应用名配置
+     * 应用名称配置
      *
      * @var array
      */
-    public static $appid = [
+    public static $map_appid_names = [
         self::APPID_SYSTEM => '系统应用',
     ];
 

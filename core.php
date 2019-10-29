@@ -9,11 +9,6 @@ set_time_limit(30);
 date_default_timezone_set('Asia/Shanghai');
 
 /*
- * 项目名称
- */
-define('PROJECT_NS', 'APP');
-
-/*
  * 是否开启调试模式【生产环境要改回false】
  */
 define('APP_DEBUG', true);
@@ -56,7 +51,7 @@ define('PATH_UPLOAD', PATH_APP . DS . 'Upload');
 /**
  * 静态资源基路径
  */
-define('PATH_PUBLIC', PATH_APP . DS . 'Static');
+define('PATH_PUBLIC', PATH_APP . DS . 'Public');
 
 /**
  * 第三方插件基路径

@@ -8,7 +8,7 @@
 
 if (version_compare(PHP_VERSION, '5.2.3', '>=')) {
     /**
-     * escape_special_chars common function
+     * escape_special_chars Common function
      * Function: smarty_function_escape_special_chars<br>
      * Purpose:  used by other smarty functions to escape
      *           special chars except for already escaped ones
@@ -29,7 +29,7 @@ if (version_compare(PHP_VERSION, '5.2.3', '>=')) {
     }
 } else {
     /**
-     * escape_special_chars common function
+     * escape_special_chars Common function
      * Function: smarty_function_escape_special_chars<br>
      * Purpose:  used by other smarty functions to escape
      *           special chars except for already escaped ones

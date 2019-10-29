@@ -39,7 +39,7 @@ if (!defined('DS')) {
 
 /**
  * set SMARTY_DIR to absolute path to Smarty library files.
- * Sets SMARTY_DIR only if user application has not already defined it.
+ * Sets SMARTY_DIR only if User application has not already defined it.
  */
 if (!defined('SMARTY_DIR')) {
     define('SMARTY_DIR', dirname(__FILE__) . DS);
@@ -47,7 +47,7 @@ if (!defined('SMARTY_DIR')) {
 
 /**
  * set SMARTY_SYSPLUGINS_DIR to absolute path to Smarty internal plugins.
- * Sets SMARTY_SYSPLUGINS_DIR only if user application has not already defined it.
+ * Sets SMARTY_SYSPLUGINS_DIR only if User application has not already defined it.
  */
 if (!defined('SMARTY_SYSPLUGINS_DIR')) {
     define('SMARTY_SYSPLUGINS_DIR', SMARTY_DIR . 'sysplugins' . DS);

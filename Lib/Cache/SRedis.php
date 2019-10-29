@@ -46,7 +46,7 @@ class SRedis
     /**
      * redis请求超时秒数
      */
-    const TIME_OUT = 3;
+    private $timeout = 3;
 
     /**
      * redis实例
@@ -58,16 +58,18 @@ class SRedis
     /**
      * 参数初始化
      *
-     * @param string $host
-     * @param int    $port
-     * @param string $passwd
+     * @param string $host 地址
+     * @param int    $port 端口
+     * @param string $passwd 密码
+     * @param int    $timeout 等待超时（秒）
      */
-    public function __construct($host, $port = 6379, $passwd = '')
+    public function __construct($host, $port = 6379, $passwd = '', $timeout = 3)
     {
         class_exists('Redis') or die('Not installed redis extension!');
         $this->host = $host;
         $this->port = $port;
         $this->passwd = $passwd;
+        $this->timeout = $timeout;
     }
 
     /**
@@ -82,10 +84,10 @@ class SRedis
         }
         try {
             $this->redis = new \Redis();
-            $this->is_connect = $this->redis->connect($this->host, $this->port, self::TIME_OUT);
+            $this->is_connect = $this->redis->connect($this->host, $this->port, $this->timeout);
             $this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_NONE); //Redis::SERIALIZER_NONE不序列化.Redis::SERIALIZER_IGBINARY二进制序列化
             $this->passwd && $this->redis->auth($this->passwd);
-            defined('PROJECT_NS') && $this->redis->setOption(\Redis::OPT_PREFIX, strtoupper(PROJECT_NS . '_')); //设置key的前缀
+            defined('PROJECT_NS') && PROJECT_NS && $this->redis->setOption(\Redis::OPT_PREFIX, strtoupper(PROJECT_NS . '_')); //设置key的前缀
         } catch (\RedisException $e) {
             $arr = (array)$e->getTrace();
             $trace = (array)array_pop($arr);
@@ -1140,7 +1142,7 @@ class SRedis
      * @param string $hash_key
      * @param array  $keys 格式：array(key1,key2,...)
      *
-     * @return boolean
+     * @return boolean|array
      */
     public function hMget($hash_key, $keys = [])
     {

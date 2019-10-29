@@ -2,7 +2,7 @@
 
 namespace Lib;
 
-use Lib\System\SException;
+use Config\ConfigApp;
 
 /**
  * Author: skylong
@@ -35,5 +35,21 @@ class Application
             require_once $file;
         }
         return true;
+    }
+
+    /**
+     * 设置系统常量
+     */
+    public static function setConstVal()
+    {
+        $appid = $_SESSION['appid'] ? (int)$_SESSION['appid'] : (int)trim($_REQUEST['appid']);
+        define('APPID', $appid); // 设置项目APPID常量
+        if (key_exists($appid, ConfigApp::$map_appid_names)) {
+            define('PROJECT_NS', 'APP' . $appid); // 项目缓存key前缀
+        }
+    }
+
+    public static function route(){
+        
     }
 }
