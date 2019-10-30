@@ -5,7 +5,7 @@ header('Content-Type:text/html; charset=utf-8');
 define('WEB_ROOT',str_replace('Public','',__DIR__));
 
 // 载入核心文件
-require_once WEB_ROOT . '/core.php';
+require_once WEB_ROOT . 'core.php';
 
 // 路由初始化
 \Lib\Request\Route::getInstance()->init();
