@@ -1,14 +1,14 @@
 <?php
-
-namespace Lib;
-
-use Config\ConfigApp;
-
 /**
  * Author: skylong
  * CreateTime: 2018-6-1 16:20:13
  * Description: 应用初始化入口
  */
+
+namespace Lib;
+
+use Config\ConfigApp;
+
 class Application
 {
 
@@ -55,7 +55,7 @@ class Application
 
         if (isset($_REQUEST['sss'])) {
             define('REQUEST_SOURCE', 1); // 来至页面请求
-        } elseif (isset($_POST['postData'])) {
+        } elseif (isset($_POST['post_data'])) {
             define('REQUEST_SOURCE', 2); // 来至API请求
         } else {
             header('HTTP/1.1 404 Not Found');

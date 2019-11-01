@@ -1,0 +1,5 @@
+file:/mnt/hgfs/www/github/APP/View/debug.tpl(330)
+time:2019-11-01 15:32:09
+error_type:Notice
+error_message:Undefined variable: _SESSION
+======================================================================
