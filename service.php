@@ -7,6 +7,10 @@ header("Pragma: no-cache");
 //载入核心文件
 require_once __DIR__ . '/core.php';
 
+\DB\AdminCenter\RegisterTables::register();
+
+die();
+
 // 设置微信支付配置
 use Lib\WxPay\PayApi\WxPayApi;
 use Lib\WxPay\PayConfig\WxPayConfig;
