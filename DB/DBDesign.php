@@ -123,7 +123,7 @@ class DBDesign extends ASingleBase
                 $sql .= "  `{$field}` {$attr['field_type']}";
                 $sql .= $attr['field_length'] !== null ? "({$attr['field_length']})" : '';
                 $sql .= $attr['is_unsigned'] === true ? ' unsigned' : '';
-                $sql .= $attr['is_null'] === true ? ' NULL' : ' NOT NULL';
+                $sql .= $attr['is_null'] === true ? '' : ' NOT NULL';
                 $sql .= $attr['default_val'] !== null ? " DEFAULT '{$attr['default_val']}'" : '';
                 $sql .= $attr['auto_increment'] === true ? ' AUTO_INCREMENT' : '';
                 $sql .= $attr['comment'] !== '' ? " COMMENT '{$attr['comment']}'" : '';

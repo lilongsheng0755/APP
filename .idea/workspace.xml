@@ -2,16 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e1175885-e858-4cec-94ef-fc8a4f7d6d2a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/DB/AdminCenter/RegisterTables.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DB/DBDesign.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DB/DBManager.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DB/TableConstMap.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DB/TableDesign.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Lib/SPL/SplAbstract/AReflectionClass.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/APP.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/APP.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DB/app.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/service.php" beforeDir="false" afterPath="$PROJECT_DIR$/service.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DB/AdminCenter/RegisterTables.php" beforeDir="false" afterPath="$PROJECT_DIR$/DB/AdminCenter/RegisterTables.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DB/DBDesign.php" beforeDir="false" afterPath="$PROJECT_DIR$/DB/DBDesign.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,7 +22,7 @@
         <entry file="file://$PROJECT_DIR$/service.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="108">
-              <caret line="6" column="8" lean-forward="true" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
+              <caret line="6" column="8" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -38,31 +30,27 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Lib/Application.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-175">
+            <state relative-caret-position="126">
               <caret line="11" column="6" selection-start-line="11" selection-start-column="6" selection-end-line="11" selection-end-column="6" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/DB/DBDesign.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="401">
-              <caret line="123" column="90" lean-forward="true" selection-start-line="123" selection-start-column="90" selection-end-line="123" selection-end-column="90" />
-              <folding>
-                <element signature="e#6#80#0#PHP" expanded="true" />
-              </folding>
+            <state relative-caret-position="365">
+              <caret line="124" column="73" lean-forward="true" selection-start-line="124" selection-start-column="73" selection-end-line="124" selection-end-column="73" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DB/AdminCenter/RegisterTables.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="423">
-              <caret line="118" column="51" selection-start-line="118" selection-start-column="51" selection-end-line="118" selection-end-column="51" />
+            <state relative-caret-position="522">
+              <caret line="197" column="98" lean-forward="true" selection-start-line="197" selection-start-column="98" selection-end-line="197" selection-end-column="98" />
               <folding>
-                <element signature="e#6#80#0#PHP" expanded="true" />
                 <element signature="e#118#134#0#PHP" expanded="true" />
               </folding>
             </state>
@@ -72,11 +60,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DB/DBManager.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="833">
+            <state relative-caret-position="77">
               <caret line="78" lean-forward="true" selection-start-line="78" selection-end-line="78" />
-              <folding>
-                <element signature="e#6#80#0#PHP" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -84,11 +69,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DB/TableConstMap.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-301">
+            <state relative-caret-position="1512">
               <caret line="88" column="10" selection-start-line="88" selection-start-column="10" selection-end-line="88" selection-end-column="10" />
-              <folding>
-                <element signature="e#6#80#0#PHP" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -96,11 +78,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DB/TableDesign.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1836">
+            <state relative-caret-position="1170">
               <caret line="69" column="12" selection-start-line="69" selection-start-column="12" selection-end-line="69" selection-end-column="12" />
-              <folding>
-                <element signature="e#6#80#0#PHP" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -120,6 +99,7 @@
     <findStrings>
       <find>protected</find>
       <find>\t</find>
+      <find>FIELD_TYPE_TEXT</find>
     </findStrings>
     <replaceStrings>
       <replace>public</replace>
@@ -140,8 +120,8 @@
         <option value="$PROJECT_DIR$/DB/TableConstMap.php" />
         <option value="$PROJECT_DIR$/service.php" />
         <option value="$PROJECT_DIR$/DB/TableDesign.php" />
-        <option value="$PROJECT_DIR$/DB/DBDesign.php" />
         <option value="$PROJECT_DIR$/DB/AdminCenter/RegisterTables.php" />
+        <option value="$PROJECT_DIR$/DB/DBDesign.php" />
       </list>
     </option>
   </component>
@@ -188,7 +168,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../beardsy" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
@@ -222,17 +202,19 @@
       <workItem from="1569693790413" duration="234000" />
       <workItem from="1569772755598" duration="53000" />
       <workItem from="1576032841828" duration="17779000" />
+      <workItem from="1576117842092" duration="3810000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19947000" />
+    <option name="totallyTimeSpent" value="23757000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49457702" visible="true" weight="0.23027718" />
-      <window_info id="Structure" order="1" sideWeight="0.505423" side_tool="true" visible="true" weight="0.23027718" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4934924" visible="true" weight="0.23294243" />
+      <window_info id="Structure" order="1" sideWeight="0.5065076" side_tool="true" visible="true" weight="0.23294243" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
@@ -274,30 +256,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Lib/SPL/SplAbstract/ASingleBase.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="22" column="6" lean-forward="true" selection-start-line="22" selection-start-column="6" selection-end-line="22" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DB/app.sql">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/DB/app.sql" />
     <entry file="file://$PROJECT_DIR$/Load/LoadMongoDB.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
           <caret line="9" column="6" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DB/DBManager.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="833">
-          <caret line="78" lean-forward="true" selection-start-line="78" selection-end-line="78" />
-          <folding>
-            <element signature="e#6#80#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -308,58 +271,62 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Lib/Application.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-175">
-          <caret line="11" column="6" selection-start-line="11" selection-start-column="6" selection-end-line="11" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/service.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
-          <caret line="6" column="8" lean-forward="true" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
+          <caret line="6" column="8" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Lib/Application.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="11" column="6" selection-start-line="11" selection-start-column="6" selection-end-line="11" selection-end-column="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/DB/TableConstMap.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-301">
+        <state relative-caret-position="1512">
           <caret line="88" column="10" selection-start-line="88" selection-start-column="10" selection-end-line="88" selection-end-column="10" />
-          <folding>
-            <element signature="e#6#80#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/DB/TableDesign.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1836">
+        <state relative-caret-position="1170">
           <caret line="69" column="12" selection-start-line="69" selection-start-column="12" selection-end-line="69" selection-end-column="12" />
-          <folding>
-            <element signature="e#6#80#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DB/DBDesign.php">
+    <entry file="file://$PROJECT_DIR$/Lib/SPL/SplAbstract/ASingleBase.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="401">
-          <caret line="123" column="90" lean-forward="true" selection-start-line="123" selection-start-column="90" selection-end-line="123" selection-end-column="90" />
-          <folding>
-            <element signature="e#6#80#0#PHP" expanded="true" />
-          </folding>
+        <state relative-caret-position="396">
+          <caret line="22" column="6" lean-forward="true" selection-start-line="22" selection-start-column="6" selection-end-line="22" selection-end-column="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/DB/AdminCenter/RegisterTables.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="423">
-          <caret line="118" column="51" selection-start-line="118" selection-start-column="51" selection-end-line="118" selection-end-column="51" />
+        <state relative-caret-position="522">
+          <caret line="197" column="98" lean-forward="true" selection-start-line="197" selection-start-column="98" selection-end-line="197" selection-end-column="98" />
           <folding>
-            <element signature="e#6#80#0#PHP" expanded="true" />
             <element signature="e#118#134#0#PHP" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DB/DBManager.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="77">
+          <caret line="78" lean-forward="true" selection-start-line="78" selection-end-line="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DB/DBDesign.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="365">
+          <caret line="124" column="73" lean-forward="true" selection-start-line="124" selection-start-column="73" selection-end-line="124" selection-end-column="73" />
         </state>
       </provider>
     </entry>
