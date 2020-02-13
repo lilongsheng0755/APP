@@ -11,6 +11,11 @@ use Apps\Admin\Common\Controller\Controller;
 
 class IndexController extends Controller
 {
+    /**
+     * 后台主页
+     *
+     * @param array $request_params
+     */
     public function index($request_params = [])
     {
         var_dump($request_params);
