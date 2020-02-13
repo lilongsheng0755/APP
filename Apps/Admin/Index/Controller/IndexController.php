@@ -7,7 +7,6 @@
 
 namespace Apps\Admin\Index\Controller;
 
-
 use Apps\Admin\Common\Controller\Controller;
 
 class IndexController extends Controller
