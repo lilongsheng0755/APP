@@ -24,7 +24,7 @@ class HelperReturn
         $ret['err_code'] = (int)$err_code;
         $ret['err_msg'] = (string)$err_msg;
         $ret['data'] = $data ? (array)$data : [];
-        die(json_encode($ret));
+        exit(json_encode($ret));
     }
 
 }
