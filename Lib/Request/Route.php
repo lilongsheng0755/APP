@@ -98,6 +98,9 @@ class Route
             header('HTTP/1.1 404 Not Found');
         }
         $class = "Apps\Admin\\{$module}\Controller\\{$controller}Controller";
+        if (!class_exists($class)) {
+            header('HTTP/1.1 404 Not Found');
+        }
         if (!method_exists($class, $action)) {
             header('HTTP/1.1 404 Not Found');
         }
