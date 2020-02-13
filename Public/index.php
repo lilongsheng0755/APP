@@ -1,6 +1,4 @@
 <?php
-header('Content-Type:text/html; charset=utf-8');
-
 // 定义基础路径常量
 define('WEB_ROOT',str_replace('Public','',__DIR__));
 

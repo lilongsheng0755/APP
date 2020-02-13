@@ -54,8 +54,10 @@ class Application
         }
 
         if (isset($_REQUEST['sss'])) {
+            header('Content-Type:text/html; charset=utf-8');
             define('REQUEST_SOURCE', 1); // 来至页面请求
         } elseif (isset($_POST['post_data'])) {
+            header('Content-Type:application/json; charset=utf-8');
             define('REQUEST_SOURCE', 2); // 来至API请求
         } else {
             header('HTTP/1.1 404 Not Found');
