@@ -121,5 +121,6 @@ class Route
         if (!$this->request_params = (array)json_decode($this->request_params['post_data'], true)) {
             HelperReturn::jsonData([], -100, '非法请求');
         }
+        HelperReturn::jsonData();
     }
 }
