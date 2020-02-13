@@ -96,13 +96,16 @@ class Route
         list($module, $controller, $action) = $path_arr;
         if (in_array($module, ['Common'])) { // 禁止访问的模块
             header('HTTP/1.1 404 Not Found');
+            exit();
         }
         $class = "Apps\Admin\\{$module}\Controller\\{$controller}Controller";
         if (!class_exists($class)) {
             header('HTTP/1.1 404 Not Found');
+            exit();
         }
         if (!method_exists($class, $action)) {
             header('HTTP/1.1 404 Not Found');
+            exit();
         }
         $controller = "{$class}::getInstance";
         $object = $controller();
@@ -114,7 +117,7 @@ class Route
      */
     private function handleRequestFromApi()
     {
-        if (!$this->request_params = (array)json_decode($this->request_params['post_data'],true)){
+        if (!$this->request_params = (array)json_decode($this->request_params['post_data'], true)) {
 
         }
     }
