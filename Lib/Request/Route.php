@@ -3,6 +3,8 @@
 
 namespace Lib\Request;
 
+use Helper\HelperReturn;
+
 /**
  * Author: skylong
  * CreateTime: 2019/10/30 0:06
@@ -117,7 +119,7 @@ class Route
     private function handleRequestFromApi()
     {
         if (!$this->request_params = (array)json_decode($this->request_params['post_data'], true)) {
-
+            HelperReturn::jsonData([], -100, '非法请求');
         }
     }
 }
