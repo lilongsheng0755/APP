@@ -168,8 +168,6 @@ class HelperString
         $length = (int)$length;
         switch ($charset) {
             case 'utf-8':
-                $char_len = 3;
-                break;
             case 'UTF8':
                 $char_len = 3;
                 break;

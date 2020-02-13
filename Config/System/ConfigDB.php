@@ -1,8 +1,6 @@
 <?php
 
 namespace Config\System;
-
-use Config\ConfigApp;
 use Lib\SPL\SplInterface\IConfigDB;
 
 /**
@@ -24,9 +22,9 @@ class ConfigDB implements IConfigDB
     {
         $config = [
             self::DB_INDEX_SYSTEM => [
-                'host'      => '127.0.0.1',
-                'username'  => 'root',
-                'password'  => 'root',
+                'host'      => '192.168.1.49',
+                'username'  => 'dev',
+                'password'  => 'dev',
                 'dbname'    => '',
                 'charset'   => 'utf8',
                 'port'      => 3306,

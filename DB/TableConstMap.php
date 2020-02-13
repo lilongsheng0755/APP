@@ -89,6 +89,21 @@ class TableConstMap extends AReflectionClass
     const FIELD_TYPE_TEXT = 'text';
 
     /**
+     * 字段属性 - 主键
+     */
+    const FIELD_ATTR_PK = 1;
+
+    /**
+     * 字段属性 - 唯一键
+     */
+    const FIELD_ATTR_UK = 2;
+
+    /**
+     * 字段属性 - 索引
+     */
+    const FILED_ATTR_INDEX = 3;
+
+    /**
      * 得到允许的表引擎
      *
      * @return array

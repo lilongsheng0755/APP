@@ -46,7 +46,7 @@ define('PATH_DATA', PATH_APP . DS . 'Data');
 /**
  * 文件上传基路径
  */
-define('PATH_UPLOAD', PATH_APP . DS . 'Upload');
+define('PATH_UPLOAD', PATH_APP . DS . 'Uploads');
 
 /**
  * 静态资源基路径
