@@ -107,8 +107,7 @@ class Route
             header('HTTP/1.1 404 Not Found');
             exit();
         }
-        $controller = "{$class}::getInstance";
-        $object = $controller();
+        $object = $class::getInstance();
         call_user_func([$object, $action], $this->request_params);
     }
 
