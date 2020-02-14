@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Lib\Request;
 
 use Helper\HelperReturn;
@@ -62,16 +61,6 @@ class Route
         } else {
             $this->handleRequestFromApi();
         }
-    }
-
-    /**
-     * 获取请求参数
-     *
-     * @return array
-     */
-    public function getRequestParams()
-    {
-        return $this->request_params;
     }
 
     /**
