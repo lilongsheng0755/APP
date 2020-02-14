@@ -34,7 +34,7 @@ class Controller extends ASingleBase
     {
         $userinfo = HelperSession::get('userinfo');
         if (!$userinfo) { // 校验登录信息是否失效
-            header('location:Admin/Login/login');
+            header('location:/Admin/Login/login');
             exit();
         }
     }
