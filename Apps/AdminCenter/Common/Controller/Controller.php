@@ -35,17 +35,17 @@ class Controller extends ASingleBase
      */
     public function init()
     {
-        $userinfo = HelperSession::get('userinfo');
-        if (!$userinfo) { // 校验登录信息是否失效
-            header('location:/AdminCenter/Admin/Login/login');
-            exit();
-        }
-
         // 初始化smarty配置
         LoadPlugs::smarty()->setTemplateDir(PATH_APP . DS . 'Apps' . DS . REQUEST_APPS . DS . REQUEST_MODULE . DS . 'View' . DS);
         LoadPlugs::smarty()->setCompileDir(PATH_PUBLIC . DS . 'templates_c' . DS);
         LoadPlugs::smarty()->setConfigDir(PATH_PUBLIC . DS . 'configs' . DS);
         LoadPlugs::smarty()->setCacheDir(PATH_PUBLIC . DS . 'cache' . DS);
+        
+        $userinfo = HelperSession::get('userinfo');
+        if (!$userinfo) { // 校验登录信息是否失效
+            header('location:/AdminCenter/Admin/Login/login.html');
+            exit();
+        }
     }
 
     /**
