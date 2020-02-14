@@ -7,7 +7,7 @@ namespace Lib\Session;
  * CreateTime: 2018-6-13 23:18:54
  * Description: 自定义session类，文件存在机制
  */
-class Session
+class FileSession
 {
 
     /**
@@ -24,7 +24,9 @@ class Session
      */
     public static function start($session_save_path = '/tmp/session')
     {
-        file_exists($session_save_path) or die("({$session_save_path}) Directory does not exist");
+        if (!file_exists($session_save_path)) {
+            @mkdir($session_save_path, 0775, true);
+        }
         is_writable($session_save_path) or die("({$session_save_path}) No write permission");
         ini_set('session.save_handler', 'user');
         ini_set('session.gc_maxlifetime', 1800);

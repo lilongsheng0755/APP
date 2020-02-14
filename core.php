@@ -73,6 +73,6 @@ require_once PATH_LIB . '/Application.php';
  */
 Lib\Application::init();
 Lib\System\Error::register();
-//Lib\Session\Session::start();
+Lib\Session\FileSession::start();
 //Lib\Session\DBSession::start($db, $tblname, $primary_key); 使用db存储session
 //Lib\Session\MEMSession::start($mem); 使用cache存储session
