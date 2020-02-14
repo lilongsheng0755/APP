@@ -67,8 +67,6 @@ class Controller extends ASingleBase
     public function display($template = null)
     {
         $template = $template ? $template : REQUEST_CONTROLLER . DS . REQUEST_ACTION . '.html';
-        var_dump(LoadPlugs::smarty()->getTemplateDir(), $template);
-        die;
         LoadPlugs::smarty()->display($template);
     }
 }
