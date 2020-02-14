@@ -89,7 +89,7 @@ class Route
             header('HTTP/1.1 404 Not Found');
             exit();
         }
-        $class = "Apps\Admin\\{$module}\Controller\\{$controller}Controller";
+        $class = "Apps\AdminCenter\\{$module}\Controller\\{$controller}Controller";
         if (!class_exists($class)) {
             header('HTTP/1.1 404 Not Found');
             exit();
