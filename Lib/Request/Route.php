@@ -79,17 +79,21 @@ class Route
             }
             $path_arr[] = $s;
         }
-        if (count($path_arr) < 3) {
-            $path_arr = ['Index', 'Index', 'index'];
+        if (count($path_arr) < 4) {
+            $path_arr = ['AdminCenter', 'Index', 'Index', 'index'];
         }
 
         // 实现路由调度
-        list($module, $controller, $action) = $path_arr;
+        list($apps_name, $module, $controller, $action) = $path_arr;
+        define('REQUEST_APPS', $apps_name);
+        define('REQUEST_MODULE', $module);
+        define('REQUEST_CONTROLLER', $controller);
+        define('REQUEST_ACTION', $action);
         if (in_array($module, ['Common'])) { // 禁止访问的模块
             header('HTTP/1.1 404 Not Found');
             exit();
         }
-        $class = "Apps\AdminCenter\\{$module}\Controller\\{$controller}Controller";
+        $class = "Apps\\{$apps_name}\\{$module}\Controller\\{$controller}Controller";
         if (!class_exists($class)) {
             header('HTTP/1.1 404 Not Found');
             exit();
