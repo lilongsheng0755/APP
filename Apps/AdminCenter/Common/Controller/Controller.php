@@ -5,9 +5,9 @@
  * Description: 控制器基础类
  */
 
-namespace Apps\Admin\Common\Controller;
+namespace Apps\AdminCenter\Common\Controller;
 
-use Apps\Admin\User\Controller\LoginController;
+use Apps\AdminCenter\admin\Controller\LoginController;
 use Helper\HelperSession;
 use Lib\SPL\SplAbstract\ASingleBase;
 
@@ -24,7 +24,6 @@ class Controller extends ASingleBase
         if (!$controller instanceof LoginController) {
             $controller->init();
         }
-
         return $controller;
     }
 
@@ -34,8 +33,8 @@ class Controller extends ASingleBase
     public function init()
     {
         $userinfo = HelperSession::get('userinfo');
-        if (!$userinfo) {
-            header('location:/User/Login/login');
+        if (!$userinfo) { // 校验登录信息是否失效
+            header('location:Admin/Login/login');
             exit();
         }
     }

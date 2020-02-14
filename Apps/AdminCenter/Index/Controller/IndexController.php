@@ -5,9 +5,9 @@
  * Description: 后台入口控制器
  */
 
-namespace Apps\Admin\Index\Controller;
+namespace Apps\AdminCenter\Index\Controller;
 
-use Apps\Admin\Common\Controller\Controller;
+use Apps\AdminCenter\Common\Controller\Controller;
 
 class IndexController extends Controller
 {

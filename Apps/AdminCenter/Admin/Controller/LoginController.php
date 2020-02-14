@@ -2,12 +2,12 @@
 /**
  * Author: skylong
  * CreateTime: 2019/11/1 15:15
- * Description: 后台入口控制器
+ * Description: 登录相关操作
  */
 
-namespace Apps\Admin\User\Controller;
+namespace Apps\AdminCenter\admin\Controller;
 
-use Apps\Admin\Common\Controller\Controller;
+use Apps\AdminCenter\Common\Controller\Controller;
 
 class LoginController extends Controller
 {
