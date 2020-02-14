@@ -40,7 +40,7 @@ class Controller extends ASingleBase
         LoadPlugs::smarty()->setCompileDir(PATH_PUBLIC . DS . 'templates_c' . DS);
         LoadPlugs::smarty()->setConfigDir(PATH_PUBLIC . DS . 'configs' . DS);
         LoadPlugs::smarty()->setCacheDir(PATH_PUBLIC . DS . 'cache' . DS);
-        
+
         $userinfo = HelperSession::get('userinfo');
         if (!$userinfo) { // 校验登录信息是否失效
             header('location:/AdminCenter/Admin/Login/login.html');
@@ -66,6 +66,7 @@ class Controller extends ASingleBase
     public function display($template = null)
     {
         $template = $template ? $template : REQUEST_CONTROLLER . DS . REQUEST_ACTION . '.html';
+        var_dump(LoadPlugs::smarty()->getTemplateDir(),$template);die;
         LoadPlugs::smarty()->display($template);
     }
 }
