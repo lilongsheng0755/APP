@@ -4,6 +4,11 @@ namespace Apps\AdminCenter\Common\Config;
 
 use Config\ConfigApp;
 
+/**
+ * Author: skylong
+ * CreateTime: 2020/2/15 10:12
+ * Description: 后台中心公共配置
+ */
 class CommonConfig
 {
     /**

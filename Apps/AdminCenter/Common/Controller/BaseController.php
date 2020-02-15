@@ -1,9 +1,4 @@
 <?php
-/**
- * Author: skylong
- * CreateTime: 2019/11/1 15:12
- * Description: 控制器基础类
- */
 
 namespace Apps\AdminCenter\Common\Controller;
 
@@ -13,10 +8,13 @@ use Helper\HelperSession;
 use Lib\SPL\SplAbstract\ASingleBase;
 use Load\LoadPlugs;
 
+/**
+ * Author: skylong
+ * CreateTime: 2019/11/1 15:12
+ * Description: 控制器基础类
+ */
 class BaseController extends ASingleBase
 {
-    protected $tpl_name;
-
     /**
      * 继承父类单利模式
      *
