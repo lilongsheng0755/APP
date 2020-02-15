@@ -16,6 +16,8 @@ class LoginController extends BaseController
      */
     public function login()
     {
+        $tpl_var = [];
+        $this->assign($tpl_var);
         $this->display();
     }
 
