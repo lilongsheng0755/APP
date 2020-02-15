@@ -8,6 +8,7 @@
 namespace Apps\AdminCenter\Common\Controller;
 
 use Apps\AdminCenter\admin\Controller\LoginController;
+use Apps\AdminCenter\Common\Config\CommonConfig;
 use Helper\HelperSession;
 use Lib\SPL\SplAbstract\ASingleBase;
 use Load\LoadPlugs;
@@ -40,6 +41,9 @@ class BaseController extends ASingleBase
         LoadPlugs::smarty()->setCacheDir(PATH_PUBLIC . DS . 'cache' . DS);
         LoadPlugs::smarty()->setLeftDelimiter('<*');
         LoadPlugs::smarty()->setRightDelimiter('*>');
+
+        // 加载配置常量
+        CommonConfig::setConst();
 
         // 校验登录信息是否失效
         if (!$this instanceof LoginController) {

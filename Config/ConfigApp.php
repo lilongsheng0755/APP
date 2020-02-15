@@ -23,4 +23,19 @@ class ConfigApp
         self::APPID_SYSTEM => '系统应用',
     ];
 
+    /**
+     * 获取静态资源URL地址
+     *
+     * @return string
+     */
+    public static function getStaticSourceUrl()
+    {
+        if (defined('STATIC_URL')) {
+            return STATIC_URL;
+        }
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? 'https://' : 'http://';
+        $domainName = $_SERVER['HTTP_HOST'] . '/';
+        return $protocol . $domainName . '/Static/';
+    }
+
 }
