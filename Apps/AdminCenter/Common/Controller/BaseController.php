@@ -12,14 +12,14 @@ use Helper\HelperSession;
 use Lib\SPL\SplAbstract\ASingleBase;
 use Load\LoadPlugs;
 
-class Controller extends ASingleBase
+class BaseController extends ASingleBase
 {
     protected $tpl_name;
 
     /**
      * 继承父类单利模式
      *
-     * @return object|Controller
+     * @return object|BaseController
      */
     public static function getInstance()
     {
@@ -38,10 +38,13 @@ class Controller extends ASingleBase
         LoadPlugs::smarty()->setCompileDir(PATH_PUBLIC . DS . 'templates_c' . DS);
         LoadPlugs::smarty()->setConfigDir(PATH_PUBLIC . DS . 'configs' . DS);
         LoadPlugs::smarty()->setCacheDir(PATH_PUBLIC . DS . 'cache' . DS);
+        LoadPlugs::smarty()->setLeftDelimiter('<*');
+        LoadPlugs::smarty()->setRightDelimiter('*>');
 
+        // 校验登录信息是否失效
         if (!$this instanceof LoginController) {
             $userinfo = HelperSession::get('userinfo');
-            if (!$userinfo) { // 校验登录信息是否失效
+            if (!$userinfo) {
                 header('location:/AdminCenter/Admin/Login/login.html');
                 exit();
             }

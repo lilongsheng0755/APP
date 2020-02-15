@@ -7,9 +7,9 @@
 
 namespace Apps\AdminCenter\admin\Controller;
 
-use Apps\AdminCenter\Common\Controller\Controller;
+use Apps\AdminCenter\Common\Controller\BaseController;
 
-class LoginController extends Controller
+class LoginController extends BaseController
 {
     /**
      * 用户登录

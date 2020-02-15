@@ -7,9 +7,9 @@
 
 namespace Apps\AdminCenter\Index\Controller;
 
-use Apps\AdminCenter\Common\Controller\Controller;
+use Apps\AdminCenter\Common\Controller\BaseController;
 
-class IndexController extends Controller
+class IndexController extends BaseController
 {
     /**
      * 后台主页
