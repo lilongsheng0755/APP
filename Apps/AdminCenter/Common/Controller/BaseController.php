@@ -63,6 +63,7 @@ class BaseController extends ASingleBase
      */
     public function assign($tpl_var = [])
     {
+        $tpl_var['page_title'] = isset($tpl_var['page_title']) ? $tpl_var['page_title'] : '后台管理中心';
         LoadPlugs::smarty()->assign($tpl_var);
     }
 
