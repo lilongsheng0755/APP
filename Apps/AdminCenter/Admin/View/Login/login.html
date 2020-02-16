@@ -36,7 +36,11 @@
             //监听提交
             form.on('submit(login)', function (data) {
                 $.post('/AdminCenter/Admin/Login/doLogin.html', data.field, function (response) {
-                    layer.msg('登录成功！', {icon: 1});
+                    if (response.err_code != 0) {
+                        layer.msg(response.err_msg, {icon: 1});
+                    } else {
+                        location.href = '/AdminCenter/Index/Index/index.html';
+                    }
                 }, 'json');
                 return false;
             });
