@@ -18,5 +18,8 @@ class CommonConfig
     {
         // 静态资源常量
         defined('STATIC_URL') or define('STATIC_URL', ConfigApp::getStaticSourceUrl());
+
+        // 访问应用基路径
+        defined('PATH_APPS_BASE') or define('PATH_APPS_BASE', PATH_APP . DS . 'Apps' . DS . REQUEST_APPS);
     }
 }

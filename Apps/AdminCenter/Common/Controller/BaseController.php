@@ -32,23 +32,23 @@ class BaseController extends ASingleBase
      */
     public function init()
     {
+        // 加载配置常量
+        CommonConfig::setConst();
+
         // 初始化smarty配置
-        LoadPlugs::smarty()->setTemplateDir(PATH_APP . DS . 'Apps' . DS . REQUEST_APPS . DS . REQUEST_MODULE . DS . 'View' . DS);
-        LoadPlugs::smarty()->setCompileDir(PATH_PUBLIC . DS . 'templates_c' . DS);
+        LoadPlugs::smarty()->setTemplateDir(PATH_APPS_BASE . DS . REQUEST_MODULE . DS . 'View' . DS);
+        LoadPlugs::smarty()->setCompileDir(PATH_PUBLIC . DS . 'templates_c' . DS . REQUEST_APPS . DS);
         LoadPlugs::smarty()->setConfigDir(PATH_PUBLIC . DS . 'configs' . DS);
         LoadPlugs::smarty()->setCacheDir(PATH_PUBLIC . DS . 'cache' . DS);
         LoadPlugs::smarty()->setLeftDelimiter('<*');
         LoadPlugs::smarty()->setRightDelimiter('*>');
 
-        // 加载配置常量
-        CommonConfig::setConst();
-
         // 校验登录信息是否失效
         if (!$this instanceof LoginController) {
             $userinfo = HelperSession::get('userinfo');
             if (!$userinfo) {
-                header('location:/AdminCenter/Admin/Login/login.html');
-                exit();
+                //header('location:/AdminCenter/Admin/Login/login.html');
+                //exit();
             }
         }
 
@@ -62,6 +62,7 @@ class BaseController extends ASingleBase
     public function assign($tpl_var = [])
     {
         $tpl_var['page_title'] = isset($tpl_var['page_title']) ? $tpl_var['page_title'] : '后台管理中心';
+        $tpl_var['path_apps_base'] = PATH_APPS_BASE; // 访问应用的基础路径
         LoadPlugs::smarty()->assign($tpl_var);
     }
 

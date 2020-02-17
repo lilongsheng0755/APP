@@ -18,6 +18,22 @@ class IndexController extends BaseController
      */
     public function index($request_params = [])
     {
-        var_dump($request_params);
+        $tpl_vars = [];
+        $this->assign($tpl_vars);
+        $this->display();
     }
+
+    /**
+     * 首页内容
+     *
+     * @param array $request_params
+     */
+    public function welcome($request_params = [])
+    {
+        $tpl_vars = [];
+        $this->assign($tpl_vars);
+        $this->display();
+    }
+
+
 }
