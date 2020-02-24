@@ -15,7 +15,7 @@ class LoginController extends BaseController
     /**
      * 用户登录页面
      */
-    public function login()
+    public function loginView()
     {
         $tpl_var = [];
         $this->assign($tpl_var);
@@ -27,14 +27,15 @@ class LoginController extends BaseController
      *
      * @param array $request_params 请求参数
      */
-    public function doLogin($request_params=[]){
+    public function doLoginApi($request_params = [])
+    {
         HelperReturn::jsonData($request_params);
     }
 
     /**
      * 注销登录
      */
-    public function logout()
+    public function logoutApi($request_params = [])
     {
 
     }

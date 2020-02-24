@@ -16,7 +16,7 @@ class IndexController extends BaseController
      *
      * @param array $request_params
      */
-    public function index($request_params = [])
+    public function indexView($request_params = [])
     {
         $tpl_vars = [];
         $this->assign($tpl_vars);
@@ -28,7 +28,7 @@ class IndexController extends BaseController
      *
      * @param array $request_params
      */
-    public function welcome($request_params = [])
+    public function welcomeView($request_params = [])
     {
         $tpl_vars = [];
         $this->assign($tpl_vars);

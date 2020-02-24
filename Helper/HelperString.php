@@ -228,9 +228,9 @@ class HelperString
         }
         $preg = [
             self::PREG_MATCH_NOT_ZH   => '/[^\x{4e00}-\x{9fa5}]/u', // 匹配非中文（UTF-8编码）
-            self::PREG_MATCH_ZH       => '/^\x{4e00}-\x{9fa5}+$/u', // 匹配中文（UTF-8编码）
+            self::PREG_MATCH_ZH       => '/^[\x{4e00}-\x{9fa5}]+$/u', // 匹配中文（UTF-8编码）
             self::PREG_MATCH_PHONE    => '/^1\d{10}$/', // 匹配手机
-            self::PREG_MATCH_EMAIL    => '/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/', // 匹配邮箱
+            self::PREG_MATCH_EMAIL    => '/^[A-Za-z0-9]+([_\.][A-Za-z0-9]+)*@([A-Za-z0-9\-]+\.)+[A-Za-z]{2,6}$/', // 匹配邮箱
             self::PREG_MATCH_NOT_EN   => '/[^A-Za-z]+?/', // 匹配非英文
             self::PREG_MATCH_EN       => '/^[A-Za-z]+$/', // 匹配英文
             self::PREG_MATCH_BANKCARD => '/^(\d{16}|\d{18}|\d{19})$/', // 银行卡号

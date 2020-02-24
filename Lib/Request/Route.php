@@ -85,10 +85,6 @@ class Route
 
         // 实现路由调度
         list($apps_name, $module, $controller, $action) = $path_arr;
-        define('REQUEST_APPS', $apps_name);
-        define('REQUEST_MODULE', $module);
-        define('REQUEST_CONTROLLER', $controller);
-        define('REQUEST_ACTION', $action);
         if (in_array($module, ['Common'])) { // 禁止访问的模块
             header('HTTP/1.1 404 Not Found');
             exit();
@@ -102,6 +98,10 @@ class Route
             header('HTTP/1.1 404 Not Found');
             exit();
         }
+        define('REQUEST_APPS', $apps_name);
+        define('REQUEST_MODULE', $module);
+        define('REQUEST_CONTROLLER', $controller);
+        define('REQUEST_ACTION', $action);
         $object = $class::getInstance();
         call_user_func([$object, $action], $this->request_params);
     }

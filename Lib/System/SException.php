@@ -47,6 +47,9 @@ class SException extends \Exception
 
     /**
      * 覆盖Exception类构造方法
+     *
+     * @param string $message 异常信息
+     * @param int    $code    异常码
      */
     public function __construct($message = "", $code = 0)
     {
