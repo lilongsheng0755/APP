@@ -59,8 +59,10 @@ class Application
         } elseif (isset($_POST['post_data'])) {
             define('REQUEST_SOURCE', 2); // 来至API请求
         } else {
-            header('HTTP/1.1 404 Not Found');
-            exit();
+            if (!IS_CLI) {
+                header('HTTP/1.1 404 Not Found');
+                exit();
+            }
         }
         return true;
     }
