@@ -90,6 +90,8 @@ class ServerUDP
             // 数据写入redis队列
             $redis = $this->getRedisInstance();
             $redis->lPush($this->redis_conf['redis_key'], $receive_data);
+            $redis->close();
+            unset($redis);
 
             $this->sendMsg($this->send_info);
         });
